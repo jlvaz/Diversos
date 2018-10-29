@@ -1,0 +1,31 @@
+Dropping disk from ASM diskgroup  
+
+select
+   mount_status,
+   header_status,
+   mode_status,
+   state,
+   total_mb,
+   free_mb,
+   name,
+   path,
+   label
+from
+   v$asm_disk;
+   
+   
+ORA-15260: permission denied on ASM disk group
+
+If you are connected to your ASM instance with SYSDBA & try to add disk to your existing diskgroup then mentioned error will be appeared.
+
+Workaround for the oracle error: ‘ORA-15260: permission denied on ASM disk group’ & ‘ORA-15032: not all alterations performed’ is to connect your ASM instance as SYSASM.
+
+
+/u01/exp]$export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/grid
+/u01/exp]$export ORACLE_SID=+ASM
+   
+sqlplus "/as sysasm"
+
+alter diskgroup data1 dismount force;
+drop diskgroup data1 force including contents;
+
