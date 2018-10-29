@@ -1,0 +1,8 @@
+emctl resetTZ agent
+
+alter session set current_schema = SYSMAN;
+
+exec mgmt_target.set_agent_tzrgn('localhost.localdomain:3938','Etc/GMT+3')
+
+emctl start dbconsole
+

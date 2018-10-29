@@ -1,0 +1,664 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+    <title>How to Add Control File when Using ASM - Oracle Database</title>
+    
+    	<script src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/quant.js" async="" type="text/javascript"></script><script src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/dc.js" async="" type="text/javascript"></script><script type="text/javascript" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/login__CustomDomainScript.htm"></script>
+
+    
+    <script type="text/javascript" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/init.js"></script>
+    <script type="text/javascript">
+        var URL_HOST = 'www.wikidot.com';
+        var URL_DOMAIN = 'wikidot.com';
+        var USE_SSL =  true ;
+        var URL_STATIC = 'http://d3g0gp89917ko0.cloudfront.net/v--edac79f846ba';
+        // global request information
+        
+        var WIKIREQUEST = {};
+        WIKIREQUEST.info = {};
+        
+        WIKIREQUEST.info.domain = "www.oracle-wiki.net";
+        WIKIREQUEST.info.siteId = 48577;
+        WIKIREQUEST.info.siteUnixName = "oracledatabase";
+        WIKIREQUEST.info.categoryId = 268189;
+        WIKIREQUEST.info.themeId = 5;
+        WIKIREQUEST.info.requestPageName = "startdocshowtocontrolfileasm";
+        OZONE.request.timestamp = 1466339172;
+        OZONE.request.date = new Date();
+        WIKIREQUEST.info.lang = 'en';
+                WIKIREQUEST.info.pageUnixName = "startdocshowtocontrolfileasm";
+        WIKIREQUEST.info.pageId = 15385997;
+                        WIKIREQUEST.info.lang = "en";
+        OZONE.lang = "en";
+        var isUAMobile = !!/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    </script>
+    
+    
+
+
+    
+        <script type="text/javascript">
+    
+        require.config({
+            baseUrl: URL_STATIC + '/common--javascript',
+            paths: {
+                'jquery.ui': 'jquery-ui.min',
+                'jquery.form': 'jquery.form'
+            }
+        });
+    
+    </script>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+                            <meta name="google-site-verification" content="ULzBc6E7bQJjLLuuqTPPamRllQFws8x2S2xMCQABPcw">
+                            
+    
+    
+    
+    
+    <meta http-equiv="content-language" content="en">
+    <script type="text/javascript" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/WIKIDOT.js"></script>
+        
+    
+    <style type="text/css">
+body {
+  background-position: center 24px;
+}
+</style>
+<style type="text/css" id="internal-style">
+        
+        /* modules */
+@import url(http://d3g0gp89917ko0.cloudfront.net/v--edac79f846ba/common--modules/css/wiki/pagestagcloud/PagesTagCloudModule.css);
+
+
+        
+                
+        /* theme */
+                    @import url(http://d3g0gp89917ko0.cloudfront.net/v--edac79f846ba/common--theme/base/css/style.css);
+                    @import url(http://d3g0gp89917ko0.cloudfront.net/v--edac79f846ba/common--theme/flannel/css/style.css);
+            </style>
+    
+        
+        
+        
+    <link rel="shortcut icon" href="http://www.oracle-wiki.net/local--favicon/favicon.gif">
+    <link rel="icon" type="image/gif" href="http://www.oracle-wiki.net/local--favicon/favicon.gif">
+    
+            <link rel="apple-touch-icon" href="http://www.oracle-wiki.net/common--images/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="http://www.oracle-wiki.net/common--images/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="http://www.oracle-wiki.net/common--images/apple-touch-icon-114x114.png">
+        
+        
+            <link rel="alternate" type="application/wiki" title="Edit this page" href="javascript:WIKIDOT.page.listeners.editClick()">
+    
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-18234656-1']);
+        _gaq.push(['_setDomainName', 'none']);
+        _gaq.push(['_setAllowLinker', true]);
+        _gaq.push(['_trackPageview']);
+
+        _gaq.push(['old._setAccount', 'UA-68540-5']);
+        _gaq.push(['old._setDomainName', 'none']);
+        _gaq.push(['old._setAllowLinker', true]);
+        _gaq.push(['old._trackPageview']);
+
+                _gaq.push(['userTracker._setAccount', 'UA-4115182-2']);
+        _gaq.push(['userTracker._trackPageview']);
+            </script>
+    
+    <script type="text/javascript">
+        window.google_analytics_uacct = 'UA-18234656-1';
+        window.google_analytics_domain_name = 'none';
+    </script>
+    
+    </head>
+<body id="html-body">
+<div id="skrollr-body">
+<a name="page-top"></a>
+<div id="navi-bar">
+  <a class="logo" href="http://www.wikidot.com/">
+    <span>Wikidot.com</span>
+  </a>
+  
+  <div class="new-site">
+    <form method="get" action="http://www.wikidot.com/new-site">
+      <input class="text empty" name="address" value="site-name" type="text">.wikidot.com
+    </form>
+  </div>
+  
+    <div class="share">
+    <span>Share on</span>
+    <a class="twitter" target="_blank" rel="nofollow" href="http://twitter.com/home?status=How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database+http%3A%2F%2Fwww.oracle-wiki.net%2Fstartdocshowtocontrolfileasm" title="Share on Twitter"><img src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/twitter.png" alt="twitter"></a>  
+    <a class="facebook" target="_blank" rel="nofollow" href="http://www.facebook.com/share.php?u=http%3A%2F%2Fwww.oracle-wiki.net%2Fstartdocshowtocontrolfileasm&amp;t=How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database" title="Share on Facebook"><img src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/facebook.gif" alt="Facebook"></a>  
+    <a class="delicious" target="_blank" rel="nofollow" href="http://delicious.com/save" title="Share on Delicious"><img src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/delicious.png" alt="Delicious"></a>
+    <a class="digg" target="_blank" rel="nofollow" href="http://digg.com/submit?url=http%3A%2F%2Fwww.oracle-wiki.net%2Fstartdocshowtocontrolfileasm&amp;title=How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database" title="Post to Digg"><img src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/digg.png" alt="Digg"></a>
+    <a class="reddit" href="http://www.reddit.com/submit?url=http%3A%2F%2Fwww.oracle-wiki.net%2Fstartdocshowtocontrolfileasm" rel="nofollow" target="_blank" title="Post to Reddit"><img src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/reddit.png" alt="Reddit" border="0"></a>
+    <a class="stumbleupon" href="http://www.stumbleupon.com/submit?url=http%3A%2F%2Fwww.oracle-wiki.net%2Fstartdocshowtocontrolfileasm" rel="nofollow" target="_blank" title="Post to StumbleUpon"><img src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/stumble.png" alt="Reddit" border="0"></a>
+  </div>
+    
+      <a class="join" href="javascript:;" onclick="WIKIDOT.page.listeners.join(event, 'unified')">Join this site</a>
+    
+    
+  <a class="random-site" href="http://www.oracle-wiki.net/random-site.php" title="Go to a random Wikidot site.">Explore »</a>
+  </div>
+<div id="navi-bar-shadow">&nbsp;</div>
+
+
+<script type="text/javascript">
+  //<![CDATA[
+  $j(function(){
+    var uri = window.location.href;
+    var title = document.title
+    
+    $j('#navi-bar .share a').each(function(){
+      $t = $j(this);
+      var u = $t.attr('href');
+      u = u.replace(/TITLE/, encodeURIComponent(title)).replace(/URI/, encodeURIComponent(uri));
+      $t.attr('href', u);
+    });
+    
+    $j('#navi-bar .share .facebook').click(function(e){
+      window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(uri)+'&t='+encodeURIComponent(title),'sharer','toolbar=0,status=0,width=626,height=436');
+      e.preventDefault();
+    });
+    $j('#navi-bar .share .delicious').click(function(e){
+      window.open('http://delicious.com/save?v=5&amp;noui&amp;jump=close&amp;url='+encodeURIComponent(location.href)+'&amp;title='+encodeURIComponent(document.title), 'delicious','toolbar=no,width=550,height=550');
+      e.preventDefault();
+    });
+  });
+  
+	$j('#navi-bar .new-site form').submit(function(e){
+	  e.preventDefault();
+	  var $i = $j('#navi-bar .new-site form input.text');
+	  if($i.hasClass('empty')){
+	    	var w = new OZONE.dialogs.ErrorDialog();
+  			w.content = "You need to enter a valid web address for your new wiki.";
+  			w.show();
+  			return;
+    }
+    var siteName = $i.attr('value');
+    siteName = siteName.replace(/^\s+/, '').replace(/\s+$/,'');
+		var p = {};
+		p.action = 'wiki/special/NewWikiWidgetAction';
+		p.event = 'newWiki';
+		p.siteName = siteName;
+		OZONE.ajax.requestModule(null, p, function(r){
+		  if(r.status == 'site_exists'){
+		    window.location.href = 'http://' + siteName + '.' + URL_DOMAIN;
+		    return;
+		  }
+		  if(!WIKIDOT.utils.handleError(r)) {return;}
+  		// seems fine.
+  		window.location.href='http://'+URL_HOST+'/new-site/address/'+r.unixName;
+		});
+	});
+	$j('#navi-bar .new-site form input.text').focus(function(){
+	  var $t = $j(this);
+	  if($t.hasClass('empty')){
+	    $t.removeClass('empty');
+	    $t.attr('value', '');
+	  }
+	});
+	//]]>
+</script>
+
+
+<div id="container-wrap-wrap">
+    <div id="container-wrap">
+        <div id="container">
+            <div id="header">
+              <h1><a href="http://www.oracle-wiki.net/"><span>Oracle Database</span></a></h1>
+                
+                    <h2><span>All things oracle...</span></h2>
+                
+                
+                <!-- google_ad_section_start(weight=ignore) -->
+                
+                <div id="search-top-box" class="form-search">
+    <form id="search-top-box-form" action="dummy" class="input-append">
+        <input id="search-top-box-input" class="text empty search-query" size="15" name="query" value="Search this site" onfocus="if(YAHOO.util.Dom.hasClass(this, 'empty')){YAHOO.util.Dom.removeClass(this,'empty'); this.value='';}" type="text"><input class="button btn" name="search" value="Search" type="submit">
+    </form>
+</div>
+                
+                
+                    <div id="top-bar">
+                        
+
+<ul>
+<li><a href="http://www.oracle-wiki.net/start">Home</a></li>
+<li><a href="javascript:;">Script &amp; SQL Libraries</a>
+<ul>
+<li><a href="http://www.oracle-wiki.net/startsql">SQL Library</a></li>
+<li><a href="http://www.oracle-wiki.net/startscripts">Script Library</a></li>
+<li><a href="http://www.oracle-wiki.net/startviewtabs">Tables and Views</a></li>
+<li><a href="http://www.oracle-wiki.net/startcommands">Useful Commands</a></li>
+</ul>
+</li>
+<li><a href="javascript:;">Guides</a>
+<ul>
+<li><a href="http://www.oracle-wiki.net/startdocs">How to Guides</a></li>
+<li><a href="http://www.oracle-wiki.net/reallife">Real Life Examples</a></li>
+<li><a href="http://www.oracle-wiki.net/usefuldocs">Useful Docs</a></li>
+<li><a href="http://www.oracle-wiki.net/whitepapers">White Papers</a></li>
+</ul>
+</li>
+<li><a href="http://www.oracle-wiki.net/startmanuals">Manuals</a></li>
+<li><a href="http://www.oracle-wiki.net/startcontact">Contact</a></li>
+<li><a href="javascript:;">Other Links</a>
+<ul>
+<li><a href="http://www.oracle-wiki.net/startlinks">External Links</a></li>
+<li><a href="http://www.oracle-wiki.net/system:join">Join this site</a></li>
+<li><a href="http://www.oracle-wiki.net/sitemap">Site Map</a></li>
+<li><a href="http://www.oracle-wiki.net/starttools">Tools</a></li>
+<li><a href="http://www.oracle-wiki.net/startlegal">Legals</a></li>
+</ul>
+</li>
+<li><a href="http://www.oracle-wiki.net/admin:startadmin">&nbsp;</a></li>
+</ul>
+
+                    </div>
+                
+                <div id="login-status"><a href="javascript:;" onclick="WIKIDOT.page.listeners.createAccount(event)" class="login-status-create-account btn">Create account</a> <span>or</span> <a href="javascript:;" onclick="WIKIDOT.page.listeners.loginClick(event)" class="login-status-sign-in btn btn-primary">Sign in</a> </div>
+                <div id="header-extra-div-1"><span></span></div><div id="header-extra-div-2"><span></span></div><div id="header-extra-div-3"><span></span></div>
+            </div>
+            
+            <div id="content-wrap">
+                
+                    <div id="side-bar">
+                        
+
+
+                        
+
+<div style="text-align:center;">
+<p><a href="http://www.oracle-wiki.net/start">ORACLE-WIKI.NET</a></p>
+</div>
+<div style="text-align: center;">	<div class="pages-tag-cloud-box">
+					<script type="text/javascript" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/swfobject.js"></script>
+			<div id="flashcontent-403607"><embed type="application/x-shockwave-flash" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/tagcloud.swf" id="tagcloud" name="tagcloud" bgcolor="#FFFFFF" quality="high" wmode="transparent" flashvars="mode=tags&amp;distr=true&amp;tcolor=0x404080&amp;tcolor2=0x8080c0&amp;hicolor=0x404080&amp;tagcloud=&lt;tags&gt;%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2F10g%22%20style%3D%2212%22%3E10g%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2F11.2%22%20style%3D%2212%22%3E11.2%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2F11g%22%20style%3D%2213%22%3E11g%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2F12c%22%20style%3D%2212%22%3E12c%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fagent11g%22%20style%3D%2212%22%3Eagent11g%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fasm%22%20style%3D%2212%22%3Easm%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fbackup%22%20style%3D%2212%22%3Ebackup%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fcache%22%20style%3D%2212%22%3Ecache%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fcdb%22%20style%3D%2212%22%3Ecdb%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fcontrol%22%20style%3D%2212%22%3Econtrol%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fdata%22%20style%3D%2212%22%3Edata%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fdatabase%22%20style%3D%2215%22%3Edatabase%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fdatafile%22%20style%3D%2212%22%3Edatafile%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fem%22%20style%3D%2212%22%3Eem%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fexport%22%20style%3D%2212%22%3Eexport%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Ffk%22%20style%3D%2212%22%3Efk%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fflashback%22%20style%3D%2213%22%3Eflashback%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fgrid%22%20style%3D%2213%22%3Egrid%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fguide%22%20style%3D%2212%22%3Eguide%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Findexes%22%20style%3D%2212%22%3Eindexes%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Finstall%22%20style%3D%2212%22%3Einstall%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fksh%22%20style%3D%2212%22%3Eksh%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Flocked%22%20style%3D%2212%22%3Elocked%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Flocks%22%20style%3D%2212%22%3Elocks%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Flogs%22%20style%3D%2212%22%3Elogs%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fmanager%22%20style%3D%2212%22%3Emanager%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fmemory%22%20style%3D%2212%22%3Ememory%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fmultitenant%22%20style%3D%2212%22%3Emultitenant%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fobjects%22%20style%3D%2212%22%3Eobjects%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Foracle%22%20style%3D%2215%22%3Eoracle%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fpdb%22%20style%3D%2212%22%3Epdb%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fplsql%22%20style%3D%2213%22%3Eplsql%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Frac%22%20style%3D%2213%22%3Erac%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fredo%22%20style%3D%2212%22%3Eredo%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Frman%22%20style%3D%2212%22%3Erman%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fruninstaller%22%20style%3D%2212%22%3Eruninstaller%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fscript%22%20style%3D%2213%22%3Escript%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fscripts%22%20style%3D%2212%22%3Escripts%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fsession%22%20style%3D%2212%22%3Esession%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fsga%22%20style%3D%2212%22%3Esga%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fshrink%22%20style%3D%2212%22%3Eshrink%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fspace%22%20style%3D%2213%22%3Espace%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fsql%22%20style%3D%2220%22%3Esql%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Ftable%22%20style%3D%2212%22%3Etable%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Ftables%22%20style%3D%2212%22%3Etables%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Ftrace%22%20style%3D%2212%22%3Etrace%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Ftuning%22%20style%3D%2214%22%3Etuning%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fusage%22%20style%3D%2213%22%3Eusage%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fv%2524session%22%20style%3D%2212%22%3Ev%24session%3C%2Fa%3E%3Ca%20href%3D%22http%3A%2F%2Fwww.oracle-wiki.net%2Fsystem%3Apage-tags%2Ftag%2Fwaits%22%20style%3D%2212%22%3Ewaits%3C%2Fa%3E&lt;/tags&gt;" height="175" width="175"></div>
+			<script type="text/javascript">
+//<![CDATA[
+var so = new SWFObject("/common--javascript/tagcloud/tagcloud.swf", "tagcloud", "175", "175", "7", "#FFFFFF");
+so.addParam("wmode", "transparent");
+so. addVariable("mode", "tags");
+so. addVariable("distr", "true");
+so.addVariable("tcolor", "0x404080");
+so.addVariable("tcolor2", "0x8080c0");
+so.addVariable("hicolor", "0x404080");
+so.addVariable("tagcloud", "<tags>"+
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/10g" style="12">10g</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/11.2" style="12">11.2</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/11g" style="13">11g</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/12c" style="12">12c</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/agent11g" style="12">agent11g</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/asm" style="12">asm</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/backup" style="12">backup</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/cache" style="12">cache</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/cdb" style="12">cdb</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/control" style="12">control</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/data" style="12">data</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/database" style="15">database</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/datafile" style="12">datafile</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/em" style="12">em</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/export" style="12">export</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/fk" style="12">fk</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/flashback" style="13">flashback</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/grid" style="13">grid</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/guide" style="12">guide</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/indexes" style="12">indexes</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/install" style="12">install</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/ksh" style="12">ksh</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/locked" style="12">locked</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/locks" style="12">locks</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/logs" style="12">logs</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/manager" style="12">manager</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/memory" style="12">memory</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/multitenant" style="12">multitenant</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/objects" style="12">objects</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/oracle" style="15">oracle</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/pdb" style="12">pdb</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/plsql" style="13">plsql</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/rac" style="13">rac</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/redo" style="12">redo</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/rman" style="12">rman</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/runinstaller" style="12">runinstaller</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/script" style="13">script</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/scripts" style="12">scripts</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/session" style="12">session</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/sga" style="12">sga</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/shrink" style="12">shrink</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/space" style="13">space</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/sql" style="20">sql</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/table" style="12">table</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/tables" style="12">tables</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/trace" style="12">trace</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/tuning" style="14">tuning</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/usage" style="13">usage</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/v%24session" style="12">v$session</a>') +
+	        encodeURIComponent('<a href="' + location.protocol + '//' + location.hostname + '/system:page-tags/tag/waits" style="12">waits</a>') +
+	"</tags>");
+so.write("flashcontent-403607");
+//]]>
+</script>
+			</div>
+	
+</div>
+<p><iframe style="height: 145px;" src="/nav:side/html/8531b7adac0a1ff458ed09a8c8330b593c1b0446-300391397775223689" allowtransparency="true" class="html-block-iframe" frameborder="0"></iframe></p>
+
+                        
+
+
+                    </div>
+                
+                
+                <!-- google_ad_section_end -->
+                
+                <div id="main-content">
+                    <div id="action-area-top"></div>
+                    
+                    
+                        <div id="page-title">
+                            How to Add Control File when Using ASM
+                        </div>
+                    
+
+                    
+                        <div id="breadcrumbs">
+                            <a href="http://www.oracle-wiki.net/start">Oracle Database</a> » <a href="http://www.oracle-wiki.net/startdocs">How To Guides</a> » How to Add Control File when Using ASM
+                        </div>
+                    
+
+                    
+
+
+
+                    <div id="page-content">
+                        
+
+<table style="margin:0; padding:0">
+<tbody><tr>
+<td style="margin:0; padding:0">
+<div id="toc">
+<div id="toc-action-bar"><a href="javascript:;" onclick="WIKIDOT.page.listeners.foldToc(event)">Fold</a><a style="display: none" href="javascript:;" onclick="WIKIDOT.page.listeners.unfoldToc(event)">Unfold</a></div>
+<div class="title">Table of Contents</div>
+<div id="toc-list">
+<div style="margin-left: 2em;"><a href="#toc0">Background &amp; Overview</a></div>
+<div style="margin-left: 2em;"><a href="#toc1">Step-By-Step Guide</a></div>
+</div>
+</div>
+</td>
+</tr>
+</tbody></table>
+<h2 id="toc0"><span>Background &amp; Overview</span></h2>
+<p>This document provides a step by step guide to add extra control 
+files to a database whose storage is on ASM. In this case the database 
+has one control file on diskgroup <strong>+DATA01</strong> and the procedure explains how to add an additional control file located on diskgroup <strong>+FRA01</strong></p>
+<p>This has not been tested on databases prior to version 11g</p>
+<h2 id="toc1"><span>Step-By-Step Guide</span></h2>
+<p>1. Take a backup of your spfile</p>
+<blockquote>
+<ul>
+<li>sqlplus '/ as sysdba'</li>
+<li><strong>SQL&gt;</strong> create pfile='/tmp/spfileBACKUP.ora' from spfile;</li>
+</ul>
+</blockquote>
+<p>2. Update the control_file parameter in the spfile.</p>
+<blockquote>
+<ul>
+<li>sqlplus '/ as sysdba'</li>
+<li><strong>SQL&gt;</strong> select name from v$controlfile;</li>
+</ul>
+<blockquote>
+<p>NAME<br>
+<span style="white-space: pre-wrap;">--------------------------------------------------------------------------------</span><br>
++DATA01/MYDB/controlfile/current.200.899418013</p>
+</blockquote>
+<ul>
+<li><strong>SQL&gt;</strong> alter system set control_files='+DATA01/MYDB/controlfile/current.200.899418013','+FRA01' scope=spfile sid='*';</li>
+</ul>
+</blockquote>
+<p>3. Restart the database in nomount mode</p>
+<blockquote>
+<ul>
+<li>sqlplus '/ as sysdba'</li>
+<li><strong>SQL&gt;</strong> shutdown immediate;</li>
+<li><strong>SQL&gt;</strong> startup nomount;</li>
+</ul>
+</blockquote>
+<p>4. Create the new control file using RMAN.</p>
+<blockquote>
+<ul>
+<li>rman</li>
+<li><strong>RMAN&gt;</strong> connect target /</li>
+<li><strong>RMAN&gt;</strong> restore controlfile from '+DATA1/MYDB/controlfile/current.200.899418013';</li>
+</ul>
+<blockquote>
+<p>Starting restore at 09-NOV-12<br>
+allocated channel: ORA_DISK_1<br>
+channel ORA_DISK_1: sid=111 instance=MYDB devtype=DISK</p>
+<p>channel ORA_DISK_1: copied control file copy<br>
+output filename=+DATA1/MYDB/controlfile/current.200.899418013<br>
+output filename=+FRA01/MYDB/controlfile/current.200.800418013<br>
+Finished restore at 09-NOV-12</p>
+</blockquote>
+</blockquote>
+<p>5. Update the spfile with the new control file name</p>
+<blockquote>
+<ul>
+<li>sqlplus '/ as sysdba'</li>
+<li><strong>SQL&gt;</strong> alter system set 
+control_files='+DATA01/MYDB/controlfile/current.200.899418013','+FRA01/MYDB/controlfile/current.200.800418013'
+ scope=spfile sid='*';</li>
+</ul>
+</blockquote>
+<p>6. Restart the database and check the new control file</p>
+<blockquote>
+<ul>
+<li>sqlplus '/ as sysdba'</li>
+<li><strong>SQL&gt;</strong> shutdown immediate;</li>
+<li><strong>SQL&gt;</strong> startup;</li>
+<li><strong>SQL&gt;</strong> select name from v$controlfile;</li>
+</ul>
+<blockquote>
+<p>NAME<br>
+<span style="white-space: pre-wrap;">--------------------------------------------------------------------------------</span><br>
++DATA01/MYDB/controlfile/current.200.899418013<br>
++FRA01/MYDB/controlfile/current.200.800418013</p>
+</blockquote>
+</blockquote>
+<p>7. Remove the backup spfile</p>
+<blockquote>
+<ul>
+<li>rm /tmp/spfileBACKUP.ora</li>
+</ul>
+</blockquote>
+
+                    </div>
+
+                    
+
+
+
+                    
+                        <div class="page-tags">
+                            <span>
+                                <a href="http://www.oracle-wiki.net/system:page-tags/tag/asm#pages">asm</a><a href="http://www.oracle-wiki.net/system:page-tags/tag/controlfile#pages">controlfile</a>
+                            </span>
+                        </div>
+                    
+
+                    <div id="page-info-break"></div>
+                    
+                        <div id="page-options-container">
+                            
+                        </div>
+                    
+                    <div id="action-area" style="display: none;"></div>
+                </div>
+            </div>
+            
+            
+            
+            <div id="footer" style="display: block; visibility: visible;">
+                <div class="options" style="display: block; visibility: visible;">
+    <a href="http://www.wikidot.com/doc" id="wikidot-help-button">Help</a>
+    &nbsp;|
+    <a href="http://www.wikidot.com/legal:terms-of-service" id="wikidot-tos-button">Terms of Service</a>
+    &nbsp;|
+    <a href="http://www.wikidot.com/legal:privacy-policy" id="wikidot-privacy-button">Privacy</a>
+    &nbsp;|
+    <a href="javascript:;" id="bug-report-button" onclick="WIKIDOT.page.listeners.pageBugReport(event)">Report a bug</a>
+    &nbsp;|
+    <a href="javascript:;" id="abuse-report-button" onclick="WIKIDOT.page.listeners.flagPageObjectionable(event)">Flag as objectionable</a>
+</div>
+Powered by <a href="http://www.wikidot.com/">Wikidot.com</a> 
+            </div>
+            
+                <div id="license-area" class="license-area">
+                    Unless otherwise stated, the content of this page is licensed under <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 License</a>
+                </div>
+            
+            
+            
+
+
+
+            <div id="extrac-div-1"><span></span></div><div id="extrac-div-2"><span></span></div><div id="extrac-div-3"><span></span></div>
+            
+            
+            
+            
+                <div id="footer-bar">
+  <div>
+     </div>
+  <h2>Other interesting sites</h2>
+  
+  <div class="units">
+              <div class="unit">
+          <div class="inner">
+            <a target="_blank" class="image" href="http://eventidemush.wikidot.com/">
+              <img class="thumbnail" alt="" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/80_004.jpg">
+            </a>
+            <h3><a target="_blank" href="http://eventidemush.wikidot.com/">Eventide MUSH</a></h3>
+            <div class="desc">          
+              
+            </div>
+          </div>
+        </div>
+              <div class="unit">
+          <div class="inner">
+            <a target="_blank" class="image" href="http://string-theory.wikidot.com/">
+              <img class="thumbnail" alt="" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/80.jpg">
+            </a>
+            <h3><a target="_blank" href="http://string-theory.wikidot.com/">String Theory MUX</a></h3>
+            <div class="desc">          
+              Connect to stringtheory.isunlimited.net, port 1407
+            </div>
+          </div>
+        </div>
+              <div class="unit">
+          <div class="inner">
+            <a target="_blank" class="image" href="http://eldritch00.wikidot.com/">
+              <img class="thumbnail" alt="" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/80_002.jpg">
+            </a>
+            <h3><a target="_blank" href="http://eldritch00.wikidot.com/">A Shining Brainless Beacon</a></h3>
+            <div class="desc">          
+              I Have a Special Plan for This World
+            </div>
+          </div>
+        </div>
+              <div class="unit">
+          <div class="inner">
+            <a target="_blank" class="image" href="http://docs.righthandrobotics.com/">
+              <img class="thumbnail" alt="" src="How%20to%20Add%20Control%20File%20when%20Using%20ASM%20-%20Oracle%20Database_arquivos/80_003.jpg">
+            </a>
+            <h3><a target="_blank" href="http://docs.righthandrobotics.com/">RightHand Robotics</a></h3>
+            <div class="desc">          
+              
+            </div>
+          </div>
+        </div>
+        </div>
+  </div>
+
+            
+        </div>
+        
+    </div>
+<!-- These extra divs/spans may be used as catch-alls to add extra imagery. -->
+<div id="extra-div-1"><span></span></div><div id="extra-div-2"><span></span></div><div id="extra-div-3"><span></span></div>
+<div id="extra-div-4"><span></span></div><div id="extra-div-5"><span></span></div><div id="extra-div-6"><span></span></div>
+</div>
+
+
+
+</div>
+<div id="dummy-ondomready-block" style="display: none;"></div>
+    <!-- Google Analytics load -->
+    <script type="text/javascript">
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+    <!-- Quantcast -->
+    <script type="text/javascript">
+    _qoptions={
+        qacct:"p-edL3gsnUjJzw-"
+    };
+    (function() {
+        var qc = document.createElement('script'); qc.type = 'text/javascript'; qc.async = true;
+        qc.src = ('https:' == document.location.protocol ? 'https://secure' : 'http://edge') + '.quantserve.com/quant.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(qc, s);
+    })();
+    </script>
+    <noscript>
+        <img src="http://pixel.quantserve.com/pixel/p-edL3gsnUjJzw-.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+    </noscript>
+
+
+
+
+<div id="page-options-bottom-tips" style="display: none;">
+    <div id="edit-button-hovertip">
+        Click here to edit contents of this page.    </div>
+</div>
+<div id="page-options-bottom-2-tips" style="display: none;">
+    <div id="edit-sections-button-hovertip">
+        Click here to toggle editing of individual sections of the page 
+(if possible).         Watch headings for an "edit" link when available.
+    </div>
+    <div id="edit-append-button-hovertip">
+        Append content without editing the whole page source.    </div>
+    <div id="history-button-hovertip">
+        Check out how this page has evolved in the past.    </div>
+    <div id="discuss-button-hovertip">
+        If you want to discuss contents of this page - this is the easiest way to do it.    </div>
+    <div id="files-button-hovertip">
+        View and manage file attachments for this page.    </div>
+    <div id="site-tools-button-hovertip">
+        A few useful tools to manage this Site.    </div>
+    <div id="backlinks-button-hovertip">
+        See pages that link to and include this page.    </div>
+    <div id="rename-move-button-hovertip">
+        Change the name (also URL address, possibly the category) of the page.    </div>
+    <div id="view-source-button-hovertip">
+        View wiki source for this page without editing.    </div>
+    <div id="parent-page-button-hovertip">  
+        View/set parent page (used for creating breadcrumbs and structured layout).    </div>
+            
+        
+        
+        
+        
+    </div>
+
+<div style="position: absolute; z-index: 100; top: 0px; width: 100%;" id="odialog-hovertips"><div style="visibility: visible; opacity: 0.9999; position: absolute; display: none; border: 1px solid black;" class="hovertip " id="abuse-report-button-hovertip"><div class="content">
+            Notify administrators if there is objectionable content in this page.        </div></div><div style="visibility: visible; opacity: 0.9999; position: absolute; display: none; border: 1px solid black;" class="hovertip " id="bug-report-button-hovertip"><div class="content">
+            Something does not work as expected? Find out what you can do.        </div></div><div style="visibility: visible; opacity: 0.9999; position: absolute; display: none; border: 1px solid black;" class="hovertip " id="wikidot-help-button-hovertip"><div class="content">
+            General Wikidot.com documentation and help section.        </div></div><div style="visibility: visible; opacity: 0.9999; position: absolute; display: none; border: 1px solid black;" class="hovertip " id="wikidot-tos-button-hovertip"><div class="content">
+            Wikidot.com Terms of Service - what you can, what you should not etc.        </div></div><div style="visibility: visible; opacity: 0.9999; position: absolute; display: none; border: 1px solid black;" class="hovertip " id="wikidot-privacy-button-hovertip"><div class="content">
+            Wikidot.com Privacy Policy.          
+        </div></div></div></body></html>

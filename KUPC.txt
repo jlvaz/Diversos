@@ -1,0 +1,74 @@
+Cleaning up abnormal stopped (orphaned) datapumb jobs
+
+
+Reason : Some time data pumb jobs marked as orphaned (stopped abnormally) and job information still remain in database. On starting datapump job start, job name table automatically created in database for keeping job related information. All data export and import operation will aborted.
+
+Solution : Find orphaned datapumb jobs, delete metadata, start job again. Step by step cleanup orphaned datapump jobs is discussed below.
+
+1. First check the orphaned datapump jobs status .
+
+SELECT * FROM dba_datapump_jobs;
+
+2. Check the state field. For orphaned jobs the state will be NOT RUNNING
+3. Drop the master table (holding metadata).
+
+DROP TABLE SYSTEM.FULLEXP1;
+DROP TABLE SYSTEM.FULLEXP2;
+
+Check job status now !
+
+SELECT * FROM dba_datapump_jobs;
+
+4. In this stage you did not get any orphaned jobs if the jobs have a master table. If there are still jobs listed in dba_datapump_jobs do cleanup process like below.
+
+DECLARE
+job1 NUMBER;
+BEGIN
+job1 := DBMS_DATAPUMP.ATTACH('EXPFULL','SYSTEM');
+DBMS_DATAPUMP.STOP_JOB (job1);
+END;
+/
+DECLARE
+job2 NUMBER;
+BEGIN
+job2 := DBMS_DATAPUMP.ATTACH('EXPFULL','SYSTEM');
+DBMS_DATAPUMP.STOP_JOB (job2);
+END;
+/
+
+In my case, trace file contents as:
+
+Trace file /oradisk/oracle/diag/rdbms/orcl/ORCL/trace/ORCL_dm00_11242.trc
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+ORACLE_HOME = /oradisk/oracle/product/11.2.0/db
+System name: Linux
+Node name: primarydb
+Release: 2.6.18-164.el5
+Version: #1 SMP Thu Sep 3 04:15:13 EDT 2009
+Machine: x86_64
+Instance name: ORCL
+Redo thread mounted by this instance: 1
+Oracle process number: 39
+Unix process pid: 11242, image: oracle@primarydb (DM00)
+
+
+*** 2010-08-17 10:12:02.399
+*** SESSION ID:(1188.9) 2010-08-17 10:12:02.400
+*** CLIENT ID:() 2010-08-17 10:12:02.400
+*** SERVICE NAME:(SYS$USERS) 2010-08-17 10:12:02.400
+*** MODULE NAME:(Data Pump Master) 2010-08-17 10:12:02.400
+*** ACTION NAME:(EXPFULL) 2010-08-17 10:12:02.400
+
+KUPC: Setting remote flag for this process to FALSE
+prvtaqis - Enter
+prvtaqis subtab_name upd
+prvtaqis sys table upd
+KUPP: Initialization complete for master process DM00
+
+*** 2010-08-17 10:12:04.018
+kwqberlst !retval block
+kwqberlst rqan->lagno_kwqiia 6
+kwqberlst rqan->lascn_kwqiia > 0 block
+kwqberlst rqan->lascn_kwqiia 6
+kwqberlst ascn 392980029 lascn 22

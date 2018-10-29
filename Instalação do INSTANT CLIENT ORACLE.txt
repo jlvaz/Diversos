@@ -1,0 +1,21 @@
+CRIAR A PASTA ORACLE
+
+CD \ORACLE
+
+instantclient-basiclite-win32-10.2.0.2-20060508.zip - Extrair aqui
+instantclient-basiclite-win32-10.2.0.2-20060508.zip - Extrair aqui
+instantclient-jdbc-win32-10.2.0.2-20060508.zip - Extrair aqui
+instantclient-odbc-win32-10.2.0.2-20060508.zip - Extrair aqui
+instantclient-sdk-win32-10.2.0.2-20060508.zip - Extrair aqui
+instantclient-sqlplus-win32-10.2.0.2-20060508.zip - Extrair aqui
+
+À partir desse ponto é criado a pasta "instantclient"
+
+Tecle windows - pause e acerte ambiental
+
+criar a ambiental TNS_ADMIN=c:\oracle\instantclient
+criar a ambiental NLS_LANG=BRAZILIAN PORTUGUESE_BRAZIL.WE8MSWIN1252  - ISSO PARA ACENTUAÇÂO
+
+Colocar na pasta \oracle\instantclient o TNSNAMES.ORA
+
+

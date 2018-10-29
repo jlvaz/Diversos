@@ -1,0 +1,94 @@
+ How to set Local_Listener ?
+
+oracle local_listener
+Set Local_Listener
+what is the advantage of Local_Listener ?
+What are the advantages of local_listener ?
+
+local_listener
+_______________
+
+
+The LOCAL_LISTENER parameter is a component of the cross instance registration technology for Oracle RAC (Real Application Clusters). Cross instance registration needs the local listener to help manage connections across all database instances for load balancing and failover. The local listener is particularly meaningful for the RAC configuration featured by multiple listeners on cluster nodes. If your Oracle configuration is not RAC enabled, you may as well remove the LOCAL_LISTENER parameter from your spfile in case for default port 1521 .
+
+
+
+
+SQL> show parameter local_listener
+NAME TYPE VALUE
+------------------------------------ ----------- ------------------------------
+local_listener string
+
+SQL> alter system set local_listener='(ADDRESS = (PROTOCOL=TCP)(HOST=192.168.2.210)(PORT=1521))';
+System altered.
+
+SQL> alter system register;
+System altered.
+
+SQL> show parameter local_list
+
+NAME TYPE VALUE
+------------------------------------ ----------- ------------------------------
+local_listener string (ADDRESS = (PROTOCOL=TCP)(HOST
+=192.168.2.210)(PORT=1521))
+
+
+To dynamically update the LOCAL_LISTENER parameter, use the SQL statement ALTER SYSTEM SET:
+
+ALTER SYSTEM SET LOCAL_LISTENER='listener_alias'
+
+If you set the parameter to null with the statement that follows, then the default local address of TCP/IP, port 1521 is assumed.
+
+ALTER SYSTEM SET LOCAL_LISTENER=''
+
+
+
+example
+
+
+in local host tnsnames.ora file
+
+
+LISTENER_PRIM =
+(DESCRIPTION =
+(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.129)(PORT = 1521)))
+
+
+
+
+
+-bash-3.2$ tnsping LISTENER_PRIM
+
+TNS Ping Utility for Linux: Version 11.2.0.1.0 - Production on 14-APR-2012 13:24:10
+
+Copyright (c) 1997, 2009, Oracle. All rights reserved.
+
+Used parameter files:
+/u01/oracle/product/11.2.0/db_1/network/admin/sqlnet.ora
+
+
+Used TNSNAMES adapter to resolve the alias
+Attempting to contact (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.129)(PORT = 1521)))
+OK (250 msec)
+
+
+
+
+*.local_listener=LISTENER_PRIM
+
+
+
+
+SQL> ALTER SYSTEM SET LOCAL_LISTENER='LISTENER_PRIM' scope=both sid='*' ;
+
+System altered.
+
+
+
+
+SQL> show parameter LOCAL_LISTENER
+
+NAME TYPE VALUE
+------------------------------------ ----------- ------------------------------
+local_listener string LISTENER_PRIM
+Posted by Anuj Singh at Monday, May 23, 2011

@@ -1,0 +1,13 @@
+Outra opção que pode ser verificada é a Exclusão de dados das tabelas que armazenam os JOBs executados.
+GJOBX, GJOBXEXECUCAO e GJOBLOG
+Não haverá problemas em efetuar o comando DELETE nas tabelas citadas acima.
+Recomendamos que sempre antes de efetuar um delete em uma tabela que seja feito um BACKUP da base de dados.
+Exemplo:
+DELETE GRELBATCH WHERE IDJOBLOG IN (
+SELECT IDJOBLOG
+FROM GJOBLOG
+WHERE DATACRIACAO <'01/01/2010'
+)
+DELETE GJOBLOG WHERE DATACRIACAO <'01/01/2010'
+DELETE GJOBXEXECUCAO WHERE DATAPROGRAMADA < '01/01/2009'
+DELETE GJOBX WHERE DATACRIACAO <'01/01/2009'

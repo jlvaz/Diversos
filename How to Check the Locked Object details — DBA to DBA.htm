@@ -1,0 +1,213 @@
+Skip to content.
+<http://www.dbatodba.com/oracle/how-to-check-the-locked-object-details/#documentContent>
+| Skip to navigation
+<http://www.dbatodba.com/oracle/how-to-check-the-locked-object-details/#portlet-navigation-tree>
+
+
+  * Site Map <http://www.dbatodba.com/sitemap>
+  * Accessibility <http://www.dbatodba.com/accessibility-info>
+  * Contact <http://www.dbatodba.com/contact-info>
+
+Search Site
+
+Advanced Search… <http://www.dbatodba.com/search_form>
+
+
+  DBA to DBA
+
+  <http://www.dbatodba.com/>
+
+
+          Personal tools
+
+  * Log in <http://www.dbatodba.com/login_form>
+
+You are here: Home <http://www.dbatodba.com/> → Oracle
+<http://www.dbatodba.com/oracle> → How to Check the Locked Object details
+
+Navigation
+
+<http://www.dbatodba.com/sitemap>
+
+      *
+        Home
+
+        <http://www.dbatodba.com/>
+      *
+        DB2
+
+        <http://www.dbatodba.com/db2>
+      *
+        DB2 Mainframe
+
+        <http://www.dbatodba.com/db2-mainframe>
+      *
+        Informix
+
+        <http://www.dbatodba.com/informix>
+      *
+        Mysql
+
+        <http://www.dbatodba.com/mysql>
+      *
+        Oracle
+
+        <http://www.dbatodba.com/oracle>
+      *
+        PostgreSQL
+
+        <http://www.dbatodba.com/postgresql>
+      *
+        SQL Server
+
+        <http://www.dbatodba.com/sql-server>
+      *
+        Sybase
+
+        <http://www.dbatodba.com/sybase>
+      *
+        Forums
+
+        <http://www.dbatodba.com/Forums>
+
+Log in
+
+<http://www.dbatodba.com/login_form>
+    Login Name
+    Password
+    Cookies are not enabled. You must enable cookies
+    <http://www.dbatodba.com/oracle/enabling_cookies> before you can log
+    in.
+
+    Forgot your password?
+
+    <http://www.dbatodba.com/mail_password_form> 
+
+Related
+
+
+              Local resources
+
+      * How to Check the Locked Object details  Oracle
+
+        <http://www.dbatodba.com/oracle/view>
+
+ 
+	
+
+
+          Document Actions
+
+  * Send this page to somebody
+    <http://www.dbatodba.com/oracle/how-to-check-the-locked-object-details/sendto_form>
+
+  * Print this page <javascript:this.print();>
+
+  * <http://www.dbatodba.com/oracle/how-to-check-the-locked-object-details/switchLanguage?set_language=en>
+
+  * <http://www.dbatodba.com/oracle/how-to-check-the-locked-object-details/switchLanguage?set_language=en-us>
+
+
+
+  How to Check the Locked Object details
+
+*Lock related queries :*
+
+SELECT XIDUSN,OBJECT_ID,SESSION_ID,ORACLE_USERNAME,OS_USER_NAME,PROCESS
+from v$locked_object;
+
+
+SELECT d.OBJECT_ID, substr(OBJECT_NAME,1,20), l.SESSION_ID,
+l.ORACLE_USERNAME, l.LOCKED_MODE
+from   v$locked_object l, dba_objects d
+where  d.OBJECT_ID=l.OBJECT_ID;
+
+
+SELECT ADDR, KADDR, SID, TYPE, ID1, ID2, LMODE, BLOCK from v$lock;
+
+
+SELECT a.sid, a.saddr, b.ses_addr, a.username, b.xidusn, b.used_urec,
+b.used_ublk
+FROM   v$session a, v$transaction b
+WHERE  a.saddr = b.ses_addr;
+
+
+SELECT s.sid, l.lmode, l.block, substr(s.username, 1, 10),
+substr(s.schemaname, 1, 10),
+       substr(s.osuser, 1, 10), substr(s.program, 1, 30), s.command
+FROM   v$session s, v$lock l
+WHERE  s.sid=l.sid;
+
+
+SELECT  p.spid, s.sid, p.addr,s.paddr,substr(s.username, 1, 10),
+substr(s.schemaname, 1, 10),
+        s.command,substr(s.osuser, 1, 10), substr(s.machine, 1, 10)
+FROM    v$session s, v$process p
+WHERE   s.paddr=p.addr
+
+
+SELECT sid, serial#, command,substr(username, 1, 10), osuser,
+sql_address,LOCKWAIT,
+       to_char(logon_time, 'DD-MM-YYYY;HH24:MI'), substr(program, 1, 30)
+FROM   v$session;
+
+
+SELECT sid, serial#,  username, LOCKWAIT from v$session;
+
+
+SELECT v.SID, v.BLOCK_GETS, v.BLOCK_CHANGES, w.USERNAME, w.OSUSER,
+w.TERMINAL
+FROM   v$sess_io v, V$session w
+WHERE  v.SID=w.SID ORDER BY v.SID;
+
+
+SELECT * from dba_waiters;
+
+SELECT waiting_session, holding_session, lock_type, mode_held
+FROM   dba_waiters;
+
+
+SELECT
+  p.spid                      unix_spid,
+  s.sid                       sid,
+  p.addr,
+  s.paddr,
+  substr(s.username, 1, 10)   username,
+  substr(s.schemaname, 1, 10) schemaname,
+  s.command                   command,
+  substr(s.osuser, 1, 10)     osuser,
+  substr(s.machine, 1, 25)    machine
+FROM   v$session s, v$process p
+WHERE  s.paddr=p.addr
+ORDER BY p.spid;
+	
+
+News
+
+<http://www.dbatodba.com/news_listing>
+    Perallis - Consulting and Support for IBM DB2 LUW 2011-08-02
+
+    <http://www.dbatodba.com/brazil-company-trainning-on-db2> 
+    More news… <http://www.dbatodba.com/news_listing> 
+
+Security for databases
+<http://www.dbatodba.com/security-for-databases/plonepopoll_view>
+
+
+              Which solution database auditing and protection do you use?
+
+
+    Guardium
+    Imperva
+    Native Database Audit mechanisms
+    Ad-hoc and Manual Solutions
+    Oracle Vault
+    Other
+    I don't use a solution to audit my databases
+
+    Polls <http://www.dbatodba.com/polls_list> 
+
+ 
+
+------------------------------------------------------------------------
+

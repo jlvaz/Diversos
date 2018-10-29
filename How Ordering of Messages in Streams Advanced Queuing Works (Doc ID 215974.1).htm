@@ -1,0 +1,892 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html class="p_AFMaximized" dir="ltr" lang="en-GB"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="stylesheet" charset="UTF-8" type="text/css" href="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/ep-mos-68w7k4-en-ltr-gecko-cmp-s.css"><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/Locale1_2_12_3_3.js"></script><script type="text/javascript">var AdfAssert = new Object();AdfAssert.DEBUG = false;</script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/boot-11.js"></script><script type="text/javascript">AdfLogger.DEFAULT_LEVEL=AdfLogger.OFF;(AdfLogger.LOGGER=new AdfLogger('global', new AdfBufferedLogWriter())).register();var checkAgentSupport = false;AdfAgent.AGENT = AdfAgent.getAgent(window);var lookAndFeel = new AdfDhtmlLookAndFeel(window);AdfAgent._LOG_WRITERS = "NativeLogWriter";AdfPage.PAGE = lookAndFeel.createPage();var page = AdfPage.PAGE;page.setBaseResourceUrl("/epmos");page.setStreamingDisabled(true);page.setAccessibilityMode("default");page.setAnimationEnabled(false);page.__setSessionIdentifier('12khle549a');page.__setOutputMode('printable');</script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/core-11.js"></script><title>Document Display</title><link rel="stylesheet" type="text/css" afrres="true" href="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/kmstyles-15.css"><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/jquery-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/commonKM-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/clickStreamLogger-15.js"></script><script type="text/javascript" language="javascript">function removeOldRegion_doc(actionEvent) {
+      actionEvent.cancel();
+      //var eventSource = actionEvent.getSource();
+      var region_bug;
+      var region_doc;
+      var region_com;
+      var loading = document.getElementById("kmPgTpl:sd_r1:0:loading");
+      region_bug = document.getElementById("kmPgTpl:sd_r1:0:dv_rBug");
+      region_doc = document.getElementById("kmPgTpl:sd_r1:0:dv_rDoc");
+      region_com = document.getElementById("kmPgTpl:sd_r1:0:dv_rCom");
+      //region_pat = document.getElementById("kmPgTpl:sd_r1:0:dv_rPat");
+      loadText = document.getElementById("kmPgTpl:sd_r1:0:loadingMessage").value;
+      //alert(region_com.innerHTML);
+      if (region_doc != null){
+          region_doc.style.display="none";  
+          loading.style.display="inline"; 
+      }
+      if (region_bug != null){
+          region_bug.style.display="none";  
+          loading.style.display="inline"; 
+      }
+          
+      if (region_com != null)
+          region_com.innerHTML = "";
+      //if (region_pat != null)
+         // region_pat.innerHTML = "";
+  }
+
+  function removeOldRegion_bug(actionEvent) {
+      actionEvent.cancel();
+      var region_bug;
+      var region_doc;
+      var region_com;
+      var loading = document.getElementById("kmPgTpl:sd_r1:0:loading");
+      region_bug = document.getElementById("kmPgTpl:sd_r1:0:dv_rBug");
+      region_doc = document.getElementById("kmPgTpl:sd_r1:0:dv_rDoc");
+      region_com = document.getElementById("kmPgTpl:sd_r1:0:dv_rCom");
+      //region_pat = document.getElementById("kmPgTpl:sd_r1:0:dv_rPat");
+      loadText = document.getElementById("kmPgTpl:sd_r1:0:loadingMessage").value;
+      //alert(loadText);
+      if (region_bug != null){
+          region_bug.style.display="none";
+          loading.style.display="inline"; 
+      }
+      if (region_doc != null){
+      region_doc.style.display="none";
+      loading.style.display="inline";
+      }
+      if (region_com != null)
+          region_com.innerHTML = "";
+      //if (region_pat != null)
+        //  region_pat.innerHTML = "";
+  }
+
+  function removeOldRegion_com(actionEvent) {
+      actionEvent.cancel();
+      var region_bug;
+      var region_doc;
+      var region_com;
+      region_bug = document.getElementById("kmPgTpl:sd_r1:0:dv_rBug");
+      region_doc = document.getElementById("kmPgTpl:sd_r1:0:dv_rDoc");
+      region_com = document.getElementById("kmPgTpl:sd_r1:0:dv_rCom");
+      //region_pat = document.getElementById("kmPgTpl:sd_r1:0:dv_rPat");
+      loadText = document.getElementById("kmPgTpl:sd_r1:0:dv_ih1").value;
+      //alert(loadText);
+      if (region_com != null)
+          region_com.innerHTML = "";
+      if (region_bug != null)
+          region_bug.innerHTML = "";
+      if (region_doc != null)
+          region_doc.innerHTML = "";
+      //if (region_pat != null)
+        //  region_pat.innerHTML = "";
+
+  }
+  
+  function removeOldRegion_patch(actionEvent) {
+      actionEvent.cancel();
+      var region_bug;
+      var region_doc;
+      var region_com;
+      region_bug = document.getElementById("kmPgTpl:sd_r1:0:dv_rBug");
+      region_doc = document.getElementById("kmPgTpl:sd_r1:0:dv_rDoc");
+      region_com = document.getElementById("kmPgTpl:sd_r1:0:dv_rCom");
+      region_pat = document.getElementById("kmPgTpl:sd_r1:0:dv_rPat");
+      loadText = document.getElementById("kmPgTpl:sd_r1:0:dv_ih1").value;
+      //alert(loadText);
+      if (region_pat != null)
+          region_pat.innerHTML = "";
+      if (region_com != null)
+          region_com.innerHTML = "";
+      if (region_bug != null)
+          region_bug.innerHTML = "";
+      if (region_doc != null)
+          region_doc.innerHTML = "";
+
+  }
+
+  hideMoreResults = function (event) {
+      var component = event.getSource();
+      //Get the ID for the component
+      var id = component.getClientId();
+      var morelink = document.getElementById(id);
+      morelink.style.display = 'none';
+      id = id.replace('Next', 'NextLoad');
+      var wheel = document.getElementById(id);
+      wheel.style.display = 'inline';
+  }
+
+   showContextMenu = function (event) {
+          var displayUrl = event.getSource().getProperty('displayUrl');
+          var displayIndex = event.getSource().getProperty('displayIndex');
+          var component = document.getElementById(event.getSource().getClientId());
+          component.href = displayUrl;
+          AdfCustomEvent.queue(event.getSource(), "clickstreamEvent",{displayindex:displayIndex},true);
+      }
+   
+   showMouseContextMenu = function(event) {
+    var displayUrl = event.getSource().getProperty('displayUrl');
+    var displayIndex = event.getSource().getProperty('displayIndex');
+    if (event.Event.which) {
+        if (event.Event.which == 2) {
+            AdfCustomEvent.queue(event.getSource(), "clickstreamEvent",{displayindex:displayIndex},true);
+            window.open(displayUrl, '_blank');
+            
+        } else if (event.Event.which == 1) {
+            if (event.Event.ctrlKey) {
+                event.cancel();
+                AdfCustomEvent.queue(event.getSource(), "clickstreamEvent",{displayindex:displayIndex},true);
+                window.open(displayUrl, '_blank');
+                
+            }
+        }
+    } else {
+        if (event.Event.button == 4) {
+            AdfCustomEvent.queue(event.getSource(), "clickstreamEvent",{displayindex:displayIndex},true);
+            window.open(displayUrl, '_blank');
+            
+        } else if (event.Event.button == 1) {
+            if (event.Event.ctrlKey) {
+                event.cancel();
+                AdfCustomEvent.queue(event.getSource(), "clickstreamEvent",{displayindex:displayIndex},true);
+                window.open(displayUrl, '_blank');
+                
+            }        
+        }
+    }
+}</script><style type="text/css" afrres="true">.cellformatHeader{background-image:url("/epmos/afr/fusion/button_bg_ena.png");}</style><script type="text/javascript" language="javascript">var pageState = "";
+  var backDecrementUnit = '3';
+  var executeBackJavascript = 'true';
+  $( document ).ready(function() {
+    pageState = getQueryVariable("_adf.ctrl-state");
+    });
+    
+   function getQueryVariable(variable)
+    {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+    }
+    
+    window.onbeforeunload = function () {
+        var pageURL = document.URL;
+        if(executeBackJavascript == 'true' && 
+            (pageURL.indexOf("epmos/faces/DocumentDisplay") > 0 || pageURL.indexOf("epmos/faces/SearchDoc") > 0) ){
+            try{
+                var numberState = pageState.split("_")[1] - backDecrementUnit;
+                window.name = pageState.split("_")[0] + "_" + numberState;
+            }catch(err){}
+        }
+    } 
+    
+    function handleSugClick (event) {
+        var link = event.getSource();
+        AdfCustomEvent.queue(link, "logSugClickStream", {}, false);
+    }
+        
+    function openAskCommunity(event){
+        window.open('https://community.oracle.com/discussion/create.jspa?showCommSelectHelpText=true','_blank');
+    }</script><script type="text/javascript" language="javascript">function onCommentsKeyUp(event) {
+        var source = event.getSource();
+        var feedbackButtonComponent = source.findComponent("cb1");
+        var domElement = AdfRichUIPeer.getDomElementForComponent(feedbackButtonComponent);
+        var submittedComments = source.getSubmittedValue();
+        if (submittedComments == null || submittedComments == '') {
+            feedbackButtonComponent.setProperty('disabled', true);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = true;
+            AdfDomUtils.addOrRemoveCSSClassName(true, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+        }
+        else {
+            feedbackButtonComponent.setProperty('disabled', false);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = false;
+            AdfDomUtils.addOrRemoveCSSClassName(false, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+        }
+    }</script><script type="text/javascript" language="javascript">referenceRedirect = function (event) {
+          var referenceId = event.getSource().getProperty('referenceId');
+          AdfCustomEvent.queue(event.getSource(), "referenceRedirectEvent", 
+          {
+              referenceId : referenceId
+          },
+true);
+      }</script><script type="text/javascript" language="javascript">showRecentDocContextMenu = function (event) {
+          var id = event.getSource().getProperty('bid');
+          var docUrl = event.getSource().getProperty('docUrl');
+          var bugUrl = event.getSource().getProperty('bugUrl');
+          var type = event.getSource().getProperty('type');
+          var component = document.getElementById(event.getSource().getClientId());
+          if (type == 'BUG') {
+              component.href = bugUrl + id + "&parent=WIDGET_RECENT_DB";
+          }
+          else {
+              component.href = docUrl + id + "&parent=WIDGET_RECENT_DB";
+          }
+      }
+      recentLinkWidgetRedirect = function (event) {
+          var documentId = event.getSource().getProperty('documentId');
+          AdfCustomEvent.queue(event.getSource(), "recentLinkWidgetRedirectEvent", 
+          {
+              documentId : documentId
+          },true);
+      }</script><script type="text/javascript" language="javascript">function onCommentsKeyUp(event) {
+    //event.cancel();
+    var source = event.getSource();
+    var feedbackButtonComponent = source.findComponent("cb1");
+    var domElement = AdfRichUIPeer.getDomElementForComponent(feedbackButtonComponent);
+    var submittedComments = source.getSubmittedValue();
+    
+    if (submittedComments == null || submittedComments == '') {
+        var rateComponent = source.findComponent("sor1");
+        var helpComponent = source.findComponent("sor2");
+        var findComponent = source.findComponent("sor3");
+        if (rateComponent.getSubmittedValue() == "1" || 
+            helpComponent.getSubmittedValue() == "1" ||
+            findComponent.getSubmittedValue() == "1") {
+            feedbackButtonComponent.setProperty('disabled', true);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = true;
+            AdfDomUtils.addOrRemoveCSSClassName(true, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+        }
+    } else {
+        feedbackButtonComponent.setProperty('disabled', false);
+        document.getElementById(feedbackButtonComponent.getClientId()).disabled = false;
+        AdfDomUtils.addOrRemoveCSSClassName(false, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+    }
+}
+
+function onCommentsFocus(event) {
+    var source = event.getSource();
+    var submittedComments = source.getSubmittedValue();
+    var requiredText = source.getProperty("requiredText");
+    if (submittedComments == requiredText)
+        source.setValue("");
+}
+
+function onQuestionValueChange(event) {
+    var source = event.getSource();
+    var submittedValue = source.getSubmittedValue();
+    var commentsComponent = source.findComponent("it1");
+    var requiredText = commentsComponent.getProperty("requiredText");
+    var feedbackButtonComponent = source.findComponent("cb1");
+    var domElement = AdfRichUIPeer.getDomElementForComponent(feedbackButtonComponent);
+    var commentsValue = commentsComponent.getSubmittedValue();
+    
+    if (submittedValue == "1") {
+        if (commentsValue == null || commentsValue == '') {
+            feedbackButtonComponent.setProperty('disabled', true);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = true;
+            AdfDomUtils.addOrRemoveCSSClassName(true, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+            commentsComponent.setValue(requiredText);
+        }
+    } else {
+        var rateComponent = source.findComponent("sor1");
+        var helpComponent = source.findComponent("sor2");
+        var findComponent = source.findComponent("sor3");
+        if (rateComponent.getSubmittedValue() != "1" &&
+            helpComponent.getSubmittedValue() != "1" &&
+            findComponent.getSubmittedValue() != "1") { 
+            feedbackButtonComponent.setProperty('disabled', false);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = false;
+            AdfDomUtils.addOrRemoveCSSClassName(false, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+            if (commentsValue == requiredText)
+                commentsComponent.setValue("");
+        }
+    }
+}</script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/messageArea-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/s_code_devh-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/clickstream-15.js"></script><script type="text/javascript" language="javascript">function clickMessageCenter(event) {
+        var link = event.getSource();
+        var tabName = link.getProperty('tabName');
+        AdfCustomEvent.queue(link, "logClickstream", {}, true);
+    }
+    function disableSignout(event){
+        var firingPrompt=event.getSource();
+        firingPrompt.setStyleClass('goMenuItemDisabled');
+        firingPrompt.setDestination(null);
+              }</script><style type="text/css" afrres="true">input::-webkit-input-placeholder {
+                    color: #737373;
+                    font-style: italic;
+                    opacity: 1;
+            }
+            input::-moz-placeholder {
+                    color: #737373;
+                    font-style: italic;
+                    opacity: 1;
+            }
+            input:-moz-placeholder {   /* Older versions of Firefox */
+                    color: #737373;
+                    font-style: italic;
+                    opacity: 1;
+            }
+            input:-ms-input-placeholder {
+                    color: #737373;
+                    font-style: italic;
+                    opacity: 1;
+            }</style><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/customComponent-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/promptedText-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/fwkComponent-15.js"></script><script type="text/javascript" language="javascript">function showPVAddEditPopup(event) {
+            event.cancel();
+            var source = event.getSource();
+            var popupId = ('pvAddEdit');
+            
+            var popup = AdfPage.PAGE.findComponentByAbsoluteId(popupId);
+            var halignid = 'pvOnOffLink';
+            if (popup == null){ 
+                popup = AdfPage.PAGE.findComponentByAbsoluteId('pt1:svHd:'+attrId+':'+popupId); 
+                halignid = 'pt1:svHd:pv1:pvOnOffLink';
+            }
+            if (!popup.isPopupVisible()) {
+                var hints = {
+                };
+                hints[AdfRichPopup.HINT_LAUNCH_ID] = source.getClientId();
+                hints[AdfRichPopup.HINT_ALIGN_ID] = halignid;
+                hints[AdfRichPopup.HINT_ALIGN] = AdfRichPopup.ALIGN_AFTER_END;
+                popup.show(hints);
+            }
+        }
+
+        
+        function hidePVAddPopup(event) {
+            event.cancel();
+            var source = event.getSource();
+            var attrId = source.getProperty('attrId');
+            var popupId = source.getProperty('popupId');
+            var isCanceled = source.getProperty('isCanceled');
+            var popup = AdfPage.PAGE.findComponentByAbsoluteId(attrId+':pvAdd');
+            if (popup.isPopupVisible()) {
+                if (isCanceled)
+                    popup.cancel();
+                else 
+                    popup.hide();
+            }
+        }
+        
+        handlePVTextfieldKeyUpAdd = function (event) { 
+            var inputTextComponent = event.getSource();
+            var sourceId = event.getSource().getClientId();
+            var okButtonId = sourceId.replace(inputTextComponent.getId(), 'pvAddOK');
+            sourceId = sourceId + '::content';
+            //var input = $('input[id*=' + sourceId + ']');
+            var inp = document.getElementById(sourceId);
+            var okButton = document.getElementById(okButtonId);
+            //alert(inp.value+' : '+okButton.className.indexOf('Disabled'));
+            if (okButton.className.indexOf('Disabled')  > 0  && inp.value != null){
+                AdfCustomEvent.queue(event.getSource(), "textFieldKeyUpEventAdd", {fvalue : inp.value}, false);
+            } else if (okButton.className.indexOf('Disabled')  == -1  && (inp.value == '' || inp.value == null)){
+                AdfCustomEvent.queue(event.getSource(), "textFieldKeyUpEventAdd", {fvalue : inp.value}, false);
+            }
+            
+        }
+        handlePVTextfieldKeyUp = function (event) { 
+            var inputTextComponent = event.getSource();
+            var sourceId = event.getSource().getClientId();
+            var okButtonId = sourceId.replace(inputTextComponent.getId(), 'pvEditOK');
+            sourceId = sourceId + '::content';
+            //var input = $('input[id*=' + sourceId + ']');
+            var inp = document.getElementById(sourceId);
+            var okButton = document.getElementById(okButtonId);
+            //alert(inp.value+' : '+okButton.className.indexOf('Disabled'));
+            if (okButton.className.indexOf('Disabled')  > 0  && inp.value != null){
+                AdfCustomEvent.queue(event.getSource(), "textFieldKeyUpEvent", {fvalue : inp.value}, false);
+            } else if (okButton.className.indexOf('Disabled')  == -1  && (inp.value == '' || inp.value == null)){
+                AdfCustomEvent.queue(event.getSource(), "textFieldKeyUpEvent", {fvalue : inp.value}, false);
+            }
+            
+        }</script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/jgrowl-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/notifications-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/cookies-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/presence-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/invitation-15.js"></script><link rel="stylesheet" type="text/css" afrres="true" href="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/jgrowl-15.css"><link rel="stylesheet" type="text/css" afrres="true" href="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/notification-15.css"><script type="text/javascript" language="javascript">//
+    var legalStatement = 'If you accept the chat invitation, a transcript of your chat with the engineer will be attached to the service request while it is open. For details, review the <a href="{0}" target="_blank">Oracle Global Customer Support Security Practices</a>.'.replace('{0}', 'http://www.oracle.com/us/support/library/customer-support-security-practices-069170.pdf');
+    var notificationHtmlElement = '<div id="notification" > ' +
+      '  <p>{0} has requested to chat about  ' +
+      '  <a target="_blank" href="/epmos/faces/SrDetail?needSrDetailRefresh=true&srNumber={1}">SR {1}: {2}</a></p>' +
+      '  <span id="expireTime">Chat request will close in <span class="chatInvitationCountDown">10</span> minutes </span>' +
+      '  <div id="commandButtonBar"> ' +
+      '    <button id="declineInvitation" title="When you click \'No, I\'m Busy\' a text box will appear, allowing you to provide feedback to the customer on your availability.">No, I\'m Busy</button> ' +
+      '    <button id="acceptInvitation">Accept Invitation</button> ' +
+      '  </div>' +
+      '  <div id="invitationLegalStatement"> ' + legalStatement + ' </div>' +
+      '</div>';
+      
+    var recoverNotificationElement = '<div id="recoverNotification" > ' +
+        '  <p>You have active conversations in progress. Do you want to recover them?</p>' +
+        '  <div id="commandButtonBarRecover"> ' +
+        '    <button id="declineRecoverNotification">No, don\'t recover</button> ' +
+        '    <button id="acceptRecoverNotification">Yes, recover</button> ' +
+        '  </div>' +
+        '</div>';
+      
+    var notificationHtmlElementHeader = '<div class="oracleLogo"><img src="/epmos/faces/common/images/invitations/oracle.png" /></div>' +
+      '<div class="chatLogo">' +
+      '  <img src="/epmos/faces/common/images/chat_icon.png" class="chatIcon"/>' +
+      '  <span class="chatWithOracle">Chat with <span class="chatWithOracle_MOS">My Oracle Support</span></span> ' +
+      '</div>' +
+      '<div style="clear:both" />';
+    INVITATION.config.ROOT_CONTEXT = '/epmos/';
+    INVITATION.config.isScreenReaderMode = false;
+    INVITATION.config.tabbedChatLoader = '/epmos/faces/common/images/spinning-wheel.gif';
+    INVITATION.config.messageForAnInvitationActionAlreadyProcessed = 'This invitation is no longer valid.';
+    INVITATION.config.genericError = 'An unexpected error occured, please try again later.';
+    INVITATION.config.messageForPopupBlockerEnabled = 'Please disable the popup blocker and then click Accept again.';
+    INVITATION.config.invitationAsPlainText = '{0} has requested to chat about  SR {1}: {2}';
+    INVITATION.config.invitationAsHtmlElement = notificationHtmlElement;
+    INVITATION.config.recoverNotificationAsPlainText = 'You have active conversations in progress. Do you want to recover them?';
+    INVITATION.config.recoverNotificationAsHtmlElement = recoverNotificationElement;    
+    INVITATION.config.invitationHeaderForHtmlElement = notificationHtmlElementHeader;
+    INVITATION.config.unreadMessage = 'message';
+    INVITATION.config.unreadMessages = 'messages';
+    INVITATION.config.declineMessage = 'Provide feedback to the customer on your availability';
+    INVITATION.config.declineMessageSubmit = 'Send';
+
+    var enableDesktopNotificationsElement = '<div id="enableDesktopNotifications" > ' +
+        '  <p>Oracle Support might want to chat with you about your open service requests. While you are signed into My Oracle Support, we can pop-up a message to let you know your engineer wants to chat. To allow these pop-up notifications, do two things: <br></p><ol><li>Click Enable Notifications below</li><li>When the browser offers a second prompt for you to allow/show notifications, click that button too.</li></ol>Once this is done, you will see a notification whenever Oracle Support attempts to contact you by chat while you are logged into My Oracle Support.</p> ' +
+        '  <div id="commandButtonBarDesktopNotifications"> ' +
+        '    <button id="rejectDesktopNotifications">Don\'t Enable</button> ' +
+
+        '    <button id="learnMoreDesktopNotifications" onclick="window.open(\'http://www.oracle.com/pls/topic/lookup?ctx=mos_en&id=MOSHP1498\', \'_blank\'); return false;">Learn More</button> ' +
+        '    <button id="acceptDesktopNotifications">Enable Notifications</button> ' +
+        '  </div>' +
+        '</div>';
+    var enableDesktopNotificationsElementHeader = 'Enable Notifications from Oracle Support';
+
+    INVITATION.config.notificationIcon                = "./common/images/new_chat_invite.png";
+    INVITATION.config.notificationAutoCloseInterval   = 20000;
+    INVITATION.config.notificationTitleForInvitations = 'New Chat Invitation[s] from:';
+    INVITATION.config.notificationTextAboutSR         = 'about SR';
+    INVITATION.config.NOTIFICATIONS_COOKIE_NAME       = "mos.notifications";
+    INVITATION.config.NOTIFICATIONS_COOKIE_EXPIRE     = 365 * 5;
+   
+    var USE_JET = 'false' === 'true';    
+    if (USE_JET) {
+      INVITATION.switchToJet();
+    }
+   
+    function enableDesktopNotifications() {
+      if (COOKIES.getCookieValue(INVITATION.config.NOTIFICATIONS_COOKIE_NAME)) {
+        return;
+      }
+      if ((typeof notify !== 'undefined') && notify.isSupported) {
+        if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
+          var rejected = true,
+              elementToGetFocus = false ? '.jGrowl-header > h3' : '#acceptDesktopNotifications';
+          $.jGrowl.defaults.closeTemplate = "";
+          $.jGrowl(enableDesktopNotificationsElement, {
+            theme: 'desktop-notifications',
+            // make JAWS happy with an h3 element
+            header : '<h3>' + enableDesktopNotificationsElementHeader + '</h3>', 
+            closeDuration: 100,
+            sticky: true,
+            beforeOpen : function (notificationWindow, m, o) {
+              $(notificationWindow).width("500px");
+            },
+            afterOpen: function (notificationWindow, m, o) { 
+
+              $(notificationWindow).find("#acceptDesktopNotifications").click(function () {
+                rejected = false;              
+                $(notificationWindow).children("div.jGrowl-close").click();              
+                notify.requestPermission();
+              });
+              $(notificationWindow).find("#rejectDesktopNotifications").click(function () {
+                $(notificationWindow).children("div.jGrowl-close").click();              
+              });
+              // hide close button
+              $(notificationWindow).find('.jGrowl-close').hide();
+              // focus on header if screen reader, otherwise on enable notifications button
+              $(notificationWindow).find(elementToGetFocus).attr('tabindex', 0);
+              $(notificationWindow).find(elementToGetFocus).focus();
+            },
+            close: function() {
+              if (rejected) {
+                COOKIES.setCookieValue(INVITATION.config.NOTIFICATIONS_COOKIE_NAME, false, INVITATION.config.NOTIFICATIONS_COOKIE_EXPIRE);
+              }
+            }
+          });
+        }
+      }
+    }
+
+    if (window.addEventListener) {
+      window.addEventListener('load', function () {
+        enableDesktopNotifications();      
+      }, false);      
+    }
+
+    function displayLoadingIndicator(browserWindow) {
+      if(!browserWindow.document.title) {
+        var tabbedChatLoader = '/epmos/faces/common/images/spinning-wheel.gif';
+        browserWindow.document.write('<img src="' + tabbedChatLoader + '" style="position: absolute; left: 50%; top: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px;" />');
+      }
+    }
+    
+    function openChatWindowForCustomer(event) {
+      var button = event.getSource();
+      var chatSrNumber = button.getProperty('srNumber');
+
+      var isJet = INVITATION.isJet();
+      if (isJet) {
+        // Switch to ADF temporary, because JET doesn't support CIC yet
+        INVITATION.switchToAdf();
+      }
+
+      var chatWindow = INVITATION.openChatWindow();
+      
+      var onError = function() {
+        if (chatWindow && !chatWindow.document.title) { // about:blank
+          chatWindow.close();
+        }
+        if (arguments.length >= 1) {
+          var error = arguments[0].error;
+          var errorMessage = arguments[0].errorMessage;
+          if ('ERROR_CONTACT_AVAILABILITY_CHANGED' === error) {
+            alert('Support engineer availability has changed. Please refresh SR and try again.');
+          } else if ('ERROR_CREATE_CHAT_CONVERSATION' === error)  {
+            alert('Chat cannot be initiated. Please refresh the SR page and try again.' + '\n\n' + errorMessage);
+          } else if ('ERROR_INVITE_ON_SR_PENDING' === error) {  
+            alert('Chat cannot be initiated because your assigned Support Engineer has already sent a chat request on this SR that is awaiting your response. Please check all My Oracle Support windows for pending chat invitations. '); 
+          } else {
+            alert('An unexpected error occured, please try again later.');
+          }
+        } else {
+          alert('An unexpected error occured, please try again later.');                
+        }
+      }
+      
+      var appName = true ? 'MOSCP' : 'MOSEP';
+      jQuery.ajax( {
+        type: 'POST',
+        dataType: 'json',
+        url : '/epmos/rest/mos/chat/1.0/invite-support-engineer.jsp', 
+        data: {srNumber: chatSrNumber, applicationName: appName},
+        complete: function() {
+          if (isJet) {
+            // Switch back to JET for EIC
+            INVITATION.switchToJet();
+          }
+        },
+        error: function() {
+          onError();  
+        },
+        success : function (result) {            
+          if (result) {
+            if (result.success) {
+              if (!chatWindow.document.title) { // about:blank
+                chatWindow.location = INVITATION.getChatWindowUrl();
+              } else {
+                chatWindow.ignorePageUnload = true;
+                chatWindow.location.reload();
+              }
+              chatWindow.focus();                
+            } else {
+              onError(result);
+            }
+          } else {
+            onError();  
+          }
+       } 
+      });
+      
+    }
+  //</script><script type="text/javascript" language="javascript">//
+    var includeSocial = true;
+    
+    // default poll interval when active in ms.
+    PRESENCE.DEFAULT_ACTIVE_POLL_INTERVAL = 30000;
+    PRESENCE.MAX_POLLING_TIME = 900000;
+    PRESENCE.userAvailable = true;
+
+    if(includeSocial && PRESENCE.userAvailable) {
+        try {
+            PRESENCE.initPresence();
+            if(document.startPoll) {
+                document.startPoll();
+            }
+        } catch (err) {
+            if(typeof(console) != 'undefined')
+              console.log('Error: ' + err);
+        }
+    }
+    //</script><script type="text/javascript" language="javascript">var popupShown = false;
+
+        function readCookie(name)
+        {
+          var nameEQ = name + "=";
+          var cookies = document.cookie.split(';');
+          for(var i=0;i < cookies.length;i++)
+          {
+            var c = cookies[i];
+            while (c.charAt(0)==' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+            {
+              return unescape(c.substring(nameEQ.length, c.length));
+            }
+          }
+          return null;
+        }
+        
+        function readExpCookie() {
+            var timeoutCookie = readCookie('ORASSO_AUTH_HINT');
+            var expTimestamp = 0;
+            if (timeoutCookie && timeoutCookie.length > 5) {
+                var utcTimeout = timeoutCookie.substring(5);
+                
+                if (utcTimeout.length == 14) {
+                    var year	= utcTimeout.substring(0, 4);
+                    var month	= utcTimeout.substring(4, 6);
+                    var day	= utcTimeout.substring(6, 8);
+                    var hour	= utcTimeout.substring(8, 10);
+                    var min	= utcTimeout.substring(10, 12);
+                    var sec	= utcTimeout.substring(12, 14);
+                    
+                    var timeoutDate = new Date(year, month - 1, day, hour, min, sec, 0);
+                    expTimestamp = timeoutDate.getTime();
+                }
+            }
+                
+            if (expTimestamp < 1)
+                expTimestamp = -1;
+            
+            return expTimestamp;
+        }
+        
+        function showPopup(timeout, target) {
+            if (target) {
+                var serverLink = AdfPage.PAGE.findComponent(target);
+                if (serverLink != null) {
+                    AdfCustomEvent.queue(serverLink, 'showPopup', {toLevel:timeout}, true);
+                    popupShown = true;
+                } else {
+                    setTimeout(function(){checkForTimeout(target);}, 1*60*1000);
+                }
+            } else {
+                var timeoutMessage = 'Your SSO login will expire in ' + timeout + ' minutes.  Save the work in all your open applications.  Failure to do this may result in loss of data. \n\nLogout and login back into one application to force an SSO re-login.  This may also require you to re-login to other open applications.\n\nSSO logins expire after 8 hours.'
+                alert(timeoutMessage);
+            }
+        }
+        
+        function hideSsoToPopup(target) {
+            if (target) {
+                var serverLink = AdfPage.PAGE.findComponent(target);
+                if (serverLink != null) {
+                    AdfCustomEvent.queue(serverLink, 'hidePopup', {source:'update'}, true);
+                    popupShown = false;
+                }
+            }
+        }
+        
+        function checkForTimeout(target) {
+            var expTimestamp = readExpCookie();
+                
+            if (expTimestamp != -1) {
+                var d = new Date();
+                var nowUTC = d.getTime() + d.getTimezoneOffset()*60*1000;
+                
+                var timeDiff = expTimestamp - nowUTC;
+                if (timeDiff <= 1800000) { // 30 mins
+                    if (timeDiff <= 1200000) { // 20 mins
+                        if (timeDiff <= 600000) { // 10 mins
+                            if (timeDiff <= 300000) {// 5 mins - show expired dialog
+                                if (timeDiff > 5000) { // do not make call to server if session is expiring
+                                    showPopup(0, target);
+                                }
+                            } else {
+                                showPopup(10, target);
+                            }
+                        } else {
+                            showPopup(20, target);
+                        }
+                    } else {
+                        showPopup(30, target);
+                    }
+                } else if (popupShown) {
+                    hideSsoToPopup(target);
+                }
+            }
+        }
+        
+        function initializeTimeout(target) {
+            window.onfocus = function(){checkForTimeout(target);};
+        
+            checkForTimeoutDriver(target);
+        }
+        
+        function checkForTimeoutDriver(target) {
+            checkForTimeout(target);
+            setTimeout(function(){checkForTimeoutDriver(target);}, 5*60*1000);
+        }
+        
+        function clientHidePopup(event) {
+            popupShown = false;
+            var source = event.getSource();
+            AdfCustomEvent.queue(source, 'hidePopup', {source:'remind'}, true);
+        }</script><link rel="stylesheet" type="text/css" afrres="true" href="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/oracleSuggest-15.css"><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/oracleSuggest-15.js"></script><script type="text/javascript" language="javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/globalSearchBarUtil-15.js"></script><script type="text/javascript" language="javascript">function unsavedDataHandlerHook(event) {
+        try {
+          if(unsavedDataHandler) {
+            if(unsavedDataHandler(event))
+              return;
+          }
+        } catch(ex) {
+          ;
+        }
+    }
+
+    function menuTabClicked(event) {
+        var inputText = event.getSource();
+        var value = inputText.getProperty('tabName');
+
+        //need to call javascript clickstream.js in a separate call for logOmnitureTrackClickEvent
+        // log clickstream data into Omniture server
+        //logOmnitureTrackClickEvent(value, 'NAV', 'CLICK');
+
+        //notify server to log clickstream data into portalDB
+        //used to send the curently selected source
+       var sourceShortName = $('input[id*="selectedSourceShortName"]').val();
+       AdfCustomEvent.queue(inputText, "notifyServer",
+         {
+            element : value ,
+            shortName : sourceShortName
+         }, true);
+
+    }</script><script type="text/javascript" language="javascript">function externalLinkClicked(event) {
+        var inputText = event.getSource();
+        var value = inputText.getProperty('linkName');
+        AdfCustomEvent.queue(inputText, "logClickExternalLink",
+         {
+            element : value
+         }, true);
+    }
+
+    function kmAdvSearchClicked(event) {
+        var commandLink = event.getSource();
+        AdfCustomEvent.queue(commandLink, "advSearchClicked", {}, true);
+    }</script><script type="text/javascript" language="javascript">function refreshFavMenu(event) {
+        var button = event.getSource();
+        AdfCustomEvent.queue(button, "refreshList", {}, true);
+    }
+    
+    function refreshFavManager(event) {
+        var button = event.getSource();
+        AdfCustomEvent.queue(button, "refreshData", {}, true);
+    }</script><script type="text/javascript" language="javascript">validateSearchTerm = function(event){
+                        event.cancel();
+                    }</script><script type="text/javascript" language="javascript">function handleFBClick (event) {
+            var link = event.getSource();
+            var surveyId = link.getProperty('surveyId');
+            AdfCustomEvent.queue(link, "logFBClickStream", {surveyId:surveyId}, true);
+        }
+
+        function getTopOffset(h) {
+            return (window.screen.height / 2)-(h/2);
+        }
+
+        function getLeftOffset(w) {
+            return (window.screen.width / 2)-(w/2);
+        }</script><script type="text/javascript" language="javascript">function hidePopup(event)
+      {
+          event.cancel();
+          var source = event.getSource();
+          var popup = source.getParent();
+          var elemFound = false;
+          while (!elemFound)
+          {
+              try 
+              {
+                  elemFound = popup.isPopupVisible();
+              }
+              catch (err)
+              {
+                  popup = popup.getParent();
+              }
+          }
+          popup.hide();
+          return false;
+      }</script></head><body class="x14t p_AFPrintable p_AFMaximized"><div style="left: -4px; top: 0px; width: 29px; display: none;" id="searchBar__searchSuggestions" class="searchBar__searchSuggestionsStyle"></div><noscript>This page uses JavaScript and requires a JavaScript enabled browser.Your browser is not JavaScript enabled.</noscript><iframe name="afr::PushIframe" id="afr::PushIframe" style="display:none" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/blank.htm"></iframe><input id="oracle.adf.view.faces.RICH_UPDATE" type="hidden"><script type="text/javascript">AdfDhtmlPage.__frameBusting("differentOrigin");</script><div id="d1"><a id="d1::skip" href="#" class="x14v">Skip to content</a><table summary="" id="kmPgTpl:sd_r1:0:dv_psl2" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td rowspan="1"></td><td rowspan="1" valign="top"><img id="kmPgTpl:sd_r1:0:s2" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="10" width="10"></td><td valign="top" width="100%"><div id="kmPgTpl:sd_r1:0:dv_pgls2" class="x1a" style="width:100%;height:100%;"><div><table summary="" id="kmPgTpl:sd_r1:0:pgl3" class="xpj x1a" style="text-align:center;" align="center" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><span style="display:none; font-size:small;" id="kmPgTpl:sd_r1:0:loading">loading requested content...</span></td></tr></tbody></table></div><div><div id="kmPgTpl:sd_r1:0:dv_rDoc" class="xpg"><div id="kmPgTpl:sd_r1:0:dv_rDoc:0:docMainPanel" class="x1a"><div><span style="display:none">9876</span></div><div><div id="kmPgTpl:sd_r1:0:dv_rDoc:0:psl1" class="xpj kmDocBorderExternal"><div id="kmPgTpl:sd_r1:0:dv_rDoc:0:pgl14" class="x1a"><div><img id="kmPgTpl:sd_r1:0:dv_rDoc:0:s111" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="5" width="10"></div><div><table summary="" id="kmPgTpl:sd_r1:0:dv_rDoc:0:Headpgl" class="x1a" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><div id="kmPgTpl:sd_r1:0:dv_rDoc:0:ph22" class="x6v" style="display:none"><table class="xtx" summary="" border="0" cellpadding="0" cellspacing="0" width="0"><tbody><tr><td class="xue">&nbsp;</td><td class="xve"><table summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td class="x22o"></td><td id="kmPgTpl:sd_r1:0:dv_rDoc:0:ph22::_afrTtxt"><div title="Doc ID " class="xu2"><h1 class="xdl ">Doc ID </h1></div></td><td id="kmPgTpl:sd_r1:0:dv_rDoc:0:ph22::_afrEps"><div class="xdl  xw8" style="display: none" title="Doc ID ">…</div></td><td id="kmPgTpl:sd_r1:0:dv_rDoc:0:ph22::_afrStr" style="width: 100%"></td></tr></tbody></table></td><td class="xuw">&nbsp;</td></tr></tbody></table><div class="xwb"><div></div></div></div></td></tr></tbody></table></div><div><table id="kmPgTpl:sd_r1:0:dv_rDoc:0:tl5" summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr id="kmPgTpl:sd_r1:0:dv_rDoc:0:rl12"><td id="kmPgTpl:sd_r1:0:dv_rDoc:0:cf40" width="10"><img id="kmPgTpl:sd_r1:0:dv_rDoc:0:s13" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="10" width="10"></td><td id="kmPgTpl:sd_r1:0:dv_rDoc:0:cf49" align="left"><span id="kmPgTpl:sd_r1:0:dv_rDoc:0:ol22" class="xq" style="font-weight:bold;color:Black;font-size:130%"><label>How Ordering of Messages in Streams Advanced Queuing Works? (Doc ID 215974.1)</label></span></td><td id="kmPgTpl:sd_r1:0:dv_rDoc:0:cf50"><img id="kmPgTpl:sd_r1:0:dv_rDoc:0:s6" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="10" width="20"></td></tr></tbody></table></div><div><hr id="kmPgTpl:sd_r1:0:dv_rDoc:0:s4" class="x1j"></div></div><div></div><div></div><div id="kmPgTpl:sd_r1:0:dv_rDoc:0:kmDocPanel" class="xpj x1a" style="width:100%;height:100%;"><div><img id="kmPgTpl:sd_r1:0:dv_rDoc:0:s23" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="5" width="10"></div><div><table id="kmPgTpl:sd_r1:0:dv_rDoc:0:tl7" style="table-layout:fixed; overflow:hidden;" summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr id="kmPgTpl:sd_r1:0:dv_rDoc:0:rl14"><td id="kmPgTpl:sd_r1:0:dv_rDoc:0:cf54" style="overflow:hidden; vertical-align:top;"><div id="kmPgTpl:sd_r1:0:dv_rDoc:0:pgl25" class="x1a" style="overflow:auto;"><div><span id="kmPgTpl:sd_r1:0:dv_rDoc:ot71" class="kmContent" style="font-size:small; color:Black;"><!-- class=km before in this document marker --><p><b>In this Document</b><br>
+</p><table><tbody><tr><td width="0"></td><td><a href="#PURPOSE">Purpose</a></td></tr></tbody></table>
+<table><tbody><tr><td width="0"></td><td><a href="#SCOPE">Scope</a></td></tr></tbody></table>
+<table><tbody><tr><td width="0"></td><td><a href="#BODYTEXT">Details</a></td></tr></tbody></table>
+<table><tbody><tr><td width="20">&nbsp;</td><td><a href="#aref_section31"><span style="text-decoration: underline;"><strong>sort_list parameter</strong></span></a></td></tr></tbody></table>
+<table><tbody><tr><td width="20">&nbsp;</td><td><a href="#aref_section32"><span style="text-decoration: underline;"><strong>First-in, First-out ordering across Multiple sessions</strong></span></a></td></tr></tbody></table>
+<table><tbody><tr><td width="20">&nbsp;</td><td><a href="#aref_section33"><span style="text-decoration: underline;"><strong>Achieving Global FIFO</strong></span></a></td></tr></tbody></table>
+<table><tbody><tr><td width="20">&nbsp;</td><td><a href="#aref_section34"><span style="text-decoration: underline;"><strong>Sequence Number used to generate Priority</strong></span></a></td></tr></tbody></table>
+<table><tbody><tr><td width="0"></td><td><a href="#REF">References</a></td></tr></tbody></table><hr size="1"><p>
+<!-- class=km before applies to --></p><h2 class="km">Applies to:  </h2>
+Oracle Database - Enterprise Edition - Version 8.1.7.0 to 11.2.0.3 [Release 8.1.7 to 11.2]<br>Information in this document applies to any platform.<br>
+Checked for currency on 18-June-2013<br>
+
+<h2 class="km"><a name="PURPOSE"></a>Purpose</h2>
+<p>To describe the default ordering of mechanisms for messages in 
+Advanced Queues and a simple application solution to guarantee global 
+First-In First-Out (FIFO) ordering.</p>
+<h2 class="km"><a name="SCOPE"></a>Scope</h2>
+<p>This note is intended for administrators and developers of Advanced Queuing applications.</p>
+<h2 class="km"><a name="BODYTEXT"></a>Details</h2>
+<p>The message ordering of a queue dictates the order in which messages 
+will be dequeued from a queue. The default ordering method for a queue 
+is specified when a queue table is created using the sort_list 
+parameter. Any queues using this queue table inherit the default value 
+specified for the queue table. Streams Advanced Queueing supports the 
+following types of message ordering: <br><br>1) Priority ordering of 
+messages. If priority ordering is chosen, each message will be assigned a
+ priority at enqueue time by the enqueuer. At dequeue time, the messages
+ will be dequeued in the order of the priorities assigned to those 
+messages. If two messages have the same priority, the order at which 
+they are dequeued is undetermined. <br><br>2) First-In, First-Out (FIFO)
+ ordering. If FIFO ordering is chosen, each message will be dequeued in 
+the order it was enqueued when enqueued within the same session.<br><br>3)
+ In 10gR2 onwards commit-time ordering ordering is available. Each 
+message in a commit-time queue is ordered by an approximate commit 
+system change number (approximate CSCN) which is obtained when the 
+transaction that enqueued the message commits. <br><br></p>
+<a name="aref_section31"></a><h3 class="km"><span style="text-decoration: underline;"><strong>sort_list parameter</strong></span></h3>
+<p><br>A combination of the above ordering mechanisms can be specified 
+for the queue table using the sort_list parameter.&nbsp; The sort_list 
+parameter determines the order in which messages are dequeued. The 
+ordering method that is listed first takes precedence.&nbsp; You cannot 
+change the default message sort order after you have created the queue 
+table. Your choices are:<br><br>ENQ_TIME<br>ENQ_TIME,PRIORITY<br>PRIORITY<br>PRIORITY,ENQ_TIME<br>PRIORITY,COMMIT_TIME<br>COMMIT_TIME<br><br></p>
+<div class="kmnotebox">The COMMIT_TIME choice is a new feature inOracleStreams AQ 10g Release 2 (10.2).</div>
+<p><br>If you specify COMMIT_TIME as the sort key, then you must also specify the following create_queue_table parameters:<br><br>multiple_consumers = TRUE<br>message_grouping = TRANSACTIONAL<br>compatible = 8.1 or higher<br><br></p>
+<a name="aref_section32"></a><h3 class="km"><span style="text-decoration: underline;"><strong>First-in, First-out ordering across Multiple sessions</strong></span></h3>
+<p><br>When using FIFO ordering, Advanced Queueing guarantees the 
+ordering of messages that are enqueued by the same session. AQ does not 
+guarantee ordering of messages that are enqueued across multiple 
+sessions.<br><br>The enqueue time is stored in the enq_time column of 
+the queue table and prior to 10.1 is stored in a DATE datatype which is 
+accurate to the second. In order to guarantee the ordering of messages 
+enqueued within the same second, a step number had to be used. The step 
+number is stored in the step_no column of the queue table. Messages 
+enqueued within the same second in the same session will always have an 
+increasing step number. These step numbers guarantee FIFO when messages 
+are enqueued in the same session.&nbsp; In 10.1 onwards exactly the same
+ step number is generated but the enqueue time is stored in a TIMESTAMP 
+datatype which has a millisecond granularity.<br><br>With multiple 
+concurrent sessions enqueueing messages in the same second, there is no 
+global FIFO guarantee. Different sessions may enqueue at the same time 
+and have repeated step numbers. The dequeue order for messages that have
+ the same enqueue time and step number is undetermined.<br><br></p>
+<a name="aref_section33"></a><h3 class="km"><span style="text-decoration: underline;"><strong>Achieving Global FIFO</strong></span></h3>
+<p><br>To achieve true global FIFO ordering of messages across multiple enqueueing sessions there are some options:<br><br>1)
+ Use a sequence to populate the priority field for the messages so the 
+priority is always increasing. If the dequeue is done by priority and 
+the priority is always increasing, then the messages will always be 
+dequeued in the same order they were enqueued. The downside of this 
+approach is that the sequence could become a bottleneck when there are a
+ lot of concurrent enqueuers and the sequence number could grow very 
+large over time.<br><br>2) If the order of dequeue is important because 
+of parent-child relationships in the data, then develop the enqueueing 
+application so that there is a delay between enqueueing the message with
+ the parent data and enqueueing the message with the child data. As long
+ as the messages are not enqueued at exactly the same time, the enqueue 
+times will be different and global FIFO will be preserved.<br><br></p>
+<a name="aref_section34"></a><h3 class="km"><span style="text-decoration: underline;"><strong>Sequence Number used to generate Priority</strong></span></h3>
+<p>&nbsp;</p>
+<div style="border: 1px solid; margin: 20px; padding: 0.5em; background: #cccccc none repeat scroll 0% 50%; overflow: auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">set echo on<br>set serveroutput on<br>spool testcase.out<br><br>connect / as sysdba<br><br>drop user aq cascade;<br>create user aq identified by aq;<br>grant connect, resource, aq_administrator_role to aq;<br>grant execute on dbms_aqadm to aq;<br>grant execute on dbms_aq to aq;<br><br>connect aq/aq<br><br>create sequence aq_sequence start with 1 increment by 1<br>/<br><br>create type message as object (<br>city VARCHAR2(30));<br>/<br><br>BEGIN<br>dbms_aqadm.CREATE_queue_table(<br>queue_table =&gt; 'input_queue_table',<br>sort_list =&gt; 'priority',<br>multiple_consumers =&gt; TRUE,<br>queue_payload_type =&gt; 'message',<br>comment =&gt; 'Creating input queue table');<br>END;<br>/<br><br>BEGIN<br>dbms_aqadm.CREATE_queue(<br>queue_name =&gt; 'input_queue',<br>queue_table =&gt; 'input_queue_table',<br>comment =&gt; 'Demo Queue');<br>END;<br>/<br><br>BEGIN<br>dbms_aqadm.start_queue(<br>queue_name =&gt; 'input_queue');<br>END;<br>/<br><br>DECLARE<br>subscriber sys.aq$_agent;<br>BEGIN<br>subscriber := sys.aq$_agent('prog1', NULL, NULL);<br>dbms_aqadm.add_subscriber(<br>queue_name =&gt; 'input_queue',<br>subscriber =&gt; subscriber);<br>END;<br>/<br><br>CREATE OR REPLACE PROCEDURE DEMO_ENQUEUE (userinfo message) AS<br>enq_msgid RAW(16);<br>eopt dbms_aq.enqueue_options_t;<br>mprop dbms_aq.message_properties_t;<br>priority number;<br>BEGIN<br>select aq_sequence.nextval into priority from dual;<br>mprop.priority := priority;<br>dbms_aq.enqueue(<br>queue_name =&gt; 'input_queue',<br>enqueue_options =&gt; eopt,<br>message_properties =&gt; mprop,<br>payload =&gt; userinfo,<br>msgid =&gt; enq_msgid);<br><br>commit;<br>END demo_enqueue;<br>/<br><br>--Enqueue some messages<br>DECLARE<br>payload1 message;<br>payload2 message;<br>payload3 message;<br>payload4 message;<br>BEGIN<br>payload1 := message('BELMONT');<br>payload2 := message('REDWOOD SHORES');<br>payload3 := message('SUNNYVALE');<br>payload4 := message('BURLINGAME');<br>demo_enqueue(payload1);<br>demo_enqueue(payload2);<br>demo_enqueue(payload3);<br>demo_enqueue(payload4);<br>END;<br>/<br><br>CREATE OR REPLACE PROCEDURE DEMO_DEQUEUE(appname varchar2) AS<br>deq_msgid RAW(16);<br>dopt dbms_aq.dequeue_options_t;<br>mprop dbms_aq.message_properties_t;<br>payload message;<br>BEGIN<br>dopt.consumer_name := appname;<br>dopt.wait := dbms_aq.no_wait;<br>dopt.navigation := DBMS_AQ.FIRST_MESSAGE;<br><br>dbms_aq.dequeue(<br>queue_name =&gt; 'input_queue',<br>dequeue_options =&gt; dopt,<br>message_properties =&gt; mprop,<br>payload =&gt; payload,<br>msgid =&gt; deq_msgid);<br>commit;<br>END demo_dequeue;<br>/<br><br>--Dequeue messages one at a time<br>BEGIN<br>demo_dequeue('prog1');<br>END;<br>/<br><br>--To view message information<br>select queue,to_char(enq_time,'dd-mon-yyyy hh:mi:ss') enq_time,<br>msg_priority,msg_state from aq$input_queue_table;<br><br>select q_name,to_char(enq_time,'dd-mon-yyyy hh:mi:ss') enq_time,<br>step_no,priority from input_queue_table;<br><br>spool off<code class="awiz"><br></code></div>
+<p><br><span style="text-decoration: underline;"><strong>Expected Output</strong></span><br><br></p>
+<div style="border: 1px solid; margin: 20px; padding: 0.5em; background: #cccccc none repeat scroll 0% 50%; overflow: auto; -moz-background-clip: -moz-initial; -moz-background-origin: -moz-initial; -moz-background-inline-policy: -moz-initial;">SQL&gt;<br>SQL&gt; --To view message information<br>SQL&gt; select queue,to_char(enq_time,'dd-mon-yyyy hh:mi:ss') enq_time,<br>2 msg_priority,msg_state from aq$input_queue_table;<br><br>QUEUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+ENQ_TIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ MSG_PRIORITY&nbsp; MSG_STATE<br>INPUT_QUEUE 25-feb-2008 10:17:18 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READY<br>INPUT_QUEUE 25-feb-2008 10:17:18 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READY<br>INPUT_QUEUE 25-feb-2008 10:17:18 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PROCESSED<br>INPUT_QUEUE 25-feb-2008 10:17:18 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READY<br><br>SQL&gt;<br>SQL&gt; select q_name,to_char(enq_time,'dd-mon-yyyy hh:mi:ss') enq_time,<br>2 step_no,priority from input_queue_table;<br><br>Q_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+ENQ_TIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ STEP_NO PRIORITY<br><br>INPUT_QUEUE 25-feb-2008 10:17:17 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1<br>INPUT_QUEUE 25-feb-2008 10:17:17 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2<br>INPUT_QUEUE 25-feb-2008 10:17:17 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3<br>INPUT_QUEUE 25-feb-2008 10:17:17 3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4<br><br>SQL&gt;<br>SQL&gt; spool off<br>SQL&gt;<code class="awiz"><br></code></div>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+<div id="refHTML"></div>
+<p><a href="https://support.oracle.com/epmos/faces/DocumentDisplay?parent=DOCUMENT&amp;sourceId=215974.1&amp;id=604986.1">Document 604986.1</a> Dequeue Order Can Be Lost For A Single Session When Using Deq_condition<br><a href="https://support.oracle.com/epmos/faces/BugDisplay?parent=DOCUMENT&amp;sourceId=215974.1&amp;id=5092434" target="_blank">Bug:5092434</a> DEQUEUING W/ DEQ_CONDITION RESULTS IN WRONG MESSAGE ORDER OF AQ STREAMS<br><br><strong>Still have questions ?<br><br></strong></p>
+<div class="kmnotebox">To discuss this information further with Oracle 
+experts and industry peers, we encourage you to review, join or start a 
+discussion in the My Oracle Support <a href="https://communities.oracle.com/portal/server.pt/community/streams_and_distributed_database/410" target="_blank">Streams and Distributed Database Community.</a><br><br>The
+ goal of this community is to exchange knowledge and concepts about 
+Oracle Streams Advanced Queuing (AQ) and distributed databases, with 
+special consideration for the components listed below:<br>&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp; Distributed Databases<br>&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp; Streams Replication and Advanced Queuing<br>&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp; Advanced Replication<br>&nbsp;&nbsp;&nbsp; -&nbsp;&nbsp;&nbsp; XA</div>
+<p><strong><br></strong>To provide feedback on this note, click on the <span style="color: #ff0000;" color="#ff0000"><strong>"Rate this document"</strong></span> link above.</p>
+<h2 class="km"><a name="REF"></a>References</h2><br> <a href="https://support.oracle.com/epmos/faces/BugDisplay?parent=DOCUMENT&amp;sourceId=215974.1&amp;id=5092434" target="_blank">BUG:5092434</a> - DEQUEUING W/ DEQ_CONDITION RESULTS IN WRONG MESSAGE ORDER OF AQ STREAMS<br> <a href="https://support.oracle.com/epmos/faces/BugDisplay?parent=DOCUMENT&amp;sourceId=215974.1&amp;id=5092434" target="_blank">BUG:5092434</a> - DEQUEUING W/ DEQ_CONDITION RESULTS IN WRONG MESSAGE ORDER OF AQ STREAMS<br><a href="https://support.oracle.com/epmos/faces/DocumentDisplay?parent=DOCUMENT&amp;sourceId=215974.1&amp;id=604986.1">NOTE:604986.1</a> - Dequeue Order Can Be Lost For A Single Session When Using Deq_condition<br>
+</span></div></div></td></tr></tbody></table></div><div><img id="kmPgTpl:sd_r1:0:dv_rDoc:0:s51" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="10" width="10"><span id="kmPgTpl:sd_r1:0:dv_rDoc:0:pgl29" class="x1a"><img id="kmPgTpl:sd_r1:0:dv_rDoc:0:s52" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="10" width="10">Didn't find what you are looking for?<img id="kmPgTpl:sd_r1:0:dv_rDoc:0:s53" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="10" width="10"></span></div><div><img id="kmPgTpl:sd_r1:0:dv_rDoc:0:s5" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/t.gif" alt="" height="20" width="10"></div></div><div></div><div></div></div></div></div><div style="display:none"><a id="kmPgTpl:sd_r1:0:dv_rDoc:0:_afrCommandDelegate" class="xfe"></a></div></div></div></div></td></tr></tbody></table><span id="d1::iconC" style="display:none"><span id="af_messages::info-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/info.png" title="Information" alt="Information" border="0" height="16" width="16"></span><span id="af_message::warning-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/warning.png" title="Warning" alt="Warning" border="0" height="16" width="16"></span><span id="af_messages::fatal-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/error.png" title="Critical Error" alt="Critical Error" border="0" height="16" width="16"></span><span id="af_message::info-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/info.png" title="Information" alt="Information" border="0" height="16" width="16"></span><span id="af_message::fatal-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/error.png" title="Critical Error" alt="Critical Error" border="0" height="16" width="16"></span><span id="af_messages::warning-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/warning.png" title="Warning" alt="Warning" border="0" height="16" width="16"></span><span id="af_message::confirmation-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/confirmation.png" title="Confirmation" alt="Confirmation" border="0" height="16" width="16"></span><span id="af_message::error-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/error.png" title="Error" alt="Error" border="0" height="16" width="16"></span><span id="af_messages::error-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/error.png" title="Error" alt="Error" border="0" height="16" width="16"></span><span id="af_messages::confirmation-icon"><img src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/confirmation.png" title="Confirmation" alt="Confirmation" border="0" height="16" width="16"></span></span><div id="afr::DlgSrvPopupCtnr"><div id="afr::DlgSrvPopupCtnr::content" style="display:none"></div></div><div id="afr::UtilPopupCtnr" _pid="j_id15" _did="j_id16" _dmw="250" style="display:none"><div id="j_id15" style="display:none"><div style="top:auto;right:auto;left:auto;bottom:auto;width:auto;height:auto;position:relative;" id="j_id15::content"><div id="j_id16" class="x17j"><div class="x18r" _afrpanelwindowbackground="1"></div><div class="x18r" _afrpanelwindowbackground="1"></div><div class="x18r" _afrpanelwindowbackground="1"></div><div class="x18r" _afrpanelwindowbackground="1"></div><table summary="" class="x17q" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="x17s" id="j_id16::_hse">&nbsp;</td><td class="x17u" id="j_id16::_hce"><table summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td><div id="j_id16::_ticn" class="x18l" style="display:none"></div></td><td class="x17y" id="j_id16::tb"><div id="j_id16::_ttxt" class="x18j"></div></td></tr></tbody></table></td><td class="x17w" id="j_id16::_hee">&nbsp;</td></tr><tr><td class="x183" id="j_id16::_cse">&nbsp;</td><td class="x1o" id="j_id16::contentContainer"></td><td class="x185" id="j_id16::_cee">&nbsp;</td></tr><tr><td class="x187" id="j_id16::_fse"><div></div></td><td class="x189" id="j_id16::_fce"><table summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td class="x18c" id="j_id16::_fcc"><button type="button" id="j_id16::ok" class="xf6 p_AFTextOnly">OK</button><button type="button" id="j_id16::cancel" class="xf6 p_AFTextOnly">Cancel</button></td><td align="left" valign="bottom"><div class="x18i"><a tabindex="-1" class="x18g" id="j_id16::_ree" title="Resize"></a></div></td></tr></tbody></table></td><td class="x18b" id="j_id16::_fee"><div></div></td></tr></tbody></table></div></div></div></div></div><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/dnd-11.js"></script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/iedit-11.js"></script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/uncommon-11.js"></script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/stretch-11.js"></script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/detail-11.js"></script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/header-11.js"></script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/box-11.js"></script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/region-11.js"></script><script type="text/javascript" src="How%20Ordering%20of%20Messages%20in%20Streams%20Advanced%20Queuing%20Works%20%28Doc%20ID%20215974.1%29_arquivos/eum-11.js"></script><script type="text/javascript">AdfBootstrap._onLoad=function (){if (AdfPage.PAGE.__checkRichResponseDirty()) return;var exScripts=AdfBootstrap._extendedScripts;for (var i=0;i<exScripts.length;i++){exScripts[i]()};AdfBootstrap._extendedScripts=null;AdfPage.PAGE.__onLoad();};window.onload=AdfBootstrap._onLoad;</script><script type="text/javascript">AdfBootstrap._extendedScripts=[function(){logOmnitureTrackClickEvent('DOCUMENT', 'KM', 'KM_SHOW', '215974.1', 'DOCUMENT', '6', 'DOCUMENT', '', '', '', '', '', '', '', '', '', '', '');},function(){loadDocumentScripts(false,'');},function(){window.location.hash='';},function(){window.location.hash='#aref_section34';},function(){window.print();}];</script></body><!--Created by Oracle ADF (Version information hidden), accessibility (mode:default, contrast:standard, size:medium), skin:ep.mos (mos)--></html>

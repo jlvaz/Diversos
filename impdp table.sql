@@ -1,0 +1,1 @@
+ impdp rm/613326A95 directory=backup_dir dumpfile=20160808_exp_rm.dmp remap_schema=rm:scott tables=rm.psecao,pfhstsec

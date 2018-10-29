@@ -1,0 +1,139 @@
+ How To Identify a Hot Block Within The Database Buffer Cache
+
+Goal
+
+How to identify blocks which cause latch contention on the 'cache buffers chains' latch.
+How to identify a hot block within the database buffer cache.
+Solution
+
+Possible hot blocks in the buffer cache normally can be identified by a high or
+rapid increasing wait count on the CACHE BUFFERS CHAINS latch.
+
+This latch is acquired when searching for data blocks cached in the buffer cache.
+Since the Buffer cache is implemented as a sum of chains of blocks, each of those
+chains is protected by a child of this latch when needs to be scanned. Contention
+in this latch can be caused by very heavy access to a single block. This can
+require the application to be reviewed.
+
+To solve a hot block, the application maybe need to be reviewed.
+
+By examining the waits on this latch, information about the segment and the
+specific block can be obtained using the following queries.
+
+First determine which latch id(ADDR) are interesting by examining the number of
+sleeps for this latch. The higher the sleep count, the more interesting the
+latch id(ADDR) is:
+
+SQL> select CHILD# "cCHILD"
+, ADDR "sADDR"
+, GETS "sGETS"
+, MISSES "sMISSES"
+, SLEEPS "sSLEEPS"
+from v$latch_children
+where name = 'cache buffers chains'
+order by 5, 1, 2, 3;
+
+Run the above query a few times to to establish the id(ADDR) that has the most
+consistent amount of sleeps. Once the id(ADDR) with the highest sleep count is found
+then this latch address can be used to get more details about the blocks
+currently in the buffer cache protected by this latch.
+The query below should be run just after determining the ADDR with
+the highest sleep count.
+
+SQL> column segment_name format a35
+select /*+ RULE */
+e.owner ||'.'|| e.segment_name segment_name,
+e.extent_id extent#,
+x.dbablk - e.block_id + 1 block#,
+x.tch,
+l.child#
+from
+sys.v$latch_children l,
+sys.x$bh x,
+sys.dba_extents e
+where
+x.hladdr = '&ADDR' and
+e.file_id = x.file# and
+x.hladdr = l.addr and
+x.dbablk between e.block_id and e.block_id + e.blocks -1
+order by x.tch desc ;
+
+Example of the output :
+SEGMENT_NAME EXTENT# BLOCK# TCH CHILD#
+-------------------------------- ------------ ------------ ------ ----------
+SCOTT.EMP_PK 5 474 17 7,668
+SCOTT.EMP 1 449 2 7,668
+
+Depending on the TCH column (The number of times the block is hit by a SQL
+statement), you can identify a hotblock. The higher the value of the TCH column,
+the more frequent the block is accessed by SQL statements.
+
+In order to reduce contention for this object the following mechanisms can be put in place:
+
+1) Examine the application to see if the execution of certain DML and SELECT statements
+can be reorganized to eliminate contention on the object.
+
+2) Decrease the buffer cache -although this may only help in a small amount of cases.
+
+3) DBWR throughput may have a factor in this as well.
+If using multiple DBWR's then increase the number of DBWR's.
+
+4) Increase the PCTFREE for the table storage parameters via ALTER TABLE
+or rebuild. This will result in less rows per block.
+
+5) Consider implementing reverse key indexes
+(if range scans aren't commonly used against the segment)
+Related bugs :
+Bug 3611471 : High latch waits for "cache buffers chain" latch possible originating from "kcbgtcr: kslbegin .."
+
+30 min statspack shows
+NoWait Waiter
+Latch Name Where Misses Sleeps Sleeps
+-------------------- -------------------------- ------- ---------- --------
+cache buffers chains kcbgtcr: kslbegin excl 0 206,281 280,674
+
+Bug 1967363 "CACHE BUFFERS CHAINS" LATCH CONTENTION AFTER UPGRADE
+TO 8.1.7 FROM 8.0.6
+
+The following query joins with DBA_OBJECTS :
+
+SQL> with bh_lc as
+(select /*+ ORDERED */
+lc.addr, lc.child#, lc.gets, lc.misses, lc.immediate_gets,
+lc.immediate_misses, lc.spin_gets, lc.sleeps,
+bh.hladdr, bh.tch tch, bh.file#, bh.dbablk, bh.class,
+bh.state, bh.obj
+from
+x$kslld ld,
+v$session_wait sw,
+v$latch_children lc,
+x$bh bh
+where lc.addr =sw.p1raw
+and sw.p2= ld.indx
+and ld.kslldnam='cache buffers chains'
+and lower(sw.event) like '%latch%'
+— and state='WAITING'
+and bh.hladdr=lc.addr
+)
+select bh_lc.hladdr, bh_lc.tch, o.owner, o.object_name, o.object_type,
+bh_lc.child#, bh_lc.gets,
+bh_lc.misses, bh_lc.immediate_gets,
+bh_lc.immediate_misses, spin_gets, sleeps
+from
+bh_lc,
+dba_objects o
+where bh_lc.obj = o.object_id(+)
+union
+select bh_lc.hladdr, bh_lc.tch, o.owner, o.object_name, o.object_type,
+bh_lc.child#, bh_lc.gets, bh_lc.misses, bh_lc.immediate_gets,
+bh_lc.immediate_misses, spin_gets, sleeps
+from
+bh_lc,
+dba_objects o
+where bh_lc.obj = o.data_object_id(+)
+order by 1,2 desc;
+
+Posted 27th August 2012 by Chaitanya
+0 Add a comment
+
+Loading

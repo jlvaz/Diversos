@@ -1,0 +1,8 @@
+Limpeza dos objetos temporários  
+
+Sugerimos a limpeza periódica das tabelas temporárias de jobs do sistema. Isso é importante para melhorar o desempenho das consultas nessas tabelas. Como exemplo, pode-se optar por manter o histórico dos últimos três meses e apagar o restante das informações. 
+
+Segue a lista de tabelas: GRELBATCH, GJOBXLOG, GJOBLOG, GJOBXEXECUCAO e GJOBX. Atualmente verificamos que a tabela GJOBX está com aproximadamente 2GB de dados.
+ 
+Também, aconselhamos o backup e remoção das pastas TMP* que são criadas automaticamente no diretório Delphi das aplicações.  Estes arquivos são deletados automaticamente. Caso após a aplicação ter sido finalizada estes arquivos não venham a desaparecer os mesmos deverão ser excluídas.
+

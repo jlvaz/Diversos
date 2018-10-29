@@ -1,0 +1,48 @@
+Habilitando DDL no alert log 11gR2
+02/02/2012 veduardodba	Deixe um comentário
+
+Ai galera no 11gr2 tem um recurso de habilitar comandos DDL no alert.log, você pode alterar tanto para sessão(alter session) ou quanto para o sistema(alter system), para habilitar é bem simples basta alterar um parâmetro o ENABLE_DDL_LOGGING para true, segue abaixo a documentação
+
+http://docs.oracle.com/cd/E14072_01/server.112/e10820/initparams078.htm
+
+Segue como alterar o parâmetro:
+
+SQL> select value,isdefault,isses_modifiable, issys_modifiable,description
+from v$parameter where name=’enable_ddl_logging’;
+
+VALUE ISDEFAULT ISSES ISSYS_MOD DESCRIPTION
+—— ——— —– ——— ——————-
+FALSE TRUE TRUE IMMEDIATE enable ddl logging
+
+SQL> alter system set ENABLE_DDL_LOGGING=true ;
+
+System altered.
+
+SQL> conn HR/HR
+
+Connected
+
+SQL> create table FUNC_backp as select * from FUNC;
+
+Table created.
+
+SQL> drop table FUNC ;
+
+Table dropped.
+
+vamos verificar se foi gerado o log no alert.log:
+
+[oracle@hodb01vtr trace]$ tail -f alert_centro.log
+
+Mon Nov 21 15:58:43 2011
+SMCO started with pid=31, OS id=5981
+Mon Nov 21 16:08:37 2011
+ALTER SYSTEM SET enable_ddl_logging=TRUE SCOPE=SPFILE;
+ALTER SYSTEM SET enable_ddl_logging=TRUE SCOPE=BOTH;
+Mon Nov 21 16:09:41 2011
+create table FUNC_backp as select * from FUNC
+Mon Nov 21 16:10:09 2011
+drop table FUNC
+
+Ai foi um pouco mais sobre o parametro que é muito interessante para auditar os logs em um banco de produção, porém tomem cuidado pois o alert log irá crescer de tamanho conforme a Adminstração do banco
+Abraço

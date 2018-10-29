@@ -1,0 +1,21 @@
+SELECT t.target_name,
+       t.target_type,
+       collection_timestamp,
+       MESSAGE,
+          'exec em_severity.delete_current_severity('''
+       || t.target_guid
+       || ''','''
+       || metric_guid
+       || ''','''
+       || key_value
+       || ''')'
+          em_severity
+  FROM    sysman.mgmt_targets t
+       INNER JOIN
+          sysman.mgmt_current_severity s
+       ON t.target_guid = s.target_guid;
+
+
+
+
+ 
