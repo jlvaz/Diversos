@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<!-- saved from url=(0073)http://www.dbarj.com.br/2013/05/executar-expdp-compressao-oracle-10g-11g/ -->
+<html lang="pt-br"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://www.dbarj.com.br/xmlrpc.php">
+<!--[if lt IE 9]>
+<script src="http://www.dbarj.com.br/wp-content/themes/grainyflex/js/html5.js" type="text/javascript"></script>
+<![endif]-->
+
+
+<!-- This site is optimized with the Yoast WordPress SEO plugin v1.6.3 - https://yoast.com/wordpress/plugins/seo/ -->
+<title>Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias</title>
+
+<link rel="stylesheet" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/language-selector.css" type="text/css" media="all">
+<meta name="description" content="Como compactar expdp no oracle 10g com compression=all">
+<link rel="canonical" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias.html">
+<!-- / Yoast WordPress SEO plugin. -->
+
+<link rel="alternate" type="application/rss+xml" title="Feed de DBA - Rodrigo Jorge - Oracle Dicas e Guias »" href="http://www.dbarj.com.br/feed/">
+<link rel="alternate" type="application/rss+xml" title="DBA - Rodrigo Jorge - Oracle Dicas e Guias »  Feed de comentários" href="http://www.dbarj.com.br/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="DBA - Rodrigo Jorge - Oracle Dicas e Guias » Como executar expdp com compressão de dados no Oracle 10g e 11g  Feed de comentários" href="http://www.dbarj.com.br/2013/05/executar-expdp-compressao-oracle-10g-11g/feed/">
+<link rel="stylesheet" id="crayon-css" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/crayon.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon-theme-classic-css" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/classic.css" type="text/css" media="all">
+<link rel="stylesheet" id="crayon-font-monaco-css" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/monaco.css" type="text/css" media="all">
+<link rel="stylesheet" id="contact-form-7-css" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/styles.css" type="text/css" media="all">
+<link rel="stylesheet" id="style-css" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/style.css" type="text/css" media="all">
+<script async="" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/analytics.js"></script><script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/jquery.js"></script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/jquery-migrate.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var wtilp = {"ajax_url":"http:\/\/www.dbarj.com.br\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/wti_like_post.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var CrayonSyntaxSettings = {"version":"2.6.8","is_admin":"0","ajaxurl":"http:\/\/www.dbarj.com.br\/wp-admin\/admin-ajax.php","prefix":"crayon-","setting":"crayon-setting","selected":"crayon-setting-selected","changed":"crayon-setting-changed","special":"crayon-setting-special","orig_value":"data-orig-value","debug":""};
+var CrayonSyntaxStrings = {"copy":"Pressione %s para Copiar, %s para Colar","minimize":"Click To Expand Code"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/crayon.min.js"></script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/jquery.cookie.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var wpml_browser_redirect_params = {"pageLanguage":"pt-br","languageUrls":{"en_US":"http:\/\/www.dbarj.com.br\/en\/2013\/05\/run-expdp-compression-oracle-10g-11g\/","en":"http:\/\/www.dbarj.com.br\/en\/2013\/05\/run-expdp-compression-oracle-10g-11g\/","US":"http:\/\/www.dbarj.com.br\/en\/2013\/05\/run-expdp-compression-oracle-10g-11g\/","pt_BR":"http:\/\/www.dbarj.com.br\/2013\/05\/executar-expdp-compressao-oracle-10g-11g\/","pt":"http:\/\/www.dbarj.com.br\/2013\/05\/executar-expdp-compressao-oracle-10g-11g\/","BR":"http:\/\/www.dbarj.com.br\/2013\/05\/executar-expdp-compressao-oracle-10g-11g\/","pt-br":"http:\/\/www.dbarj.com.br\/2013\/05\/executar-expdp-compressao-oracle-10g-11g\/"},"cookie":{"name":"_icl_visitor_lang_js","domain":"www.dbarj.com.br","path":"\/","expiration":24}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/browser-redirect.js"></script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/external-tracking.min.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.dbarj.com.br/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.dbarj.com.br/wp-includes/wlwmanifest.xml"> 
+<link rel="shortlink" href="http://www.dbarj.com.br/?p=358">
+<meta name="generator" content="WPML ver:3.1.8.2 stt:44,1;0">
+<link rel="alternate" hreflang="en-US" href="http://www.dbarj.com.br/en/2013/05/run-expdp-compression-oracle-10g-11g/">
+<link rel="alternate" hreflang="pt-BR" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias.html">
+<link rel="stylesheet" type="text/css" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/wti_like_post.css" media="screen"><!-- All in one Favicon 4.3 --><link rel="shortcut icon" href="http://www.dbarj.com.br/wp-content/uploads/2013/05/favicon.ico">
+<style type="text/css" id="custom-background-css">
+body.custom-background { background-image: url('http://www.dbarj.com.br/wp-content/themes/grainyflex/images/bg.png'); background-repeat: repeat; background-position: top left; background-attachment: fixed; }
+</style>
+<!-- Google Analytics Tracking by Google Analyticator 6.4.8: http://www.videousermanuals.com/google-analyticator/ -->
+<script type="text/javascript">
+    var analyticsFileTypes = [''];
+    var analyticsSnippet = 'disabled';
+    var analyticsEventTracking = 'enabled';
+</script>
+<script type="text/javascript">
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-21834054-2', 'auto');
+ 
+	ga('send', 'pageview');
+</script>
+<link type="text/css" rel="stylesheet" href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/inj_tf.css" media="screen"><script charset="utf-8" type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/saved_resource"></script></head>
+
+<body class="single single-post postid-358 single-format-standard custom-background">
+
+<div id="page" class="hfeed site">
+		<div id="headerwrapper">
+	
+	<div id="headercent">
+	
+		
+	<header id="masthead" class="site-header" role="banner">
+	
+		
+		
+		    
+    <div id="logo-text">
+      <span class="site-name"><a href="http://www.dbarj.com.br/" title="Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias" rel="home">DBA – Rodrigo Jorge – Oracle Dicas e Guias</a></span>
+      <span class="site-description">BADAHA – Blog About Databases and High Availability</span>
+    </div><!-- end of #logo -->
+    
+    
+
+	</header><!-- #masthead .site-header -->
+		</div><!--/headercent -->
+		<div id="topdiv"></div>
+		<div id="prenav"></div>
+		<div id="navwrap">
+		<nav role="navigation" class="site-navigation main-navigation">
+			<h1 class="assistive-text">Menu</h1>
+			<div class="assistive-text skip-link"><a href="http://www.dbarj.com.br/2013/05/executar-expdp-compressao-oracle-10g-11g/#content" title="Skip to content">Skip to content</a></div>
+
+			<div class="menu-lista-principal-container"><ul id="menu-lista-principal" class="menu"><li id="menu-item-108" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-108"><a href="http://www.dbarj.com.br/">Início</a></li>
+<li id="menu-item-57" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-57"><a href="http://www.dbarj.com.br/sobre/">Sobre</a></li>
+<li class="menu-item menu-item-language menu-item-language-current"><a href="http://www.dbarj.com.br/2013/05/executar-expdp-compressao-oracle-10g-11g/#" onclick="return false"><img class="iclflag" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/pt-br.png" width="18" height="12" alt="Português" title="Português">Português</a><ul class="sub-menu submenu-languages"><li class="menu-item menu-item-language menu-item-language-current"><a href="http://www.dbarj.com.br/en/2013/05/run-expdp-compression-oracle-10g-11g/"><img class="iclflag" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/en.png" width="18" height="12" alt="English" title="English">English</a></li></ul></li></ul></div>		</nav><!-- .site-navigation .main-navigation -->
+		</div><!--/navwrap -->
+	</div><!--/headerwrapper -->
+<div id="container">
+<div id="center" class="column">
+<div id="shadow"></div>
+<div id="main" class="site-main">
+		<div id="primary" class="content-area">
+			<div id="content" class="site-content" role="main">
+
+			
+					<nav role="navigation" id="nav-above" class="site-navigation post-navigation">
+		<h1 class="assistive-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><a href="http://www.dbarj.com.br/2013/05/forcar-senha-sysdba/" rel="prev"><span class="meta-nav">←</span> Forçar o uso de senha em acesso “/ as sysdba”</a></div>		<div class="nav-next"><a href="http://www.dbarj.com.br/2013/06/migrando-ocr-voting-disk-oracle-asm-online/" rel="next">Migrando OCR e Voting Disk para Oracle ASM Online <span class="meta-nav">→</span></a></div>
+	
+	</nav><!-- #nav-above -->
+	
+				
+<article id="post-358" class="post-358 post type-post status-publish format-standard hentry category-database">
+	<header class="entry-header">
+		<h1 class="entry-title">Como executar expdp com compressão de dados no Oracle 10g e 11g</h1>
+
+		<div class="entry-meta">
+			Postado em <a href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias.html" title="17:16" rel="bookmark"><time class="entry-date" datetime="2013-05-29T17:16:38+00:00">maio 29, 2013</time></a><span class="byline"> por <span class="author vcard"><a class="url fn n" href="http://www.dbarj.com.br/author/rjorge/" title="Ver todas as postagens de DBA RJ" rel="author">DBA RJ</a></span></span>		</div><!-- .entry-meta -->
+	</header><!-- .entry-header -->
+
+	<div class="entry-content">
+		<p class="icl_post_in_other_langs">This post is also available in: <a href="http://www.dbarj.com.br/en/2013/05/run-expdp-compression-oracle-10g-11g/">Inglês</a></p><p>Muitas pessoas ainda relutam em utilizar o Oracle export Data Pump (<strong>expdp</strong>) no 10g por não haver um método eficaz de compressão via pipe como existe no simples comando export (<strong>exp</strong>). A partir da versão 11g, a Oracle adicionou o parâmetro “<strong>COMPRESS=ALL</strong>” que ajuda na compactação do arquivo dump gerado, mas ainda assim utiliza mecanismos internos do Oracle para compressão, sem possibilitar ao usuário escolher a melhor forma de compactação.</p>
+<p>Para resolver isso, desenvolvi um script que executa uma compressão em paralela dos arquivos dumps gerados pelo expdp, fazendo de uma forma eficiente como o pipe e se utilizando do artifício de tamanho máximo do arquivo de DUMP do expdp, ainda podendo aproveitar o paralelismo.</p>
+<h2>1) Como o script funciona?</h2>
+<p>Ao chamarmos o expdp, definimos um valor para o parâmetro “FILESIZE” de, por exemplo, <span style="color: #ff0000;"><strong>1GB</strong></span>:<br>
+<strong>ex:</strong> expdp full=Y directory=… dumpfile=expfile.%u.dmp logfile=expfile.log filesize=<span style="color: #ff0000;"><strong>1G</strong></span></p>
+<p>Desta forma, supondo que o total do seu DUMP seja de 30 GBs, o expdp irá gerar o primeiro arquivo de 1GB e quando terminar, começará a gravar o segundo. Neste momento, um script paralelo de compressão irá compactar o primeiro arquivo gerado enquanto o segundo arquivo está sendo gravado pelo banco. A compressão poderá usar bzip2, gzip ou qualquer outro algorítmo de sua preferência e presente no seu servidor.</p>
+<p>O script pode ainda se aproveitar do parâmetro “PARALLEL” e começar a gravar diversos arquivos em paralelo. Conforme estes forem chegando ao tamanho definido pelo “FILESIZE”, a compressão vai sendo executada em background tornando o export muito mais rápido:<br>
+ex: expdp full=Y directory=… dumpfile=expfile.%u.dmp logfile=expfile.log filesize=1G parallel=8</p>
+<p>Este script suporta também export parciais de schemas (via parametrização). Por default, ele executará um FULL do banco, com um dos comandos abaixo (conforme escolhido na parametrização):</p>
+<ul>
+<li><span style="color: #0000ff;"><strong>EXPDP:</strong></span>&nbsp;expdp full=y directory=… dumpfile=… logfile=… filesize=… parallel=…</li>
+<li><span style="color: #0000ff;"><strong>EXP:</strong></span> &nbsp; &nbsp; &nbsp;exp file=… log=… full=y consistent=y compress=n buffer=9999999 statistics=none direct=y</li>
+</ul>
+<h2>2) Requisitos</h2>
+<ul>
+<li>O script foi testado em Linux, HP-UX e Solaris. Na verdade, o requisito básico é que existam comandos primários de unix (cd, mktemp, mkfifo, awk, head, etc).</li>
+<li>Necessário que o banco que deseja ser feito o backup esteja cadastrado no oratab da máquina (exp e expdp) ou remotamente no TNSNAMES (apenas para exp remoto).</li>
+<li>O script de compressão que for desejado deve estar instalado (gzip, bzip2, zip, compress, …).</li>
+</ul>
+<h2>3) Como instalar?</h2>
+<p>Baixe ele <a href="http://www.dbarj.com.br/wp-content/uploads/2013/05/expdpcomp.zip">aqui</a>!</p>
+<p>Descompacte a árvore de diretórios “exp” do zip acima na pasta que deseja configurar o Data Pump. Nesta árvore ficarão apenas os shell scripts, arquivos de configuração e logs. Os dumps gerados ficarão em um destino parametrizável.</p>
+<p><a href="http://www.dbarj.com.br/wp-content/uploads/2013/05/exp-tree.png"><img class="alignnone size-medium wp-image-361" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/exp-tree-300x104.png" alt="exp-tree" width="300" height="104"></a></p>
+<p>A pasta possui 3 subdiretórios básicos:</p>
+<ul>
+<li>Pasta SH – Contém os shells responsáveis pelo export e compressão. Não é necessário alterá-los.</li>
+<li>Pasta CFG – Contém os arquivos de configuração parametrizável para cada instância.</li>
+<li>Pasta LOG – Contém os logs das execuções.</li>
+</ul>
+<p>A pasta <strong>SH</strong> contém 4 shells:</p>
+<ul>
+<li>expcron.sh – Esse shell apenas centraliza a execução de tudo e salva o log. É ele que deverá sempre ser chamado.</li>
+<li>expfull.sh – Esse shell faz toda a lógica do processo de export do Oracle.</li>
+<li>expdpcompress.sh – Esse shell faz toda a lógica de compressão dos dumps do Oracle.</li>
+<li>expfunctions.sh – Esse shell possui métodos e funções que serão utilizados pelos outros scripts.</li>
+</ul>
+<p>A pasta <strong>CFG</strong> conterá o arquivo de configuração da instância:</p>
+<ul>
+<li>orcl.cfg – O nome do arquivo deverá ser exatamente o mesmo do sid da instância presente no oratab e que se deseja efetuar o export, acrescentado de “.cfg”. Se não existir este arquivo, o processo tentará localizar um arquivo com o nome “default.cfg” neste mesmo diretório.</li>
+</ul>
+<p>A pasta <strong>LOG</strong> inicialmente estará vazia e conterá os logs das execuções.</p>
+<p>Coloque as permissões nos diretórios e arquivos existentes conforme abaixo:</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa5834426057142" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[oracle@ec12mntrjr001 exp]$ ls -laR ./
+./:
+total 24
+drwxr-x---  5 oracle dba      4096 Mar 24 12:09 .
+drwx------ 15 oracle oinstall 4096 Mar 24 12:08 ..
+drwx------  2 oracle dba      4096 Mar 24 12:08 cfg
+drwxr-x---  2 oracle dba      4096 Mar 24 12:08 log
+dr-xr-x---  2 oracle dba      4096 Mar 24 12:08 sh
+
+./cfg:
+total 12
+drwx------ 2 oracle dba 4096 Mar 24 12:08 .
+drwxr-x--- 5 oracle dba 4096 Mar 24 12:09 ..
+-rw------- 1 oracle dba 1138 Aug 23  2013 default.cfg
+
+./log:
+total 8
+drwxr-x--- 2 oracle dba 4096 Mar 24 12:08 .
+drwxr-x--- 5 oracle dba 4096 Mar 24 12:09 ..
+
+./sh:
+total 36
+dr-xr-x--- 2 oracle dba 4096 Mar 24 12:08 .
+drwxr-x--- 5 oracle dba 4096 Mar 24 12:09 ..
+-r-xr-x--- 1 oracle dba 2268 Aug 28  2013 expcron.sh
+-r-xr-x--- 1 oracle dba 4885 Nov 28 11:25 expdpcompress.sh
+-r-xr-x--- 1 oracle dba 8818 Aug 29  2013 expfull.sh
+-r-xr-x--- 1 oracle dba 3699 Nov 28 11:35 expfunctions.sh
+[oracle@ec12mntrjr001 exp]$</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -26px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-2">2</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-4">4</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-6">6</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-8">8</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-9">9</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-10">10</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-11">11</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-12">12</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-13">13</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-14">14</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-15">15</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-16">16</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-17">17</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-18">18</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-19">19</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-20">20</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-21">21</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-22">22</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-23">23</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-24">24</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-25">25</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-26">26</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-27">27</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5834426057142-28">28</div><div class="crayon-num" data-line="crayon-546b33dfa5834426057142-29">29</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa5834426057142-1"><span class="crayon-sy">[</span><span class="crayon-v">oracle</span><span class="crayon-sy">@</span><span class="crayon-e">ec12mntrjr001 </span><span class="crayon-v">exp</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-r">ls</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">laR</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-o">/</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-2"><span class="crayon-sy">.</span><span class="crayon-o">/</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-3"><span class="crayon-i">total</span><span class="crayon-h"> </span><span class="crayon-cn">24</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-4"><span class="crayon-v">drwxr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-cn">5</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">09</span><span class="crayon-h"> </span><span class="crayon-sy">.</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-5"><span class="crayon-v">drwx</span><span class="crayon-o">--</span><span class="crayon-o">--</span><span class="crayon-o">--</span><span class="crayon-h"> </span><span class="crayon-cn">15</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">oinstall</span><span class="crayon-h"> </span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">08</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-sy">.</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-6"><span class="crayon-v">drwx</span><span class="crayon-o">--</span><span class="crayon-o">--</span><span class="crayon-o">--</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">08</span><span class="crayon-h"> </span><span class="crayon-e">cfg</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-7"><span class="crayon-v">drwxr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">08</span><span class="crayon-h"> </span><span class="crayon-e">log</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-8"><span class="crayon-v">dr</span><span class="crayon-o">-</span><span class="crayon-v">xr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">08</span><span class="crayon-h"> </span><span class="crayon-r">sh</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-9">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-10"><span class="crayon-sy">.</span><span class="crayon-o">/</span><span class="crayon-v">cfg</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-11"><span class="crayon-i">total</span><span class="crayon-h"> </span><span class="crayon-cn">12</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-12"><span class="crayon-v">drwx</span><span class="crayon-o">--</span><span class="crayon-o">--</span><span class="crayon-o">--</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">08</span><span class="crayon-h"> </span><span class="crayon-sy">.</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-13"><span class="crayon-v">drwxr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">09</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-sy">.</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-14"><span class="crayon-o">-</span><span class="crayon-v">rw</span><span class="crayon-o">--</span><span class="crayon-o">--</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">1138</span><span class="crayon-h"> </span><span class="crayon-i">Aug</span><span class="crayon-h"> </span><span class="crayon-cn">23</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-cn">2013</span><span class="crayon-h"> </span><span class="crayon-st">default</span><span class="crayon-e">.cfg</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-15">&nbsp;</div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-16"><span class="crayon-sy">.</span><span class="crayon-o">/</span><span class="crayon-v">log</span><span class="crayon-o">:</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-17"><span class="crayon-i">total</span><span class="crayon-h"> </span><span class="crayon-cn">8</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-18"><span class="crayon-v">drwxr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">08</span><span class="crayon-h"> </span><span class="crayon-sy">.</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-19"><span class="crayon-v">drwxr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">09</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-sy">.</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-20">&nbsp;</div><div class="crayon-line" id="crayon-546b33dfa5834426057142-21"><span class="crayon-sy">.</span><span class="crayon-o">/</span><span class="crayon-r">sh</span><span class="crayon-o">:</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-22"><span class="crayon-i">total</span><span class="crayon-h"> </span><span class="crayon-cn">36</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-23"><span class="crayon-v">dr</span><span class="crayon-o">-</span><span class="crayon-v">xr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">2</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">08</span><span class="crayon-h"> </span><span class="crayon-sy">.</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-24"><span class="crayon-v">drwxr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">5</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">4096</span><span class="crayon-h"> </span><span class="crayon-i">Mar</span><span class="crayon-h"> </span><span class="crayon-cn">24</span><span class="crayon-h"> </span><span class="crayon-cn">12</span><span class="crayon-o">:</span><span class="crayon-cn">09</span><span class="crayon-h"> </span><span class="crayon-sy">.</span><span class="crayon-sy">.</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-25"><span class="crayon-o">-</span><span class="crayon-v">r</span><span class="crayon-o">-</span><span class="crayon-v">xr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">2268</span><span class="crayon-h"> </span><span class="crayon-i">Aug</span><span class="crayon-h"> </span><span class="crayon-cn">28</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-cn">2013</span><span class="crayon-h"> </span><span class="crayon-v">expcron</span><span class="crayon-e">.sh</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-26"><span class="crayon-o">-</span><span class="crayon-v">r</span><span class="crayon-o">-</span><span class="crayon-v">xr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">4885</span><span class="crayon-h"> </span><span class="crayon-i">Nov</span><span class="crayon-h"> </span><span class="crayon-cn">28</span><span class="crayon-h"> </span><span class="crayon-cn">11</span><span class="crayon-o">:</span><span class="crayon-cn">25</span><span class="crayon-h"> </span><span class="crayon-v">expdpcompress</span><span class="crayon-e">.sh</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-27"><span class="crayon-o">-</span><span class="crayon-v">r</span><span class="crayon-o">-</span><span class="crayon-v">xr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">8818</span><span class="crayon-h"> </span><span class="crayon-i">Aug</span><span class="crayon-h"> </span><span class="crayon-cn">29</span><span class="crayon-h">&nbsp;&nbsp;</span><span class="crayon-cn">2013</span><span class="crayon-h"> </span><span class="crayon-v">expfull</span><span class="crayon-e">.sh</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5834426057142-28"><span class="crayon-o">-</span><span class="crayon-v">r</span><span class="crayon-o">-</span><span class="crayon-v">xr</span><span class="crayon-o">-</span><span class="crayon-v">x</span><span class="crayon-o">--</span><span class="crayon-o">-</span><span class="crayon-h"> </span><span class="crayon-cn">1</span><span class="crayon-h"> </span><span class="crayon-e">oracle </span><span class="crayon-i">dba</span><span class="crayon-h"> </span><span class="crayon-cn">3699</span><span class="crayon-h"> </span><span class="crayon-i">Nov</span><span class="crayon-h"> </span><span class="crayon-cn">28</span><span class="crayon-h"> </span><span class="crayon-cn">11</span><span class="crayon-o">:</span><span class="crayon-cn">35</span><span class="crayon-h"> </span><span class="crayon-v">expfunctions</span><span class="crayon-e">.sh</span></div><div class="crayon-line" id="crayon-546b33dfa5834426057142-29"><span class="crayon-sy">[</span><span class="crayon-v">oracle</span><span class="crayon-sy">@</span><span class="crayon-e">ec12mntrjr001 </span><span class="crayon-v">exp</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0591 seconds] -->
+<p></p>
+<h2>4) Configurando</h2>
+<p>O arquivo de configuração “oracle_sid.cfg” existente na pasta cfg (onde oracle_sid é o SID da instância a ser feito o backup) requer os seguintes parâmetros:</p>
+<h4>- EXPTYPE</h4>
+<p>Parâmetro opcional que especifica o tipo do export e binário do Oracle a ser chamado (“exp” ou “expdp”). Aceita os valores “EXP” ou “EXPDP”. Se omisso, o valor default “EXP” será usado.<br>
+Ex: EXPTYPE=EXPDP</p>
+<h4>- EXPRETENTION</h4>
+<p>Parâmetro obrigatório que determina o tempo de retenção dos backups antigos, em dias. Após o final do processo, arquivos de dumps anteriores a “EXPRETENTION” dias serão deletados.<br>
+Ex: EXPRETENTION=3</p>
+<h4>- EXPUSER</h4>
+<p>Parâmetro obrigatório que define usuário e senha que farão conexão no banco para efetuar o export. É recomendado criar um usuário para esta finalidade exclusiva, concedendo ao usuário apenas os grant necessários, conforme abaixo:</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa58a1009444361" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">create user expuser identified by asb378 default tablespace USERS temporary tablespace TEMP profile DEFAULT quota unlimited on users;
+grant exp_full_database to expuser;
+grant create session to expuser;
+grant create table to expuser;</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa58a1009444361-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58a1009444361-2">2</div><div class="crayon-num" data-line="crayon-546b33dfa58a1009444361-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58a1009444361-4">4</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa58a1009444361-1"><span class="crayon-k">create</span><span class="crayon-h"> </span><span class="crayon-k">user</span><span class="crayon-h"> </span><span class="crayon-i">expuser</span><span class="crayon-h"> </span><span class="crayon-i">identified</span><span class="crayon-h"> </span><span class="crayon-k">by</span><span class="crayon-h"> </span><span class="crayon-i">asb378</span><span class="crayon-h"> </span><span class="crayon-k">default</span><span class="crayon-h"> </span><span class="crayon-i">tablespace</span><span class="crayon-h"> </span><span class="crayon-i">USERS</span><span class="crayon-h"> </span><span class="crayon-k">temporary</span><span class="crayon-h"> </span><span class="crayon-i">tablespace</span><span class="crayon-h"> </span><span class="crayon-i">TEMP</span><span class="crayon-h"> </span><span class="crayon-i">profile</span><span class="crayon-h"> </span><span class="crayon-k">DEFAULT</span><span class="crayon-h"> </span><span class="crayon-i">quota</span><span class="crayon-h"> </span><span class="crayon-i">unlimited</span><span class="crayon-h"> </span><span class="crayon-k">on</span><span class="crayon-h"> </span><span class="crayon-i">users</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58a1009444361-2"><span class="crayon-k">grant</span><span class="crayon-h"> </span><span class="crayon-i">exp_full_database</span><span class="crayon-h"> </span><span class="crayon-k">to</span><span class="crayon-h"> </span><span class="crayon-i">expuser</span><span class="crayon-sy">;</span></div><div class="crayon-line" id="crayon-546b33dfa58a1009444361-3"><span class="crayon-k">grant</span><span class="crayon-h"> </span><span class="crayon-k">create</span><span class="crayon-h"> </span><span class="crayon-k">session</span><span class="crayon-h"> </span><span class="crayon-k">to</span><span class="crayon-h"> </span><span class="crayon-i">expuser</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58a1009444361-4"><span class="crayon-k">grant</span><span class="crayon-h"> </span><span class="crayon-k">create</span><span class="crayon-h"> </span><span class="crayon-k">table</span><span class="crayon-h"> </span><span class="crayon-k">to</span><span class="crayon-h"> </span><span class="crayon-i">expuser</span><span class="crayon-sy">;</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0145 seconds] -->
+<p>Ex: EXPUSER=expuser/asb378</p>
+<h4>- EXPDEST</h4>
+<p>Parâmetro obrigatório que define a pasta onde ficará o dump. Essa pasta também deverá existir dentro da instância caso a variável “EXPTYPE” seja “EXPDP”, conforme abaixo:</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa58b8690475014" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">create or replace directory EXPDP1 as '/u02/export/dump';
+grant read,write on directory EXPDP1 to expuser;</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa58b8690475014-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58b8690475014-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa58b8690475014-1"><span class="crayon-k">create</span><span class="crayon-h"> </span><span class="crayon-k ">or</span><span class="crayon-h"> </span><span class="crayon-i">replace</span><span class="crayon-h"> </span><span class="crayon-i">directory</span><span class="crayon-h"> </span><span class="crayon-i">EXPDP1</span><span class="crayon-h"> </span><span class="crayon-k">as</span><span class="crayon-h"> </span><span class="crayon-s">'/u02/export/dump'</span><span class="crayon-sy">;</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58b8690475014-2"><span class="crayon-k">grant</span><span class="crayon-h"> </span><span class="crayon-k">read</span><span class="crayon-sy">,</span><span class="crayon-k">write</span><span class="crayon-h"> </span><span class="crayon-k">on</span><span class="crayon-h"> </span><span class="crayon-i">directory</span><span class="crayon-h"> </span><span class="crayon-i">EXPDP1</span><span class="crayon-h"> </span><span class="crayon-k">to</span><span class="crayon-h"> </span><span class="crayon-i">expuser</span><span class="crayon-sy">;</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0039 seconds] -->
+<p>Ex: EXPDEST=/u02/export/dump</p>
+<h4>- COMPALG</h4>
+<p>Parâmetro obrigatório que determina a linha de comando para execução da ferramenta de compactação. Atualmente, suporta apenas Gzip ou Bzip2.<br>
+Bzip2 é mais lento mas o arquivo é muito menor o arquivo. Caso o script a ser executado seja o “expdp”, essa compactação se dará em background ao término de cada parte. Caso seja “exp”, a compactação será via PIPE.<br>
+Ex: COMPALG=”bzip2 -9″</p>
+<h4>- EXPPARALLEL</h4>
+<p>Parâmetro obrigatório caso a variável “EXPTYPE” seja “EXPDP”. Especifica a quantidades de jobs paralelos que executarão o export, sendo passado para o parâmetro “PARALLEL” do comando “expdp”. Nao ultrapassar 2x o numero de CPUs. Se for um dump pequeno, deixar em “1”. Caso a variável “EXPTYPE” seja “EXP” ou nula, este parâmetro é ignorado.<br>
+Ex: EXPPARALLEL=2</p>
+<h4>- EXPFILESIZE</h4>
+<p>Parâmetro obrigatório caso a variável “EXPTYPE” seja “EXPDP”. Especifica o tamanho máximo de cada arquivo de dump, sendo passado para o parâmetro “FILESIZE” do comando “expdp”. Não deixar muito pequeno pois o limite máximo são 99 arquivos. O tamanho deve ser especificado no formato de GBs. Caso a variável “EXPTYPE” seja “EXP” ou nula, este parâmetro é ignorado.<br>
+Ex: EXPFILESIZE=3G</p>
+<h4>- TARCOMPACT</h4>
+<p>Parâmetro obrigatório caso a variável “EXPTYPE” seja “EXPDP”. Especifica se ao final do processo, juntará todos os arquivos do export compactados em um único TAR (1=Sim, 0=Não). Caso a variável “EXPTYPE” seja “EXP” ou nula, este parâmetro é ignorado.<br>
+Ex: TARCOMPACT=0</p>
+<h4>- RESOLVTNS</h4>
+<p>Parâmetro opcional e só se aplica caso a variável “EXPTYPE” seja “EXP” ou nula. Especifica a string de conexão dentro do TNSNAMES caso esteja sendo feito um backup de um servidor remoto. Apenas funciona para “exp”, não “expdp”. Caso a variável “EXPTYPE” seja “EXPDP” e esse parâmetro esteja especificado, o processo apontará um alerta e irá parar.<br>
+Ex: RESOLVTNS=orcl.world</p>
+<h4>- EXPPARAM</h4>
+<p>Parâmetro opcional que altera os parâmetros default do comando “exp” ou do “expdp”. Caso seja omitido, o valor a ser usado será:</p>
+<ul>
+<li><strong><span style="color: #0000ff;">EXPDP:</span></strong>EXPPARAM=”full=Y flashback_time=systimestamp”</li>
+<li><strong><span style="color: #0000ff;">EXP:</span></strong> EXPPARAM=”full=y consistent=y compress=n statistics=none direct=y buffer=9999999″</li>
+</ul>
+<p>Ex:&nbsp;EXPPARAM=”full=y consistent=y compress=n statistics=none direct=y buffer=9999999 rows=n”</p>
+<h4>- EXPDEBUG</h4>
+<p>Parâmetro opcional que irá gerar no arquivo de log um trace de tudo que está sendo feito pelo script. Caso omitido, o valor default utilizado é 0 (DESLIGADO).<br>
+Ex: EXPDEBUG=1</p>
+<div style="width: 100%; height: 2px; background: #000000;"></div>
+<h4><span style="color: #800000;">Exemplo de cenários:</span></h4>
+<p>a) Exemplo de configuração para export data pump (expdp) sem execuções em paralelo, tamanho máximo por dump de 3 GBs.</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa58db832387825" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">EXPTYPE=EXPDP
+EXPRETENTION=7
+EXPUSER=expuser/asb378
+EXPDEST=/u02/export/dump
+COMPALG="bzip2 -9"
+EXPPARALLEL=1
+EXPFILESIZE=3G
+TARCOMPACT=0</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa58db832387825-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58db832387825-2">2</div><div class="crayon-num" data-line="crayon-546b33dfa58db832387825-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58db832387825-4">4</div><div class="crayon-num" data-line="crayon-546b33dfa58db832387825-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58db832387825-6">6</div><div class="crayon-num" data-line="crayon-546b33dfa58db832387825-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58db832387825-8">8</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa58db832387825-1"><span class="crayon-v">EXPTYPE</span><span class="crayon-o">=</span><span class="crayon-e">EXPDP</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58db832387825-2"><span class="crayon-v">EXPRETENTION</span><span class="crayon-o">=</span><span class="crayon-cn">7</span></div><div class="crayon-line" id="crayon-546b33dfa58db832387825-3"><span class="crayon-v">EXPUSER</span><span class="crayon-o">=</span><span class="crayon-v">expuser</span><span class="crayon-o">/</span><span class="crayon-e">asb378</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58db832387825-4"><span class="crayon-v">EXPDEST</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-v">u02</span><span class="crayon-o">/</span><span class="crayon-v">export</span><span class="crayon-o">/</span><span class="crayon-e">dump</span></div><div class="crayon-line" id="crayon-546b33dfa58db832387825-5"><span class="crayon-v">COMPALG</span><span class="crayon-o">=</span><span class="crayon-s">"bzip2 -9"</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58db832387825-6"><span class="crayon-v">EXPPARALLEL</span><span class="crayon-o">=</span><span class="crayon-cn">1</span></div><div class="crayon-line" id="crayon-546b33dfa58db832387825-7"><span class="crayon-v">EXPFILESIZE</span><span class="crayon-o">=</span><span class="crayon-cn">3G</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58db832387825-8"><span class="crayon-v">TARCOMPACT</span><span class="crayon-o">=</span><span class="crayon-cn">0</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0027 seconds] -->
+<p>b) Exemplo de configuração para export data pump (expdp) com 8 execuções em paralelo, tamanho máximo por dump de 2 GBs.</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa58ef937206116" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">EXPTYPE=EXPDP
+EXPRETENTION=7
+EXPUSER=expuser/asb378
+EXPDEST=/u02/export/dump
+COMPALG="bzip2 -9"
+EXPPARALLEL=8
+EXPFILESIZE=2G
+TARCOMPACT=0</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa58ef937206116-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58ef937206116-2">2</div><div class="crayon-num" data-line="crayon-546b33dfa58ef937206116-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58ef937206116-4">4</div><div class="crayon-num" data-line="crayon-546b33dfa58ef937206116-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58ef937206116-6">6</div><div class="crayon-num" data-line="crayon-546b33dfa58ef937206116-7">7</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa58ef937206116-8">8</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa58ef937206116-1"><span class="crayon-v">EXPTYPE</span><span class="crayon-o">=</span><span class="crayon-e">EXPDP</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58ef937206116-2"><span class="crayon-v">EXPRETENTION</span><span class="crayon-o">=</span><span class="crayon-cn">7</span></div><div class="crayon-line" id="crayon-546b33dfa58ef937206116-3"><span class="crayon-v">EXPUSER</span><span class="crayon-o">=</span><span class="crayon-v">expuser</span><span class="crayon-o">/</span><span class="crayon-e">asb378</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58ef937206116-4"><span class="crayon-v">EXPDEST</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-v">u02</span><span class="crayon-o">/</span><span class="crayon-v">export</span><span class="crayon-o">/</span><span class="crayon-e">dump</span></div><div class="crayon-line" id="crayon-546b33dfa58ef937206116-5"><span class="crayon-v">COMPALG</span><span class="crayon-o">=</span><span class="crayon-s">"bzip2 -9"</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58ef937206116-6"><span class="crayon-v">EXPPARALLEL</span><span class="crayon-o">=</span><span class="crayon-cn">8</span></div><div class="crayon-line" id="crayon-546b33dfa58ef937206116-7"><span class="crayon-v">EXPFILESIZE</span><span class="crayon-o">=</span><span class="crayon-cn">2G</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa58ef937206116-8"><span class="crayon-v">TARCOMPACT</span><span class="crayon-o">=</span><span class="crayon-cn">0</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0030 seconds] -->
+<p>c) Exemplo de configuração para export simples (exp).</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa5902699655189" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">EXPTYPE=EXP
+EXPRETENTION=7
+EXPUSER=expuser/asb378
+EXPDEST=/u02/export/dump
+COMPALG="bzip2 -9"</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa5902699655189-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5902699655189-2">2</div><div class="crayon-num" data-line="crayon-546b33dfa5902699655189-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5902699655189-4">4</div><div class="crayon-num" data-line="crayon-546b33dfa5902699655189-5">5</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa5902699655189-1"><span class="crayon-v">EXPTYPE</span><span class="crayon-o">=</span><span class="crayon-e">EXP</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5902699655189-2"><span class="crayon-v">EXPRETENTION</span><span class="crayon-o">=</span><span class="crayon-cn">7</span></div><div class="crayon-line" id="crayon-546b33dfa5902699655189-3"><span class="crayon-v">EXPUSER</span><span class="crayon-o">=</span><span class="crayon-v">expuser</span><span class="crayon-o">/</span><span class="crayon-e">asb378</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5902699655189-4"><span class="crayon-v">EXPDEST</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-v">u02</span><span class="crayon-o">/</span><span class="crayon-v">export</span><span class="crayon-o">/</span><span class="crayon-e">dump</span></div><div class="crayon-line" id="crayon-546b33dfa5902699655189-5"><span class="crayon-v">COMPALG</span><span class="crayon-o">=</span><span class="crayon-s">"bzip2 -9"</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0022 seconds] -->
+<p>d) Exemplo de configuração para export simples (exp) da estrutura do schema SCOTT.</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa5916860917321" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">EXPTYPE=EXP
+EXPRETENTION=7
+EXPUSER=expuser/asb378
+EXPDEST=/u02/export/dump
+COMPALG="bzip2 -9"
+EXPPARAM="owner=scott consistent=y compress=n statistics=none direct=y buffer=9999999 rows=n"</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa5916860917321-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5916860917321-2">2</div><div class="crayon-num" data-line="crayon-546b33dfa5916860917321-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5916860917321-4">4</div><div class="crayon-num" data-line="crayon-546b33dfa5916860917321-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5916860917321-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa5916860917321-1"><span class="crayon-v">EXPTYPE</span><span class="crayon-o">=</span><span class="crayon-e">EXP</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5916860917321-2"><span class="crayon-v">EXPRETENTION</span><span class="crayon-o">=</span><span class="crayon-cn">7</span></div><div class="crayon-line" id="crayon-546b33dfa5916860917321-3"><span class="crayon-v">EXPUSER</span><span class="crayon-o">=</span><span class="crayon-v">expuser</span><span class="crayon-o">/</span><span class="crayon-e">asb378</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5916860917321-4"><span class="crayon-v">EXPDEST</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-v">u02</span><span class="crayon-o">/</span><span class="crayon-v">export</span><span class="crayon-o">/</span><span class="crayon-e">dump</span></div><div class="crayon-line" id="crayon-546b33dfa5916860917321-5"><span class="crayon-v">COMPALG</span><span class="crayon-o">=</span><span class="crayon-s">"bzip2 -9"</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5916860917321-6"><span class="crayon-v">EXPPARAM</span><span class="crayon-o">=</span><span class="crayon-s">"owner=scott consistent=y compress=n statistics=none direct=y buffer=9999999 rows=n"</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0023 seconds] -->
+<p>e) Exemplo de configuração para export remoto simples (exp) via TNSNAMES.</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa5931780895798" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: auto;">EXPTYPE=EXP
+EXPRETENTION=7
+EXPUSER=expuser/asb378
+EXPDEST=/u02/export/dump
+COMPALG="bzip2 -9"
+RESOLVTNS=orcl.world</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: auto;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa5931780895798-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5931780895798-2">2</div><div class="crayon-num" data-line="crayon-546b33dfa5931780895798-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5931780895798-4">4</div><div class="crayon-num" data-line="crayon-546b33dfa5931780895798-5">5</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5931780895798-6">6</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa5931780895798-1"><span class="crayon-v">EXPTYPE</span><span class="crayon-o">=</span><span class="crayon-e">EXP</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5931780895798-2"><span class="crayon-v">EXPRETENTION</span><span class="crayon-o">=</span><span class="crayon-cn">7</span></div><div class="crayon-line" id="crayon-546b33dfa5931780895798-3"><span class="crayon-v">EXPUSER</span><span class="crayon-o">=</span><span class="crayon-v">expuser</span><span class="crayon-o">/</span><span class="crayon-e">asb378</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5931780895798-4"><span class="crayon-v">EXPDEST</span><span class="crayon-o">=</span><span class="crayon-o">/</span><span class="crayon-v">u02</span><span class="crayon-o">/</span><span class="crayon-v">export</span><span class="crayon-o">/</span><span class="crayon-e">dump</span></div><div class="crayon-line" id="crayon-546b33dfa5931780895798-5"><span class="crayon-v">COMPALG</span><span class="crayon-o">=</span><span class="crayon-s">"bzip2 -9"</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5931780895798-6"><span class="crayon-v">RESOLVTNS</span><span class="crayon-o">=</span><span class="crayon-v">orcl</span><span class="crayon-e">.world</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0136 seconds] -->
+<p></p>
+<h2>5) Executando</h2>
+<p>Para executar o script de export, devemos executar o shell expcron.sh passando como parâmetro exatamente o sid da instância conforme escrito no arquivo oratab.<br>
+Desta forma, o script irá buscar na pasta de configuração pelo arquivo “oracle_sid.cfg” da instância, ou pelo arquivo “default.cfg”, caso o primeiro não exista.</p>
+<p>Exemplo de execução pontual:</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa594a809455215" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[oracle@orasrv ~]$ cat /etc/oratab
+#
+orcldb:/u01/app/oracle/product/11.2.3/db_1:Y
+[oracle@orasrv ~]$ $EXPORT_HOME/sh/expcron.sh orcldb &amp;
+[1] 17637$</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa594a809455215-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa594a809455215-2">2</div><div class="crayon-num" data-line="crayon-546b33dfa594a809455215-3">3</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa594a809455215-4">4</div><div class="crayon-num" data-line="crayon-546b33dfa594a809455215-5">5</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa594a809455215-1"><span class="crayon-sy">[</span><span class="crayon-v">oracle</span><span class="crayon-sy">@</span><span class="crayon-v">orasrv</span><span class="crayon-h"> </span><span class="crayon-o">~</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-r">cat</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">etc</span><span class="crayon-o">/</span><span class="crayon-v">oratab</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa594a809455215-2"><span class="crayon-c">#</span></div><div class="crayon-line" id="crayon-546b33dfa594a809455215-3"><span class="crayon-v">orcldb</span><span class="crayon-o">:</span><span class="crayon-o">/</span><span class="crayon-v">u01</span><span class="crayon-o">/</span><span class="crayon-v">app</span><span class="crayon-o">/</span><span class="crayon-v">oracle</span><span class="crayon-o">/</span><span class="crayon-v">product</span><span class="crayon-o">/</span><span class="crayon-cn">11.2.3</span><span class="crayon-o">/</span><span class="crayon-v">db_1</span><span class="crayon-o">:</span><span class="crayon-i">Y</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa594a809455215-4"><span class="crayon-sy">[</span><span class="crayon-v">oracle</span><span class="crayon-sy">@</span><span class="crayon-v">orasrv</span><span class="crayon-h"> </span><span class="crayon-o">~</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-v">$EXPORT_HOME</span><span class="crayon-o">/</span><span class="crayon-r">sh</span><span class="crayon-o">/</span><span class="crayon-v">expcron</span><span class="crayon-e">.sh</span><span class="crayon-h"> </span><span class="crayon-v">orcldb</span><span class="crayon-h"> </span><span class="crayon-o">&amp;</span></div><div class="crayon-line" id="crayon-546b33dfa594a809455215-5"><span class="crayon-sy">[</span><span class="crayon-cn">1</span><span class="crayon-sy">]</span><span class="crayon-h"> </span><span class="crayon-cn">17637</span><span class="crayon-sy">$</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0048 seconds] -->
+<p>O log da execução será gravado na pasta de log “$EXPORT_HOME/log”.</p>
+<p>Exemplo de agendamento do backup na crontab (mais comum), todos os dias às 21h:</p><!-- Crayon Syntax Highlighter v2.6.8 -->
+
+		<div id="crayon-546b33dfa5962225892333" class="crayon-syntax crayon-theme-classic crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-mouseover" style="margin-top: 12px; margin-bottom: 12px; font-size: 12px !important; line-height: 15px !important; height: auto;">
+		
+			<div class="crayon-toolbar" data-settings=" show" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><span class="crayon-title"></span>
+			<div class="crayon-tools" style="font-size: 12px !important;height: 18px !important; line-height: 18px !important;"><div class="crayon-button crayon-nums-button" title="Alternar números de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-plain-button" title="Exibir código simples"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-wrap-button" title="Alternar quebras de linha"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-expand-button" title="Expand Code"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-copy-button" title="Copy"><div class="crayon-button-icon"></div></div><div class="crayon-button crayon-popup-button" title="Abrir código em nova janela"><div class="crayon-button-icon"></div></div></div></div>
+			<div class="crayon-info" style="min-height: 16.8px !important; line-height: 16.8px !important;"></div>
+			<div class="crayon-plain-wrap"><textarea wrap="soft" class="crayon-plain print-no" data-settings="dblclick" readonly="" style="tab-size: 4; font-size: 12px !important; line-height: 15px !important; z-index: 0; opacity: 0; overflow: hidden;">[oracle@orasrv ~]$ crontab -l
+00 21 * * * /u02/export/exp/sh/expcron.sh orcldb</textarea></div>
+			<div class="crayon-main" style="position: relative; z-index: 1; overflow: hidden;">
+				<table class="crayon-table" style="margin-left: -19px;">
+					<tbody><tr class="crayon-row">
+				<td class="crayon-nums " data-settings="hide">
+					<div class="crayon-nums-content" style="font-size: 12px !important; line-height: 15px !important;"><div class="crayon-num" data-line="crayon-546b33dfa5962225892333-1">1</div><div class="crayon-num crayon-striped-num" data-line="crayon-546b33dfa5962225892333-2">2</div></div>
+				</td>
+						<td class="crayon-code"><div class="crayon-pre" style="font-size: 12px !important; line-height: 15px !important; -moz-tab-size:4; -o-tab-size:4; -webkit-tab-size:4; tab-size:4;"><div class="crayon-line" id="crayon-546b33dfa5962225892333-1"><span class="crayon-sy">[</span><span class="crayon-v">oracle</span><span class="crayon-sy">@</span><span class="crayon-v">orasrv</span><span class="crayon-h"> </span><span class="crayon-o">~</span><span class="crayon-sy">]</span><span class="crayon-sy">$</span><span class="crayon-h"> </span><span class="crayon-r">crontab</span><span class="crayon-h"> </span><span class="crayon-o">-</span><span class="crayon-i">l</span></div><div class="crayon-line crayon-striped-line" id="crayon-546b33dfa5962225892333-2"><span class="crayon-cn">00</span><span class="crayon-h"> </span><span class="crayon-cn">21</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-o">*</span><span class="crayon-h"> </span><span class="crayon-o">/</span><span class="crayon-v">u02</span><span class="crayon-o">/</span><span class="crayon-v">export</span><span class="crayon-o">/</span><span class="crayon-v">exp</span><span class="crayon-o">/</span><span class="crayon-r">sh</span><span class="crayon-o">/</span><span class="crayon-v">expcron</span><span class="crayon-e">.sh</span><span class="crayon-h"> </span><span class="crayon-v">orcldb</span></div></div></td>
+					</tr>
+				</tbody></table>
+			</div>
+		</div>
+<!-- [Format Time: 0.0036 seconds] -->
+<p><span style="color: #ff0000;">OBS 1</span>: O script não aceita execução em servidores que possuem 2 ORACLE_SID’s idênticos em ORACLE_HOME’s diferentes. O script também não aceita ser executado como root, por razões de segurança.</p>
+<p><span style="color: #ff0000;">OBS 2</span>: Se o método de export for export remoto simples (exp) via TNSNAMES, obviamente não existe a exigência da presença do sid no arquivo oratab da máquina. O único parâmetro da execução do comando “expcron.sh” apenas será utilizado para localizar o arquivo de configuração “oracle_sid.cfg” e nele será lida a string do nome a ser buscado no TNSNAMES.</p>
+<h2><strong>6) Sáida do script</strong></h2>
+<p>Além do arquivo de log gerado no diretório “$EXPORT_HOME/log”, a saída do script será obviamente um arquivo DUMP compactado (no caso de “exp”) ou vários arquivos DUMPS compactados inseridos dentro de uma pasta criada pelo processo (no caso de “expdp”). Se a variável “TARCOMPACT” tiver sido definida com “1”, o diretório inteiro será colocado em um arquivo container “.tar”.<br>
+O log da saída do comando de export também será gerado junto com o arquivo dump.</p>
+<h2><strong>7) Conclusão</strong></h2>
+<p>Agora podemos executar o expdp com um método efeciênte de compactação de arquivos. Se a compactação estiver muito lenta, experimente alterar o segundo parâmetro do comando “gzip” (ou “bzip2″) para “–fast” (ou “-1″). Se os arquivos tiverem muito grandes, faça o oposto, troque para “–best” (ou “-9″).</p>
+<p>Experimente e deixe abaixo qualquer dúvida ou sugestão.<br>
+Baixe ele <a href="http://www.dbarj.com.br/wp-content/uploads/2013/05/expdpcomp.zip">aqui</a>!</p>
+Gostou? Não deixe de comentar ou dar um like. Abraços e até a próxima!
+<div class="watch-action"><div class="watch-position align-left"><div class="action-like"><a class="lbg-style1 like-358 jlk" href="http://www.dbarj.com.br/wp-admin/admin-ajax.php?action=wti_like_post_process_vote&task=like&post_id=358&nonce=ad3acedb21" data-task="like" data-post_id="358" data-nonce="ad3acedb21" rel="nofollow"><img src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/pixel.gif" title="Like"><span class="lc-358 lc">0</span></a></div></div> <div class="status-358 status align-left">&nbsp;&nbsp;</div></div><div class="wti-clear"></div>			</div><!-- .entry-content -->
+
+	<footer class="entry-meta">
+		Esse texto foi postado em <a href="http://www.dbarj.com.br/category/database/" rel="category tag">Oracle Database General</a>. Adicione ao favorito o <a href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias.html" title="Permalink to Como executar expdp com compressão de dados no Oracle 10g e 11g" rel="bookmark">permalink</a>.
+			</footer><!-- .entry-meta -->
+</article><!-- #post-358 -->
+
+					<nav role="navigation" id="nav-below" class="site-navigation post-navigation">
+		<h1 class="assistive-text">Post navigation</h1>
+
+	
+		<div class="nav-previous"><a href="http://www.dbarj.com.br/2013/05/forcar-senha-sysdba/" rel="prev"><span class="meta-nav">←</span> Forçar o uso de senha em acesso “/ as sysdba”</a></div>		<div class="nav-next"><a href="http://www.dbarj.com.br/2013/06/migrando-ocr-voting-disk-oracle-asm-online/" rel="next">Migrando OCR e Voting Disk para Oracle ASM Online <span class="meta-nav">→</span></a></div>
+	
+	</nav><!-- #nav-below -->
+	
+				
+
+	<div id="comments" class="comments-area">
+
+	
+	
+	
+									<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Deixe uma resposta <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://www.dbarj.com.br/2013/05/executar-expdp-compressao-oracle-10g-11g/#respond" style="display:none;">Cancelar resposta</a></small></h3>
+									<form action="http://www.dbarj.com.br/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes">O seu endereço de email não será publicado Campos obrigatórios são marcados <span class="required">*</span></p>							<p class="comment-form-author"><label for="author">Nome <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" aria-required="true"></p>
+<p class="comment-form-email"><label for="email">Email <span class="required">*</span></label> <input id="email" name="email" type="text" value="" size="30" aria-required="true"></p>
+<p class="comment-form-url"><label for="url">Site</label> <input id="url" name="url" type="text" value="" size="30"></p>
+												<p class="comment-form-comment"><label for="comment">Comentário</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">Você pode usar estas tags e atributos de <abbr title="HyperText Markup Language">HTML</abbr>:  <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code class="" title="" data-url=""&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; &lt;strong&gt; &lt;pre class="" title="" data-url=""&gt; &lt;span class="" title="" data-url=""&gt; </code></p>						<p class="form-submit">
+							<input name="submit" type="submit" id="submit" value="Publicar comentário">
+							<input type="hidden" name="comment_post_ID" value="358" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="59d00e56c3"></p><p style="display: none;"></p>        
+        <input type="hidden" name="icl_comment_language" value="pt-br">
+        
+          
+        					<input type="hidden" id="ak_js" name="ak_js" value="1416311777894"></form>
+							</div><!-- #respond -->
+			
+</div><!-- #comments .comments-area -->
+
+			
+			</div><!-- #content .site-content -->
+		</div><!-- #primary .content-area -->
+
+		<div id="secondary" class="widget-area" role="complementary">
+						<div class="widget-top"></div><aside id="search-2" class="widget widget_search"><h1 class="widget-title">Procurar</h1>	<form method="get" id="searchform" action="http://www.dbarj.com.br/" role="search">
+		<label for="s" class="assistive-text">Procurar</label>
+		<input type="text" class="field" name="s" value="" id="s" placeholder="Procurar …">
+		<input type="submit" class="submit" name="submit" id="searchsubmit" value="Procurar">
+	<input type="hidden" name="lang" value="pt-br"></form>
+</aside><div class="widget-top"></div><aside id="text_icl-4" class="widget widget_text_icl"><h1 class="widget-title">Sobre</h1>        <div class="textwidget"><a href="http://www.dbarj.com.br/sobre/"><img class="aligncenter wp-image-821 size-thumbnail" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/DSCN1792-Face-150x150.jpg" alt="Rodrigo Jorge" width="150" height="150"></a>
+<p style="text-align: center;color: #000000;">Rodrigo Jorge</p>
+<p style="text-align: left;color: #CB0021;">
+<b>
+&nbsp;   Oracle OCP Database 11g<br>
+&nbsp;   Oracle OCE RAC 11gR2 and Grid<br>
+&nbsp;   Oracle OCE Performance Tuning</b></p></div>
+</aside><div class="widget-top"></div><aside id="w4_post_list-2" class="widget w4_post_list_widget"><h1 class="widget-title">Artigos Recentes</h1>
+<!--list Created by W4 Post List Ver 1.9.8-->
+<!--W4_Post_list_1016-->
+<div id="w4pl-list-1016" class="w4pl">
+	<div id="w4pl-inner-1016" class="w4pl-inner">
+		<ul>
+
+<li><a href="http://www.dbarj.com.br/2014/11/como-aplicar-o-ojvm-psu-db-psu-e-generic-jdbc-patch-11-2-0-4/"></a><a class="post_title w4pl_post_title" href="http://www.dbarj.com.br/2014/11/como-aplicar-o-ojvm-psu-db-psu-e-generic-jdbc-patch-11-2-0-4/" title="View Como aplicar o OJVM PSU, DB PSU e Generic JDBC Patch no 11.2.0.4">Como aplicar o OJVM PSU, DB PSU e Generic JDBC Patch no 11.2.0.4</a></li>
+
+<li><a href="http://www.dbarj.com.br/2014/11/renomear-usuarios-oracle-11g-dblink-loopback/"></a><a class="post_title w4pl_post_title" href="http://www.dbarj.com.br/2014/11/renomear-usuarios-oracle-11g-dblink-loopback/" title="View Renomear usuários no Oracle 11g com DBLink de Loopback">Renomear usuários no Oracle 11g com DBLink de Loopback</a></li>
+
+<li><a href="http://www.dbarj.com.br/2014/10/recuperar-auditoria-oracle-de-sysdba-por-tabela/"></a><a class="post_title w4pl_post_title" href="http://www.dbarj.com.br/2014/10/recuperar-auditoria-oracle-de-sysdba-por-tabela/" title="View Recuperar auditoria oracle de sysdba em tabela">Recuperar auditoria oracle de sysdba em tabela</a></li>
+
+<li><a href="http://www.dbarj.com.br/2014/10/restringindo-nome-usuario-oracle-trigger/"></a><a class="post_title w4pl_post_title" href="http://www.dbarj.com.br/2014/10/restringindo-nome-usuario-oracle-trigger/" title="View Restringindo nome do usuário Oracle com Trigger">Restringindo nome do usuário Oracle com Trigger</a></li>
+
+<li><a href="http://www.dbarj.com.br/2014/09/erro-ora-01917-recovery_catalog_user-atualizacao-catalogo-rman/"></a><a class="post_title w4pl_post_title" href="http://www.dbarj.com.br/2014/09/erro-ora-01917-recovery_catalog_user-atualizacao-catalogo-rman/" title="View Erro ORA-01917 “RECOVERY_CATALOG_USER” na atualização do catálogo RMAN">Erro ORA-01917 “RECOVERY_CATALOG_USER” na atualização do catálogo RMAN</a></li>
+
+</ul>
+	</div><!--#w4pl-inner-1016-->
+</div><!--#w4pl-1016-->
+<!--END_W4_Post_list_1016-->
+</aside><div class="widget-top"></div><aside id="archives-2" class="widget widget_archive"><h1 class="widget-title">Archives</h1>		<ul>
+	<li><a href="http://www.dbarj.com.br/2014/11/">novembro 2014</a></li>
+	<li><a href="http://www.dbarj.com.br/2014/10/">outubro 2014</a></li>
+	<li><a href="http://www.dbarj.com.br/2014/09/">setembro 2014</a></li>
+	<li><a href="http://www.dbarj.com.br/2014/08/">agosto 2014</a></li>
+	<li><a href="http://www.dbarj.com.br/2014/05/">maio 2014</a></li>
+	<li><a href="http://www.dbarj.com.br/2014/03/">março 2014</a></li>
+	<li><a href="http://www.dbarj.com.br/2014/02/">fevereiro 2014</a></li>
+	<li><a href="http://www.dbarj.com.br/2013/11/">novembro 2013</a></li>
+	<li><a href="http://www.dbarj.com.br/2013/10/">outubro 2013</a></li>
+	<li><a href="http://www.dbarj.com.br/2013/09/">setembro 2013</a></li>
+	<li><a href="http://www.dbarj.com.br/2013/07/">julho 2013</a></li>
+	<li><a href="http://www.dbarj.com.br/2013/06/">junho 2013</a></li>
+	<li><a href="http://www.dbarj.com.br/2013/05/">maio 2013</a></li>
+		</ul>
+</aside><div class="widget-top"></div><aside id="categories-2" class="widget widget_categories"><h1 class="widget-title">Categorias</h1>		<ul>
+	<li class="cat-item cat-item-19"><a href="http://www.dbarj.com.br/category/security/" title="Database Security">Database Security</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://www.dbarj.com.br/category/oem12c/" title="Oracle Enterprise Manager 12c">Enterprise Manager 12c</a>
+</li>
+	<li class="cat-item cat-item-24"><a href="http://www.dbarj.com.br/category/linux/" title="Linux for Database">Linux for Database</a>
+</li>
+	<li class="cat-item cat-item-2"><a href="http://www.dbarj.com.br/category/database/" title="Oracle Database General">Oracle Database General</a>
+</li>
+	<li class="cat-item cat-item-22"><a href="http://www.dbarj.com.br/category/rac/" title="RAC, ASM &amp; Clusterware">RAC, ASM &amp; Clusterware</a>
+</li>
+	<li class="cat-item cat-item-23"><a href="http://www.dbarj.com.br/category/rman/" title="Recovery Manager (RMAN)">Recovery Manager (RMAN)</a>
+</li>
+		</ul>
+</aside><div class="widget-top"></div><aside id="text-2" class="widget widget_text"><h1 class="widget-title">Últimas Visitas</h1>			<div class="textwidget"><script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/saved_resource(1)"></script><style type="text/css">a.fjfcl74:visited {color: #FCC; font-size: 1px; font-family: Arial, sans-serif;} a.fjfcl74:link {color: #CCC; font-size: 1px; font-family: Arial, sans-serif;}</style><div id="FJ_TF_Cont" style="position: relative; padding: 0; margin: 0; border-width: 0px; width: 300px;"><iframe width="310" height="443" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias.html" name="FJIframe" scrolling="no" frameborder="0" marginwidth="0" marginheight="0" style="width: 310px; border-width: 0px; z-index: 1;"></iframe></div><noscript>&lt;a href="http://feedjit.com/"&gt;Live Traffic Stats&lt;/a&gt;</noscript></div>
+		</aside>		</div><!-- #secondary .widget-area -->
+
+	</div><!-- #main .site-main -->
+</div> <!-- #center -->
+</div> <!-- #container-->
+<div id="footer-wrapper">
+<!-- begin social links -->
+<div class="socwrap">
+		<div id="socialLinks">
+		
+				
+				<a href="http://www.facebook.com/rodrigo.araujo.jorge" title="Facebook"><img src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/ico_facebook.png" alt="Facebook"></a>		
+				
+				
+				
+				
+		</div>
+		<!-- end social links -->
+		</div><!-- /socwrap -->
+	<footer id="colophon" class="site-footer" role="contentinfo">
+		<div class="site-info">
+		
+© 2013-2014 DBA – Rodrigo Jorge – Oracle Dicas e Guias		</div><!-- .site-info -->
+	</footer><!-- #colophon .site-footer -->
+	</div><!--footer-wrapper-->
+</div><!-- #page .hfeed .site -->
+
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/form.js"></script>
+
+							<div id="lang_sel_footer">
+									<ul>
+									    <li><a href="http://www.dbarj.com.br/en/2013/05/run-expdp-compression-oracle-10g-11g/"><img src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/en.png" alt="English" class="iclflag" title="English">&nbsp;English</a></li>
+									    <li><a href="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias.html" class="lang_sel_sel"><img src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/pt-br.png" alt="Português" class="iclflag" title="Português">&nbsp;Português</a></li>
+									</ul>
+							</div><script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/jquery.form.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"http:\/\/www.dbarj.com.br\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Enviando ..."};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/scripts.js"></script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/small-menu.js"></script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/comment-reply.min.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var icl_vars = {"current_language":"pt-br","icl_home":"http:\/\/www.dbarj.com.br\/"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/sitepress.js"></script>
+
+
+<img width="1" height="1" alt="blah" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/saved_resource(2)"><img width="1" height="1" alt="" src="./Como executar expdp com compressão de dados no Oracle 10g e 11g - DBA - Rodrigo Jorge - Oracle Dicas e Guias_files/transparent.gif"></body></html>

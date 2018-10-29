@@ -1,0 +1,481 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es-ES"><head profile="http://gmpg.org/xfn/11">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<!-- Meta Images -->
+	<link rel="shortcut icon" href="http://www.dbajunior.com/favicon.ico" type="image/x-icon">	
+<!-- Title and External Script Integration -->
+			<title>  Create and Manage a Tablespace that uses NFS Mounted File System File</title>
+		
+<!-- Stylesheets -->
+	<link rel="stylesheet" href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/reset.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/wp_core.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/style.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/pro.css" type="text/css" media="screen">				
+<!-- Wordpress Stuff -->
+	<meta name="generator" content="WordPress 4.3.1"> <!-- leave this for stats -->
+	<link rel="alternate" type="application/rss+xml" title="DBA Junior RSS Feed" href="http://www.dbajunior.com/feed/">
+	<link rel="pingback" href="http://www.dbajunior.com/xmlrpc.php">
+	 <!-- This makes the comment box appear where the ‘reply to this comment’ link is -->
+		<link rel="alternate" type="application/rss+xml" title="DBA Junior » Create and Manage a Tablespace that uses NFS Mounted File System File RSS de los comentarios" href="http://www.dbajunior.com/create-and-manage-a-tablespace-that-uses-nfs-mounted-file-system-file/feed/">
+		<script src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/ga.js" async="" type="text/javascript"></script><script src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/embed.js" async="" type="text/javascript"></script><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/www.dbajunior.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.3.1"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/wp-emoji-release.js"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="jetpack_css-css" href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/jetpack.css" type="text/css" media="all">
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/jquery.js"></script>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/jquery-migrate.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.dbajunior.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.dbajunior.com/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 4.3.1">
+<link rel="canonical" href="http://www.dbajunior.com/create-and-manage-a-tablespace-that-uses-nfs-mounted-file-system-file/">
+<link rel="shortlink" href="http://wp.me/P2ZwFk-8I">
+
+<link rel="dns-prefetch" href="http://jetpack.wordpress.com/">
+<link rel="dns-prefetch" href="http://s0.wp.com/">
+<link rel="dns-prefetch" href="http://s1.wp.com/">
+<link rel="dns-prefetch" href="http://s2.wp.com/">
+<link rel="dns-prefetch" href="http://public-api.wordpress.com/">
+<link rel="dns-prefetch" href="http://0.gravatar.com/">
+<link rel="dns-prefetch" href="http://1.gravatar.com/">
+<link rel="dns-prefetch" href="http://2.gravatar.com/">
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Create and Manage a Tablespace that uses NFS Mounted File System File">
+<meta property="og:url" content="http://www.dbajunior.com/create-and-manage-a-tablespace-that-uses-nfs-mounted-file-system-file/">
+<meta property="og:description" content="1. Documentación en Tahiti -&gt; Masters Book List -&gt; Administrator’s Guide -&gt; 5 Oracle Database Postinstallation Tasks -&gt;&nbsp;Required Product-Specific Postinstallation Tasks -&gt; Conf…">
+<meta property="article:published_time" content="2013-01-17T11:11:35+00:00">
+<meta property="article:modified_time" content="2013-10-15T16:53:56+00:00">
+<meta property="og:site_name" content="DBA Junior">
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg">
+<meta property="og:locale" content="es_ES">
+<meta name="twitter:card" content="summary">
+<link href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/shCore.css" type="text/css" rel="stylesheet"><link href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/shThemeDefault.css" type="text/css" rel="stylesheet"><style type="text/css" id="syntaxhighlighteranchor"></style>
+
+<!-- Modules w/ Javascript -->	
+					<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/jquery-ui.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+	var $j = jQuery.noConflict();
+	
+	$j(document).ready(function () {
+				
+		$j("#drag_drop_sidebar").sortable();
+		$j("#drag_drop_sidebar").disableSelection();
+		
+	});	
+/* ]]> */
+</script>	<!-- IE -->
+<!--[if lt IE 8]>
+	<script src="http://ie7-js.googlecode.com/svn/version/2.0(beta3)/IE8.js" type="text/javascript"></script>
+<![endif]-->
+
+<!--[if IE 6]>
+	<script src="http://www.dbajunior.com/wp-content/themes/iBlogPro/core/js/belatedpng.js"></script>
+	<script>
+	  DD_belatedPNG.fix('.pngbg, a.home, #nav,.searchform .left, .searchform .right, .searchform .s, .fcol_pad img, .fbox img, #respond h3, #cred.pagelines a, .post .date, .headerimage, #sidebar div ul li a');
+	 </script>	
+	<style>
+		#header #blogtitle .sheen {display: none;height: 1px;}
+		#featurenav a span.nav_thumb span.nav_overlay {background: transparent;display:none}
+		 #nav ul li {background: transparent}
+		.fbox {overflow:hidden}
+	</style>
+<![endif]-->	<style type="text/css">
+
+
+
+
+
+
+
+
+
+	
+
+
+	#blogtitle a{color: #ff0109}
+
+.post pre { 
+    margin:0 0 20px 0; 
+    } 
+
+.post code { 
+    border:1px solid #ececec; 
+    display:block; 
+    padding:10px; 
+    font-family: Consolas, Monaco, "Courier New", Courier, monospace; 
+    font-size: 12px; 
+    background:#f9f9f9; 
+    color:#000; 
+    overflow: auto; 
+    overflow-y: hidden; 
+    white-space:nowrap; 
+    *padding:10px 10px 20px 10px; /* IE Hack-Fix */ 
+    }
+</style>
+<!-- Font Replacement -->
+  		<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/services.css"></head>
+<body class="page page-id-540 page-template page-template-page-fullwidth page-template-page-fullwidth-php">
+
+<div id="page" class="fix" style="">
+  <div id="wrapper" class="fix">
+    <div id="header" class="fix">
+			      		<h1 id="blogtitle"><a href="http://www.dbajunior.com/"><span class="sheen"></span>DBA Junior</a></h1>
+	      		<div id="blogdescription">Fortunas y adversidades de un DBA Oracle</div>
+				<!-- iphone icons -->
+	<div class="icons">
+
+								<div class="nav-icon">
+				<a href="http://www.dbajunior.com/feed/"><img class="pngbg" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/rss.png" alt="icon"></a>
+			</div>
+									
+			
+									
+								<div class="nav-icon">
+						<a href="http://twitter.com/raulibaper"><img class="pngbg" rel="me" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/twitter.png" alt="icon"></a>
+					</div> 
+					
+							</div>
+<!-- /end iphone icons -->	
+	</div><!-- /header -->
+	<div id="nav" class="fix">
+	<ul class="fix homebutton">
+		<li class="page_item navfirst">
+		
+			<a class="home" href="http://www.dbajunior.com/" title="Home" style="background-image: url('http://www.dbajunior.com/wp-content/themes/iBlogPro/images/home-icon-trans.png');">
+				Home	
+			</a>
+		</li>
+	</ul>
+			<ul id="menu-ocm" class="main_nav dropdown"><li id="menu-item-1127" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1127"><a href="http://www.dbajunior.com/ocm/">OCM 11g</a></li>
+<li id="menu-item-1290" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1290"><a href="http://www.dbajunior.com/12c/">12c</a></li>
+</ul>				<form method="get" class="searchform" action="http://www.dbajunior.com/">
+	<span class="left"></span>
+		<input value="Buscar" name="s" class="s" onfocus="if (this.value == 'Buscar') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Buscar';}" type="text">
+	<span class="right"></span>
+	<input class="searchsubmit" value="Ir" type="submit">
+</form>
+		<div class="clear"></div>
+</div><!-- /nav -->
+
+	<div id="container" class="fix ">
+		<!-- Code for subnav if pages have parents.. -->
+
+
+<div id="content">
+
+	 		
+			
+	<div class="postwrap fix">
+		
+		<div class="post-540 page type-page status-publish hentry" id="post-540">
+						  	
+				<div class="copy fix">
+											<h1 class="pagetitle">Create and Manage a Tablespace that uses NFS Mounted File System File</h1>
+										<div class="textcontent">
+						<p>1. Documentación en Tahiti -&gt; Masters Book List -&gt; 
+Administrator’s Guide -&gt; 5 Oracle Database Postinstallation Tasks 
+-&gt;&nbsp;Required Product-Specific Postinstallation Tasks -&gt; <a title="Configuring and Using Direct NFS Client" href="http://docs.oracle.com/cd/E11882_01/install.112/e24321/post_inst_task.htm#CHDCHFGC" target="_blank">Configuring and Using Direct NFS Client</a></p>
+<p>En MOS (Metalink) existe una nota con los detalles para configurar Direct NFS en Linux (11g) -&gt;&nbsp;“<em>Step by Step – Configure Direct NFS Client (DNFS) on Linux (11g) [<strong>ID 762374.1</strong>]</em>“.</p>
+<p>2. Existen dos opciones a la hora de almacenar DATAFILES en recursos 
+NFS. Podemos utilizar el cliente interno NFS del SO, o bien, podemos 
+utilizar el driver incluido en el software de Oracle. Para este 
+ejercicio utilizaremos&nbsp;el driver de Oracle conocido como Direct NFS
+ para almacenar los DATAFILES de un TBS de prueba. Más adelante, haremos
+ una prueba con el software NFS de Oracle Linux en el objetivo “<a title="Create and Manage as ASM Instance" href="http://www.dbajunior.com/create-and-manage-an-asm-instance/" target="_blank">Create and Manage as ASM Instance</a>“.</p>
+<div><div id="highlighter_434269" class="syntaxhighlighter  bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div><div class="line number24 index23 alt1">24</div><div class="line number25 index24 alt2">25</div><div class="line number26 index25 alt1">26</div><div class="line number27 index26 alt2">27</div><div class="line number28 index27 alt1">28</div><div class="line number29 index28 alt2">29</div><div class="line number30 index29 alt1">30</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash comments"># La primera parte, que es proporcionar el recurso NFS a la máquina OCM, es prácticamente idéntico al objetivo mencionado.</code></div><div class="line number2 index1 alt1"><code class="bash comments"># Creamos la ubicación para alojar los discos NFS. Para ello hacemos los siguientes pasos como root en OCM:</code></div><div class="line number3 index2 alt2"><code class="bash functions">mkdir</code> <code class="bash plain">-p </code><code class="bash plain">/u01/nfs_storage</code></div><div class="line number4 index3 alt1"><code class="bash functions">vi</code> <code class="bash plain">/etc/exports</code></div><div class="line number5 index4 alt2"><code class="bash comments"># Añadimos la siguiente linea a /etc/exports. (Es importante añadir la opción 'insecure')</code></div><div class="line number6 index5 alt1"><code class="bash plain">/u01/nfs_storage</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="bash plain">*(rw,</code><code class="bash functions">sync</code><code class="bash plain">,no_wdelay,insecure,insecure_locks,no_root_squash)</code></div><div class="line number7 index6 alt2"><code class="bash comments"># Arrancamos el servicio nfs</code></div><div class="line number8 index7 alt1"><code class="bash plain">chkconfig nfs on</code></div><div class="line number9 index8 alt2"><code class="bash plain">service nfs restart</code></div><div class="line number10 index9 alt1">&nbsp;</div><div class="line number11 index10 alt2"><code class="bash comments"># Ahora debemos configurar el acceso a los discos NFS</code></div><div class="line number12 index11 alt1"><code class="bash comments"># Ejecutamos estas instrucciones en OCM (como root también)</code></div><div class="line number13 index12 alt2"><code class="bash functions">mkdir</code> <code class="bash plain">-p </code><code class="bash plain">/u01/nfs_oradata</code></div><div class="line number14 index13 alt1"><code class="bash comments"># Configuramos el fichero /etc/fstab para poder montar el recurso NFS</code></div><div class="line number15 index14 alt2"><code class="bash functions">vi</code> <code class="bash plain">/etc/fstab</code></div><div class="line number16 index15 alt1"><code class="bash comments"># Añadimos la siguiente linea (en esta caso hemos eliminado la opción "actimeo=0" porque no estamos usando un RAC)</code></div><div class="line number17 index16 alt2"><code class="bash plain">ocm:</code><code class="bash plain">/u01/nfs_storage</code>&nbsp;&nbsp;&nbsp; <code class="bash plain">/u01/nfs_oradata</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="bash plain">nfs&nbsp;&nbsp;&nbsp;&nbsp; rw,</code><code class="bash functions">bg</code><code class="bash plain">,hard,nointr,tcp,vers=3,timeo=600,rsize=32768,wsize=32768&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 0</code></div><div class="line number18 index17 alt1"><code class="bash comments"># Montamos el filesystem, creamos un directorio para los DATAFILES de la BD OCM y damos los permisos adecuados</code></div><div class="line number19 index18 alt2"><code class="bash functions">mount</code> <code class="bash plain">/u01/nfs_oradata</code></div><div class="line number20 index19 alt1"><code class="bash functions">mkdir</code> <code class="bash plain">-p </code><code class="bash plain">/u01/nfs_oradata/OCM</code></div><div class="line number21 index20 alt2"><code class="bash functions">chown</code> <code class="bash plain">-R oracle:oinstall </code><code class="bash plain">/u01/nfs_oradata</code></div><div class="line number22 index21 alt1"><code class="bash comments"># Chequeamos que el recurso se ha ya montado correctamente (debemos ver la configuración con sus atributos)</code></div><div class="line number23 index22 alt2"><code class="bash functions">mount</code></div><div class="line number24 index23 alt1">&nbsp;</div><div class="line number25 index24 alt2"><code class="bash comments"># Ahora vamos a configurar Direct NFS. El cliente del Kernel de Oracle determina los puntos de montaje de dispositivos NFS en este orden:</code></div><div class="line number26 index25 alt1"><code class="bash comments"># 1. $ORACLE_HOME/dbs/oranfstab</code></div><div class="line number27 index26 alt2"><code class="bash comments"># 2. /etc/oranfstab</code></div><div class="line number28 index27 alt1"><code class="bash comments"># 3. /etc/mtab</code></div><div class="line number29 index28 alt2"><code class="bash comments"># Oracle necesita que el recurso esté montado por el propio cliente del Kernel del SO aunque vayamos a usar Direct NFS (vaya chufa, no?)</code></div><div class="line number30 index29 alt1"><code class="bash comments"># Nosotros usaremos sólo '/etc/mtab' (el fichero oranfstab se utiliza para añadir balanceo de carga por varios interfaces)</code></div></div></td></tr></tbody></table></div></div>
+<div><div id="highlighter_749756" class="syntaxhighlighter  sql"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql comments">-- Paramos la BD</code></div><div class="line number2 index1 alt1"><code class="sql plain">SHUTDOWN IMMEDIATE</code></div></div></td></tr></tbody></table></div></div>
+<div><div id="highlighter_444563" class="syntaxhighlighter  bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash comments"># Habilitamos Direct NFS (específico de 11gR2)</code></div><div class="line number2 index1 alt1"><code class="bash functions">cd</code> <code class="bash plain">$ORACLE_HOME</code><code class="bash plain">/rdbms/lib</code></div><div class="line number3 index2 alt2"><code class="bash functions">make</code> <code class="bash plain">-f ins_rdbms.mk dnfs_on</code></div></div></td></tr></tbody></table></div></div>
+<div><div id="highlighter_540648" class="syntaxhighlighter  sql"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div><div class="line number14 index13 alt1">14</div><div class="line number15 index14 alt2">15</div><div class="line number16 index15 alt1">16</div><div class="line number17 index16 alt2">17</div><div class="line number18 index17 alt1">18</div><div class="line number19 index18 alt2">19</div><div class="line number20 index19 alt1">20</div><div class="line number21 index20 alt2">21</div><div class="line number22 index21 alt1">22</div><div class="line number23 index22 alt2">23</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql comments">-- Levantamos la BD</code></div><div class="line number2 index1 alt1"><code class="sql plain">STARTUP</code></div><div class="line number3 index2 alt2"><code class="sql comments">-- Validamos que en el ALERT de la BD aparece la siguiente linea indicando que ya está utilizando Direct NFS:</code></div><div class="line number4 index3 alt1"><code class="sql comments">-- # "Oracle instance running with ODM: Oracle Direct NFS ODM Library Version 2.0"</code></div><div class="line number5 index4 alt2">&nbsp;</div><div class="line number6 index5 alt1"><code class="sql comments">-- Creamos un TBS de prueba en el recurso NFS</code></div><div class="line number7 index6 alt2"><code class="sql keyword">CREATE</code> <code class="sql plain">TABLESPACE TESTNFS DATAFILE </code><code class="sql string">'/u01/nfs_oradata/OCM/testnfs01.dbf'</code> <code class="sql keyword">SIZE</code> <code class="sql plain">100M;</code></div><div class="line number8 index7 alt1"><code class="sql comments">-- Si volvemos a revisar el ALERT, cuando empieza a utilizar Direct NFS aparecen las siguientes lineas:</code></div><div class="line number9 index8 alt2"><code class="sql comments">-- # Direct NFS: channel id [0] path [ocm] to filer [ocm] via local [] is UP</code></div><div class="line number10 index9 alt1"><code class="sql comments">-- # Direct NFS: channel id [1] path [ocm] to filer [ocm] via local [] is UP</code></div><div class="line number11 index10 alt2">&nbsp;</div><div class="line number12 index11 alt1"><code class="sql comments">-- Vamos a hacer otras comprobaciones para confirmar que estamos usando Direct NFS (DNFS)</code></div><div class="line number13 index12 alt2"><code class="sql comments">-- Comprobamos la lista de servidores accedidos utilizando DNFS</code></div><div class="line number14 index13 alt1"><code class="sql keyword">SELECT</code> <code class="sql plain">* </code><code class="sql keyword">FROM</code> <code class="sql plain">V$DNFS_SERVERS;</code></div><div class="line number15 index14 alt2"><code class="sql comments">-- Comprobamos la lista de ficheros (DATAFILES) abiertos con DNFS (tenemos que ver el que acabamos de crear 'testnfs01.dbf')</code></div><div class="line number16 index15 alt1"><code class="sql keyword">SELECT</code> <code class="sql plain">* </code><code class="sql keyword">FROM</code> <code class="sql plain">V$DNFS_FILES;</code></div><div class="line number17 index16 alt2"><code class="sql comments">-- Otras vistas de interés son V$DNFS_CHANNELS (canales disponibles) y V$DNFS_STATS (estadísticas de rendimiento)</code></div><div class="line number18 index17 alt1">&nbsp;</div><div class="line number19 index18 alt2"><code class="sql comments">-- Ahora deshacemos todo el entuerto</code></div><div class="line number20 index19 alt1"><code class="sql comments">-- Borramos el TBS</code></div><div class="line number21 index20 alt2"><code class="sql keyword">DROP</code> <code class="sql plain">TABLESPACE TESTNFS INCLUDING CONTENTS </code><code class="sql color1">AND</code> <code class="sql plain">DATAFILES;</code></div><div class="line number22 index21 alt1"><code class="sql comments">-- Paramos la BD</code></div><div class="line number23 index22 alt2"><code class="sql plain">SHUTDOWN IMMEDIATE</code></div></div></td></tr></tbody></table></div></div>
+<div><div id="highlighter_21430" class="syntaxhighlighter  bash"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash comments"># Desmontamos el recurso NFS (como root)</code></div><div class="line number2 index1 alt1"><code class="bash functions">umount</code> <code class="bash plain">/u01/nfs_oradata</code></div><div class="line number3 index2 alt2"><code class="bash comments"># Paramos el servicio y deshabilitamos el arranque automático</code></div><div class="line number4 index3 alt1"><code class="bash plain">service nfs stop</code></div><div class="line number5 index4 alt2"><code class="bash plain">chkconfig nfs off</code></div><div class="line number6 index5 alt1"><code class="bash comments"># Borramos los directorios</code></div><div class="line number7 index6 alt2"><code class="bash functions">rm</code> <code class="bash plain">-Rf </code><code class="bash plain">/u01/nfs_storage</code></div><div class="line number8 index7 alt1"><code class="bash functions">rm</code> <code class="bash plain">-Rf </code><code class="bash plain">/u01/nfs_oradata</code></div><div class="line number9 index8 alt2"><code class="bash comments"># Borramos las lineas añadidas a /etc/fstab y /etc/export</code></div><div class="line number10 index9 alt1"><code class="bash comments"># Por último, desvinculamos la librería de DNFS del Kernel de Oracle (ejecutamos esto como oracle)</code></div><div class="line number11 index10 alt2"><code class="bash functions">cd</code> <code class="bash plain">$ORACLE_HOME</code><code class="bash plain">/rdbms/lib</code></div><div class="line number12 index11 alt1"><code class="bash functions">make</code> <code class="bash plain">-f ins_rdbms.mk dnfs_off</code></div></div></td></tr></tbody></table></div></div>
+<div><div id="highlighter_748218" class="syntaxhighlighter  sql"><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql comments">-- Levantamos la BD y aquí como si no ha pasado nada</code></div><div class="line number2 index1 alt1"><code class="sql comments">-- En el alert ya no debería aparecer la linea -&amp;gt; "Oracle instance running with ODM: Oracle Direct NFS ODM Library Version 2.0"</code></div><div class="line number3 index2 alt2"><code class="sql plain">STARTUP</code></div></div></td></tr></tbody></table></div></div>
+	
+													
+					</div>	
+				</div>
+												
+								
+					</div><!--post -->
+
+	</div>
+	
+		
+	<div class="clear"></div>
+	
+				
+									
+			
+	
+		
+	
+</div> <!-- end content -->
+</div>
+<div class="clear"></div>
+
+
+
+<div id="footer">
+	<div class="effect">
+		<div class="content">
+						<div id="fcolumns_container" class="fix">
+									<div class="fcol">
+						<div class="fcol_pad">
+															<h3 class="footer-site-title"><a class="home" href="http://www.dbajunior.com/" title="Home">DBA Junior</a></h3>
+													</div>
+					</div>
+					<div class="fcol">
+						<div class="fcol_pad">
+							<h3>Páginas</h3>
+							
+<ul id="footnav">
+<li class="page_item "><a class="home" href="http://www.dbajunior.com/" title="Home">Home</a></li>
+<li class="page_item page-item-409"><a href="http://www.dbajunior.com/configure-archiving-in-a-rac-database/">Configure archiving in a RAC Database</a></li>
+<li class="page_item page-item-1157"><a href="http://www.dbajunior.com/account/">Account</a></li>
+<li class="page_item page-item-1031"><a href="http://www.dbajunior.com/administer-and-tune-schema-object-to-support-various-access-methods/">Administer and Tune Schema Object to Support Various Access Methods</a></li>
+<li class="page_item page-item-959"><a href="http://www.dbajunior.com/administer-external-tables/">Administer External Tables</a></li>
+<li class="page_item page-item-1014"><a href="http://www.dbajunior.com/administer-flashback-data-archive-and-schema-evolution/">Administer Flashback Data Archive and Schema Evolution</a></li>
+<li class="page_item page-item-985"><a href="http://www.dbajunior.com/administer-partitioned-tables-and-indexes-using-appropriate-methods-and-keys/">Administer Partitioned Tables and Indexes Using Appropriate Methods and Keys</a></li>
+<li class="page_item page-item-1016"><a href="http://www.dbajunior.com/administer-resource-manager/">Administer Resource Manager</a></li>
+<li class="page_item page-item-980"><a href="http://www.dbajunior.com/administer-manage-and-tune-parallel-execution/">Administer, Manage and Tune Parallel Execution</a></li>
+<li class="page_item page-item-866"><a href="http://www.dbajunior.com/assign-jobs-to-windows/">Assign Jobs to Windows</a></li>
+<li class="page_item page-item-856"><a href="http://www.dbajunior.com/choose-the-appropriate-tablespace-type-for-the-intended-use/">Choose the Appropriate Tablespace Type for the Intended Use</a></li>
+<li class="page_item page-item-933"><a href="http://www.dbajunior.com/configure-a-fast-recovery-area/">Configure a Fast Recovery Area</a></li>
+<li class="page_item page-item-955"><a href="http://www.dbajunior.com/configure-a-schema-to-support-a-star-transformation-query/">Configure a Schema to Support a Star Transformation Query</a></li>
+<li class="page_item page-item-945"><a href="http://www.dbajunior.com/configure-and-manage-distributed-materialized-views/">Configure and Manage Distributed Materialized Views</a></li>
+<li class="page_item page-item-975"><a href="http://www.dbajunior.com/configure-and-use-parallel-execution-for-queries/">Configure and Use Parallel Execution for Queries</a></li>
+<li class="page_item page-item-1077"><a href="http://www.dbajunior.com/configure-archivelog-deletion-policy-for-the-dataguard-configuration/">Configure Archivelog Deletion Policy for the Dataguard Configuration</a></li>
+<li class="page_item page-item-401"><a href="http://www.dbajunior.com/configure-asm-and-create-rac-database/">Configure ASM for the shared disks and create a clustered database</a></li>
+<li class="page_item page-item-1051"><a href="http://www.dbajunior.com/configure-baseline-templates/">Configure Baseline Templates</a></li>
+<li class="page_item page-item-1073"><a href="http://www.dbajunior.com/configure-connect-ttime-failover/">Configure Connect Ttime Failover</a></li>
+<li class="page_item page-item-710"><a href="http://www.dbajunior.com/configure-enterprise-manager-to-modify-a-database-availability/">Configure Enterprise Manager to Modify a Database Availability</a></li>
+<li class="page_item page-item-884"><a href="http://www.dbajunior.com/configure-grid-control-for-business-requirements/">Configure Grid Control for Business Requirements</a></li>
+<li class="page_item page-item-912"><a href="http://www.dbajunior.com/configure-recovery-manager/">Configure Recovery Manager</a></li>
+<li class="page_item page-item-925"><a href="http://www.dbajunior.com/configure-rman/">Configure RMAN</a></li>
+<li class="page_item page-item-414"><a href="http://www.dbajunior.com/configure-services-ra/">Configure Services using both Manual and Policy Managed Methods</a></li>
+<li class="page_item page-item-1065"><a href="http://www.dbajunior.com/configure-the-data-guard-environment-to-reduce-overheads-of-fast-incremental-backups-on-the-primary-database/">Configure the Data Guard Environment to Reduce Overheads of Fast Incremental Backups on the Primary Database</a></li>
+<li class="page_item page-item-507"><a href="http://www.dbajunior.com/configure-the-database-environment-to-support-optimal-data-access-performance/">Configure the Database Environment to Support Optimal Data Access Performance</a></li>
+<li class="page_item page-item-561"><a href="http://www.dbajunior.com/onfigure-the-database-instance-to-support-shared-server-connections/">Configure the Database Instance to Support Shared Server Connections</a></li>
+<li class="page_item page-item-696"><a href="http://www.dbajunior.com/configure-the-enterprise-manager-repository/">Configure the Enterprise Manager Repository</a></li>
+<li class="page_item page-item-582"><a href="http://www.dbajunior.com/configure-the-network-environment-to-allow-connections-to-multiple-databases/">Configure the Network Environment to Allow Connections to Multiple Databases</a></li>
+<li class="page_item page-item-1067"><a href="http://www.dbajunior.com/configure-the-observer/">Configure the Observer</a></li>
+<li class="page_item page-item-1075"><a href="http://www.dbajunior.com/convert-the-standby-to-a-snapshot-standby/">Convert the Standby to a Snapshot Standby</a></li>
+<li class="page_item page-item-294"><a href="http://www.dbajunior.com/crear-maquina-virtual-ocm/">Crear máquina virtual OCM</a></li>
+<li class="page_item page-item-554"><a href="http://www.dbajunior.com/create-and-configure-a-listener/">Create and Configure a Listener</a></li>
+<li class="page_item page-item-540 current_page_item"><a href="http://www.dbajunior.com/create-and-manage-a-tablespace-that-uses-nfs-mounted-file-system-file/">Create and Manage a Tablespace that uses NFS Mounted File System File</a></li>
+<li class="page_item page-item-422"><a href="http://www.dbajunior.com/create-and-manage-an-asm-instance/">Create and manage an ASM instance</a></li>
+<li class="page_item page-item-534"><a href="http://www.dbajunior.com/create-and-manage-bigfile-tablespaces/">Create and Manage Bigfile Tablespaces</a></li>
+<li class="page_item page-item-1012"><a href="http://www.dbajunior.com/create-and-manage-contexts/">Create and Manage Contexts</a></li>
+<li class="page_item page-item-528"><a href="http://www.dbajunior.com/create-and-manage-database-configuration-files-2/">Create and Manage Database Configuration Files</a></li>
+<li class="page_item page-item-948"><a href="http://www.dbajunior.com/create-and-manage-encrypted-tablespaces/">Create and Manage Encrypted Tablespaces</a></li>
+<li class="page_item page-item-714"><a href="http://www.dbajunior.com/create-and-manage-jobs/">Create and Manage Jobs</a></li>
+<li class="page_item page-item-1005"><a href="http://www.dbajunior.com/create-and-manage-lob-segments/">Create and Manage LOB Segments</a></li>
+<li class="page_item page-item-546"><a href="http://www.dbajunior.com/create-and-manage-multiple-network-configuration-files/">Create and Manage Multiple Network Configuration Files</a></li>
+<li class="page_item page-item-478"><a href="http://www.dbajunior.com/create-and-manage-temporary-permanent-and-undo-tablespaces/">Create and Manage Temporary, Permanent, and Undo Tablespaces</a></li>
+<li class="page_item page-item-790"><a href="http://www.dbajunior.com/create-and-monitor-alerts/">Create And Monitor Alerts</a></li>
+<li class="page_item page-item-386"><a href="http://www.dbajunior.com/create-asm-disk-groups/">Create ASM Disk Groups</a></li>
+<li class="page_item page-item-927"><a href="http://www.dbajunior.com/create-different-types-of-rman-backups-to-cater-for-different-performance-and-retention-requirements/">Create Different Types of RMAN Backups to Cater for Different Performance and Retention Requirements</a></li>
+<li class="page_item page-item-700"><a href="http://www.dbajunior.com/create-enterprise-manager-grid-control-users/">Create Enterprise Manager Grid Control Users</a></li>
+<li class="page_item page-item-872"><a href="http://www.dbajunior.com/create-job-classes/">Create Job Classes</a></li>
+<li class="page_item page-item-1320"><a href="http://www.dbajunior.com/create-multitenant-cointanter-database-cdb/">Create Multitenant Cointanter Database (CDB)</a></li>
+<li class="page_item page-item-798"><a href="http://www.dbajunior.com/create-notifications/">Create Notifications</a></li>
+<li class="page_item page-item-1060"><a href="http://www.dbajunior.com/create-physical-standby-database-with-real-time-apply/">Create Physical Standby Database with Real-time Apply</a></li>
+<li class="page_item page-item-869"><a href="http://www.dbajunior.com/create-programs/">Create Programs</a></li>
+<li class="page_item page-item-860"><a href="http://www.dbajunior.com/create-scheduler-jobs/">Create Scheduler Jobs</a></li>
+<li class="page_item page-item-863"><a href="http://www.dbajunior.com/create-schedules/">Create Schedules</a></li>
+<li class="page_item page-item-304"><a href="http://www.dbajunior.com/create-the-database/">Create the database</a></li>
+<li class="page_item page-item-1295"><a href="http://www.dbajunior.com/create-virtual-machine-template/">Create Virtual Machine Template</a></li>
+<li class="page_item page-item-433"><a href="http://www.dbajunior.com/creating-acfs-file-system/">Creating ACFS File System</a></li>
+<li class="page_item page-item-878"><a href="http://www.dbajunior.com/deploy-enterprise-manager-grid-control-agents/">Deploy Enterprise Manager Grid Control Agents</a></li>
+<li class="page_item page-item-1358"><a href="http://www.dbajunior.com/deploy-oem-cloud-control-management-agent/">Deploy OEM Cloud Control Management Agent</a></li>
+<li class="page_item page-item-467"><a href="http://www.dbajunior.com/determine-and-set-sizing-parameters-for-database-structures/">Determine and Set Sizing Parameters for Database Structures</a></li>
+<li class="page_item page-item-1312"><a href="http://www.dbajunior.com/download-oracle-12c-software/">Download Oracle 12c Software</a></li>
+<li class="page_item page-item-1027"><a href="http://www.dbajunior.com/gather-statistics-on-a-specific-table-without-invalidating-cursors/">Gather Statistics on a Specific Table Without Invalidating Cursors</a></li>
+<li class="page_item page-item-429"><a href="http://www.dbajunior.com/implement-asm-failure-groups/">Implement ASM Failure Groups</a></li>
+<li class="page_item page-item-964"><a href="http://www.dbajunior.com/implement-data-pump-export-and-import-jobs-for-data-transfer/">Implement Data Pump Export and Import Jobs for Data Transfer</a></li>
+<li class="page_item page-item-970"><a href="http://www.dbajunior.com/implement-data-pump-to-and-from-remote-databases/">Implement Data Pump To and From Remote Databases</a></li>
+<li class="page_item page-item-1008"><a href="http://www.dbajunior.com/implement-fine-grained-access-control/">Implement Fine-grained Access Control</a></li>
+<li class="page_item page-item-853"><a href="http://www.dbajunior.com/implement-grid-control-and-database-control/">Implement Grid Control and Database Control</a></li>
+<li class="page_item page-item-1056"><a href="http://www.dbajunior.com/implement-instance-caging/">Implement Instance Caging</a></li>
+<li class="page_item page-item-1002"><a href="http://www.dbajunior.com/implement-securefile-lob/">Implement SecureFile LOB</a></li>
+<li class="page_item page-item-300"><a href="http://www.dbajunior.com/instalacion-oracle-linux/">Instalación Oracle Linux 5.4 en Máquina OCM</a></li>
+<li class="page_item page-item-309"><a href="http://www.dbajunior.com/instalacion-software-oracle/">Instalación Software Oracle 11.2.0.3 en OCM</a></li>
+<li class="page_item page-item-690"><a href="http://www.dbajunior.com/install-and-patch-enterprise-manager-grid-control-software/">Install and Patch Enterprise Manager Grid Control Software</a></li>
+<li class="page_item page-item-1349"><a href="http://www.dbajunior.com/install-oem-cloud-control-12c/">Install OEM Cloud Control 12c</a></li>
+<li class="page_item page-item-351"><a href="http://www.dbajunior.com/install-oracle-grid-infrastructure/">Install Oracle Grid Infrastructure</a></li>
+<li class="page_item page-item-874"><a href="http://www.dbajunior.com/install-the-enterprise-manager-grid-control-infrastructure/">Install the Enterprise Manager Grid Control Infrastructure</a></li>
+<li class="page_item page-item-395"><a href="http://www.dbajunior.com/install-the-oracle-database-11gr2-software/">Install the Oracle Database 11gR2 software</a></li>
+<li class="page_item page-item-1033"><a href="http://www.dbajunior.com/interpret-execution-plan/">Interpret Execution Plan</a></li>
+<li class="page_item page-item-990"><a href="http://www.dbajunior.com/maintain-indexes-on-a-partitioned-table/">Maintain Indexes on a Partitioned Table</a></li>
+<li class="page_item page-item-941"><a href="http://www.dbajunior.com/manage-materialized-views-to-improve-rewrite-and-refresh-performance/">Manage Materialized Views to Improve Rewrite and Refresh Performance</a></li>
+<li class="page_item page-item-578"><a href="http://www.dbajunior.com/manage-oracle-network-processes/">Manage Oracle Network Processes</a></li>
+<li class="page_item page-item-952"><a href="http://www.dbajunior.com/manage-transport-of-tablespaces-across-platforms/">Manage Transport of Tablespaces Across Platforms</a></li>
+<li class="page_item page-item-889"><a href="http://www.dbajunior.com/mantain-recovery-catalogs/">Mantain Recovery Catalogs</a></li>
+<li class="page_item page-item-1287"><a href="http://www.dbajunior.com/12c/">New Features 12c</a></li>
+<li class="page_item page-item-989"><a href="http://www.dbajunior.com/perform-partition-maintenance-operations/">Perform Partition Maintenance Operations</a></li>
+<li class="page_item page-item-936"><a href="http://www.dbajunior.com/perform-various-recovery-operations-using-flashback-technology/">Perform Various Recovery Operations Using Flashback Technology</a></li>
+<li class="page_item page-item-1158"><a href="http://www.dbajunior.com/protected/">Protected Content</a></li>
+<li class="page_item page-item-1156"><a href="http://www.dbajunior.com/register/">Register</a></li>
+<li class="page_item page-item-930"><a href="http://www.dbajunior.com/set-flashback-database-parameters/">Set Flashback Database Parameters</a></li>
+<li class="page_item page-item-566"><a href="http://www.dbajunior.com/set-up-network-tracing/">Set up Network Tracing</a></li>
+<li class="page_item page-item-1325"><a href="http://www.dbajunior.com/setup-oem-database-express/">Setup OEM Database Express</a></li>
+<li class="page_item page-item-449"><a href="http://www.dbajunior.com/manage-grid-infrastructure/">Start, Stop, Configure and Administer Oracle Grid Infrastructure</a></li>
+<li class="page_item page-item-503"><a href="http://www.dbajunior.com/stripe-data-files-across-multiple-physical-devices-and-locations/">Stripe Data Files Across Multiple Physical Devices and Locations</a></li>
+<li class="page_item page-item-1069"><a href="http://www.dbajunior.com/switchover-and-switch-back/">Switchover and Switch Back</a></li>
+<li class="page_item page-item-1023"><a href="http://www.dbajunior.com/use-multi-column-statistics/">Use -Multi Column Statistics</a></li>
+<li class="page_item page-item-586"><a href="http://www.dbajunior.com/use-configurationless-connections/">Use Configurationless Connections</a></li>
+<li class="page_item page-item-653"><a href="http://www.dbajunior.com/use-enterprise-manager-configuration-assistant-emca-utility/">Use Enterprise Manager Configuration Assistant (EMCA) Utility</a></li>
+<li class="page_item page-item-705"><a href="http://www.dbajunior.com/use-enterprise-manager-to-modify-a-database-configuration/">Use Enterprise Manager to Modify a Database Configuration</a></li>
+<li class="page_item page-item-591"><a href="http://www.dbajunior.com/use-grid-infrastructure-to-manage-oracle-databases-and-other-resources/">Use Grid Infrastructure to Manage Oracle Databases and Other Resources</a></li>
+<li class="page_item page-item-640"><a href="http://www.dbajunior.com/use-opatch-to-install-a-patch/">Use OPatch to Install a Patch</a></li>
+<li class="page_item page-item-1029"><a href="http://www.dbajunior.com/use-partitioned-indexes/">Use Partitioned Indexes</a></li>
+<li class="page_item page-item-920"><a href="http://www.dbajunior.com/use-recover-manager-to-perform-complete-database-restore-and-recovery-operations/">Use Recover Manager to Perform Complete Database Restore and Recovery Operations</a></li>
+<li class="page_item page-item-916"><a href="http://www.dbajunior.com/use-recovery-manager-to-perform-database-backups/">Use Recovery Manager to Perform Database Backups</a></li>
+<li class="page_item page-item-1020"><a href="http://www.dbajunior.com/use-result-cache/">Use Result Cache</a></li>
+<li class="page_item page-item-1041"><a href="http://www.dbajunior.com/use-sql-access-advisor/">Use SQL Access Advisor</a></li>
+<li class="page_item page-item-1042"><a href="http://www.dbajunior.com/use-sql-performance-analyzer/">Use SQL Performance Analyzer</a></li>
+<li class="page_item page-item-1053"><a href="http://www.dbajunior.com/use-sql-plan-management-feature/">Use SQL Plan Management Feature</a></li>
+<li class="page_item page-item-1039"><a href="http://www.dbajunior.com/use-sql-tuning-advisor/">Use SQL Tuning Advisor</a></li>
+<li class="page_item page-item-1036"><a href="http://www.dbajunior.com/use-sql-tuning-tools-and-features/">Use SQL Tuning Tools and Features</a></li>
+<li class="page_item page-item-978"><a href="http://www.dbajunior.com/use-sqlloader/">Use SQL*Loader</a></li>
+<li class="page_item page-item-218"><a href="http://www.dbajunior.com/ocm/">Oracle Certified Master 11g</a></li>
+</ul>						</div>
+					</div>
+					<div class="fcol">
+						<div class="fcol_pad">
+							<h3>Permanece en Contacto</h3>
+								<ul>
+
+									<li><a href="http://www.dbajunior.com/feed/" class="rsslink">Site RSS Feed</a></li>
+																											<li><a href="http://twitter.com/raulibaper" class="twitterlink">Twitter</a></li>
+																																											</ul>
+
+						</div>
+					</div>
+					<div class="fcol">
+						<div class="fcol_pad">
+							<h3>Más</h3>
+							<div class="welcomemessage">¿Quieres ser DBA? ¿Eres un DBA 
+Junior? Juntos profundizaremos en nuevas técnicas y "machacaremos" los 
+conceptos básicos, para poder convertirnos en cracks! ;)
+<br><br><center><iframe name="acclaim-badge" allowtransparency="true" id="embedded-badge-dce13d1a-8f55-4b27-8250-7e5787ca0528" scrolling="no" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/dce13d1a-8f55-4b27-8250-7e5787ca0528.htm" style="width: 270px; height: 270px;" title="View my verified achievement on Acclaim." frameborder="0"></iframe>
+  <script type="text/javascript">
+    (function() {
+      var s = document.createElement('script');
+      s.type = 'text/javascript';
+      s.async = true;
+      s.src = '//www.youracclaim.com/assets/utilities/embed.js';
+      var o = document.getElementsByTagName('script')[0];
+      o.parentNode.insertBefore(s, o);
+      })();
+  </script></center></div>						</div>
+					</div>
+					<div class="fcol">
+						<div class="fcol_pad">
+							<span class="terms">
+								© 2013 DBA Junior							</span>
+						</div>
+					</div>
+							</div>
+	
+		
+			<div class="clear"></div>
+		</div>		
+	</div>
+
+
+</div>
+	<div class="clear"></div>
+	 	<hr class="hidden">
+
+  </div><!--/wrapper -->
+
+</div><!--/page -->
+
+<!-- Footer Scripts Go Here -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16898600-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script><!-- End Footer scripts -->
+
+<!-- Powered by WPtouch: 3.8.8 -->	<div style="display:none">
+	</div>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/shCore.js"></script>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/shBrushBash.js"></script>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/shBrushSql.js"></script>
+<script type="text/javascript">
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://www.dbajunior.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?ver=3.0.9b";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://www.dbajunior.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?ver=3.0.9b";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/comment-reply.js"></script>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/wpgroho.js"></script>
+<script type="text/javascript" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/e-201544.js" async="" defer="defer"></script>
+<script type="text/javascript">
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:3.7.2',blog:'44216250',post:'540',tz:'1',srv:'www.dbajunior.com'} ]);
+	_stq.push([ 'clickTrackerInit', '44216250', '540' ]);
+</script>
+
+<img id="wpstats" src="Create%20and%20Manage%20a%20Tablespace%20that%20uses%20NFS%20Mounted%20File%20System%20File_arquivos/g.gif"></body></html>
