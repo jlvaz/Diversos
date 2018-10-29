@@ -1,0 +1,609 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0083)http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#.Ukx3XIYjJlw -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR" xmlns:fb="http://ogp.me/ns/fb#" xmlns:addthis="http://www.addthis.com/help/api-spec"><head profile="http://gmpg.org/xfn/11"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/shares.json"></script><script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/auth014.js"></script><script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/counter016.js"></script><link rel="stylesheet" type="text/css" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/counter013.css" media="all"><script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/pt.js"></script><link rel="stylesheet" type="text/css" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/widget116.css" media="all">
+
+<title>Formatando CNPJ e CPF no Oracle com Regex | Viablog</title>
+<link rel="stylesheet" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/style_serif.css" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://www.viamais.net/blog/feed/">
+<link rel="pingback" href="http://www.viamais.net/blog/xmlrpc.php">
+<script type="text/javascript" async="" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/ga.js"></script><script type="text/javascript" async="" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/ga.js"></script><script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/jquery.js"></script><style type="text/css"></style>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/superfish.js"></script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/supersubs.js"></script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/cookies.js"></script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/fontResizer.js"></script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/theme.js"></script>
+
+<style type="text/css">
+</style>
+<!--[if IE]>
+<style type="text/css">
+div.date {float:left; position:static; margin:10px 10px 0 0; padding:0;}
+div.preview {margin:15px 0;}
+.comment-link {background:none;}
+#search-submit {margin: 10px 0 0 0; height: 28px;}
+</style>
+<![endif]-->
+<!-- wp_head -->
+<link rel="alternate" type="application/rss+xml" title="Viablog » Formatando CNPJ e CPF no Oracle com Regex  Feed de comentários" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/feed/">
+<link rel="stylesheet" id="output-css" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/output.css" type="text/css" media="all">
+<link rel="stylesheet" id="wordpress-popular-posts-css" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/wpp.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-syntax-css-css" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/wp-syntax.css" type="text/css" media="all">
+<link rel="stylesheet" id="aec_frontend-css" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/frontend.css" type="text/css" media="all">
+<link rel="stylesheet" id="aec_atd-css" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/atd.css" type="text/css" media="all">
+<link rel="stylesheet" id="colorbox-css" href="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/colorbox.css" type="text/css" media="screen">
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/comment-reply.min.js"></script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/jquery(1).js"></script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/jquery.colorbox.min.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://www.viamais.net/blog/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://www.viamais.net/blog/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 3.6.1">
+<link rel="shortlink" href="http://www.viamais.net/blog/?p=5029">
+
+<!-- Powered by AdSense-Deluxe WordPress Plugin v0.8 - http://www.acmetech.com/blog/adsense-deluxe/ -->
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+<!-- All in One SEO Pack 2.0.3.1 by Michael Torbert of Semper Fi Web Design[381,447] -->
+<link rel="author" href="https://plus.google.com/u/0/105176740952603808098/posts">
+<meta name="description" content="Veja como é simples utilizar uma máscara para CPF ou CNPJ no Oracle PL/SQL utilizando Regex.">
+
+<meta name="keywords" content="regex no oracle, regex no pl/sql, regex no sql, pl/sql, oracle, oracle pl/sql, sql developer, máscara cpf, mascara cnpj, mascara cnpj e cpf,oracle,pl/sql">
+
+<link rel="canonical" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/">
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-1475609-2']);
+		  _gaq.push(['_trackPageview']);
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+<!-- /all in one seo pack -->
+
+<!-- C�digo Google Analytics -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34176370-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- -->
+<style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}
+.fb_invisible{display:none}
+.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}
+.fb_reset > div{overflow:hidden}
+.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}
+.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}
+.fb_dialog_content{background:#fff;color:#333}
+.fb_dialog_close_icon{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px;top:8px\9;right:7px\9}
+.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}
+.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}
+.fb_dialog_close_icon:hover{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}
+.fb_dialog_close_icon:active{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(http://static.ak.fbcdn.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}
+.fb_dialog_loader{background-color:#f2f2f2;border:1px solid #606060;font-size:24px;padding:20px}
+.fb_dialog_top_left,
+.fb_dialog_top_right,
+.fb_dialog_bottom_left,
+.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}
+.fb_dialog_top_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}
+.fb_dialog_top_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}
+.fb_dialog_bottom_left{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}
+.fb_dialog_bottom_right{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}
+.fb_dialog_vert_left,
+.fb_dialog_vert_right,
+.fb_dialog_horiz_top,
+.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}
+.fb_dialog_vert_left,
+.fb_dialog_vert_right{width:10px;height:100%}
+.fb_dialog_vert_left{margin-left:-10px}
+.fb_dialog_vert_right{right:0;margin-right:-10px}
+.fb_dialog_horiz_top,
+.fb_dialog_horiz_bottom{width:100%;height:10px}
+.fb_dialog_horiz_top{margin-top:-10px}
+.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}
+.fb_dialog_iframe{line-height:0}
+.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3b5998;color:#fff;font-size:14px;font-weight:bold;margin:0}
+.fb_dialog_content .dialog_title > span{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif)
+no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}
+body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}
+.fb_dialog.fb_dialog_mobile.loading{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif)
+white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}
+.fb_dialog.fb_dialog_mobile.loading.centered{max-height:590px;min-height:590px;max-width:500px;min-width:500px}
+#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}
+#fb-root #fb_dialog_ipad_overlay.hidden{display:none}
+.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}
+.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0 0, 0 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}
+.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%
+}
+.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px
+}
+.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px
+}
+.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0 0, 0 100%, from(#4966A6),
+color-stop(0.5, #355492), to(#2A4887));border:1px solid #29447e;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset,
+rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}
+.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}
+.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}
+.fb_dialog_content .dialog_content{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}
+.fb_dialog_content .dialog_footer{background:#f2f2f2;border:1px solid #555;border-top-color:#ccc;height:40px}
+#fb_dialog_loader_close{float:left}
+.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}
+.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}
+.fb_iframe_widget{display:inline-block;position:relative}
+.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}
+.fb_iframe_widget iframe{position:absolute}
+.fb_iframe_widget_lift{z-index:1}
+.fb_hide_iframes iframe{position:relative;left:-10000px}
+.fb_iframe_widget_loader{position:relative;display:inline-block}
+.fb_iframe_widget_fluid{display:inline}
+.fb_iframe_widget_fluid span{width:100%}
+.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}
+.fb_iframe_widget_loader .FB_Loader{background:url(http://static.ak.fbcdn.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}
+.fb_connect_bar_container div,
+.fb_connect_bar_container span,
+.fb_connect_bar_container a,
+.fb_connect_bar_container img,
+.fb_connect_bar_container strong{background:none;border-spacing:0;border:0;direction:ltr;font-style:normal;font-variant:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal;vertical-align:baseline}
+.fb_connect_bar_container{position:fixed;left:0 !important;right:0 !important;height:42px !important;padding:0 25px !important;margin:0 !important;vertical-align:middle !important;border-bottom:1px solid #333 !important;background:#3b5998 !important;z-index:99999999 !important;overflow:hidden !important}
+.fb_connect_bar_container_ie6{position:absolute;top:expression(document.compatMode=="CSS1Compat"? document.documentElement.scrollTop+"px":body.scrollTop+"px")}
+.fb_connect_bar{position:relative;margin:auto;height:100%;width:100%;padding:6px 0 0 0 !important;background:none;color:#fff !important;font-family:"lucida grande", tahoma, verdana, arial, sans-serif !important;font-size:13px !important;font-style:normal !important;font-variant:normal !important;font-weight:normal !important;letter-spacing:normal !important;line-height:1 !important;text-decoration:none !important;text-indent:0 !important;text-shadow:none !important;text-transform:none !important;white-space:normal !important;word-spacing:normal !important}
+.fb_connect_bar a:hover{color:#fff}
+.fb_connect_bar .fb_profile img{height:30px;width:30px;vertical-align:middle;margin:0 6px 5px 0}
+.fb_connect_bar div a,
+.fb_connect_bar span,
+.fb_connect_bar span a{color:#bac6da;font-size:11px;text-decoration:none}
+.fb_connect_bar .fb_buttons{float:right;margin-top:7px}
+.fb_edge_widget_with_comment{position:relative;*z-index:1000}
+.fb_edge_widget_with_comment span.fb_edge_comment_widget{position:absolute}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget{z-index:1}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget .FB_Loader{left:0;top:1px;margin-top:6px;margin-left:0;background-position:50% 50%;background-color:#fff;height:150px;width:394px;border:1px #666 solid;border-bottom:2px solid #283e6c;z-index:1}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget.dark .FB_Loader{background-color:#000;border-bottom:2px solid #ccc}
+.fb_edge_widget_with_comment span.fb_send_button_form_widget.siderender
+.FB_Loader{margin-top:0}
+.fbpluginrecommendationsbarleft,
+.fbpluginrecommendationsbarright{position:fixed !important;bottom:0;z-index:999}
+.fbpluginrecommendationsbarleft{left:10px}
+.fbpluginrecommendationsbarright{right:10px}</style></head>
+<body style="">
+<div id="outline">
+<div id="blog-line">
+<!-- blog title and tag line -->
+<h1><a href="http://www.viamais.net/blog">Viablog</a> | TI e desenvolvimento de Software</h1>
+</div>
+<!-- page navigation -->
+<div id="nav" class="clearfix">
+<ul class="sf-menu sf-js-enabled">
+<li class="page_item "><a href="http://www.viamais.net/blog">Home</a></li>
+<li class="page_item page-item-6"><a href="http://www.viamais.net/blog/about/">Sobre o Viablog</a></li>
+<li class="page_item page-item-140"><a href="http://www.viamais.net/blog/central-de-downloads/">Downloads</a>
+<ul class="children" style="float: none; width: 25.22222222222222em; display: none; visibility: hidden;">
+	<li class="page_item page-item-141" style="white-space: normal; float: left; width: 100%;"><a href="http://www.viamais.net/blog/central-de-downloads/dbconect/" style="float: none; width: auto;">DBConect</a></li>
+	<li class="page_item page-item-223" style="white-space: normal; float: left; width: 100%;"><a href="http://www.viamais.net/blog/central-de-downloads/driver-mysql/" style="float: none; width: auto;">Driver MySQL</a></li>
+	<li class="page_item page-item-142" style="white-space: normal; float: left; width: 100%;"><a href="http://www.viamais.net/blog/central-de-downloads/documentacao-dbconect/" style="float: none; width: auto;">Documentação DBConect</a></li>
+	<li class="page_item page-item-143" style="white-space: normal; float: left; width: 100%;"><a href="http://www.viamais.net/blog/central-de-downloads/driver-oracle/" style="float: none; width: auto;">Driver Oracle</a></li>
+</ul>
+</li>
+<li class="page_item page-item-160"><a href="http://www.viamais.net/blog/livro-programacao-segura-utilizando-php/">Livro</a></li>
+<li class="page_item page-item-307"><a href="http://www.viamais.net/blog/contato/">Contato</a></li>
+			
+</ul>
+<ul id="mail_rss">
+<li><a href="http://www.viamais.net/blog/feed/">RSS</a></li>
+</ul>			
+</div>
+<!-- ending header template -->
+<div id="content" class="clearfix">
+<div id="right">
+<p id="sidebar_hide"><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" id="hide_s">Sidebar →</a></p>
+<p id="font-resize"><a id="default" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#">A </a><a id="larger" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#">A+ </a><a id="largest" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#">A++</a></p>
+<!-- widget -->
+<div id="search-3" class="widget"><h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Busca</a></h4><!-- custom search form -->
+<div id="searchform" class="clearfix">
+	<form method="get" action="http://www.viamais.net/blog/">
+		<input type="text" name="s" id="search" value="Busca" onfocus="if (this.value == &#39;Search...&#39;) {this.value = &#39;&#39;;}" onblur="if (this.value == &#39;&#39;) {this.value = &#39;Search...&#39;;}"><input type="submit" id="search-submit" class="submit" name="submit" value="Vai!">
+	</form>
+</div>
+</div><div id="text-7" class="widget"><h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Promoções</a></h4>			<div class="textwidget"><br>
+<br>
+<div align="center">
+<div style="margin-bottom:-20px;"><a href="http://www.submarino.com.br/"></a></div><div><script language="JavaScript1.1" type="text/javascript" src="http://www.submarino.com.br/afiliados/get_banner.asp?tipo=vertical2&franq=132135"></script></div>
+</div>
+<br>
+<br>
+<br>
+<div align="center">
+<script type="text/javascript">
+	bb_bid = "177098";
+	bb_lang = "pt-BR";
+	bb_keywords = "<?php echo join(',', get_tags(array('fields' => 'names'))); ?>";
+	bb_name = "custom";
+	bb_limit = "10";
+	bb_format = "bbi";
+</script>
+<script type="text/javascript" src="http://static.boo-box.com/javascripts/embed.js"></script>
+</div></div>
+		</div><!-- Wordpress Popular Posts Plugin v2.3.7 [W] [weekly] [views] [regular] -->
+<div id="wpp-2" class="widget">
+<h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Mais populares</a></h4><ul class="wpp-list">
+<li><a href="http://www.viamais.net/blog/falha-ao-ingresso-de-dominio-no-windows-7/" title="Falha ao ingresso de domínio no Windows 7" class="wpp-post-title" target="_self">Falha ao ingresso de domínio no Windows 7</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/burlando-senhas-do-wi-fi/" title="Burlando senhas do wi-fi" class="wpp-post-title" target="_self">Burlando senhas do wi-fi</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/mobitv-tv-digital-no-seu-celular/" title="MobiTV, TV digital no seu celular." class="wpp-post-title" target="_self">MobiTV, TV digital no seu celular.</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/twitter-atacado-de-novo/" title="Twitter atacado de novo" class="wpp-post-title" target="_self">Twitter atacado de novo</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/os-principais-problemas-do-windows-8/" title="Os principais problemas do Windows 8" class="wpp-post-title" target="_self">Os principais problemas do Windows 8</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/como-acertar-o-problema-da-placa-wireless-atheros-ar5b97/" title="Como acertar o problema da placa wireless Atheros AR5B97" class="wpp-post-title" target="_self">Como acertar o problema da placa wireless Atheros AR5B97</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/utilizando-no-existsexists-ou-not-inin-no-plsql-oracle/" title="Utilizando &quot;no exists/exists&quot; ou &quot;not in/in&quot; no PL/SQL (Oracle)" class="wpp-post-title" target="_self">Utilizando "no exists/exists" ou "not in/in" no PL/SQL (Oracle)</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/segredo-na-instalacao-do-plsql-developer/" title="Segredo na instalação do PL/SQL Developer" class="wpp-post-title" target="_self">Segredo na instalação do PL/SQL Developer</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/removendo-um-servico-do-windows-na-marra/" title="Removendo um serviço do Windows na marra" class="wpp-post-title" target="_self">Removendo um serviço do Windows na marra</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+<li><a href="http://www.viamais.net/blog/mascara-moeda-no-oracle/" title="Máscara moeda no Oracle" class="wpp-post-title" target="_self">Máscara moeda no Oracle</a> <span class="post-stats"><span class="wpp-comments">0 comments</span></span></li>
+
+</ul>
+</div>
+<!-- End Wordpress Popular Posts Plugin v2.3.7 -->
+<div id="simpletags-3" class="widget"><h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Tag cloud</a></h4>
+<!-- Generated by Simple Tags 2.3.2 - http://wordpress.org/extend/plugins/simple-tags -->
+	<div class="st-tag-cloud">
+	<a href="http://www.viamais.net/blog/tag/mysql/" id="tag-link-34" class="st-tags t1" title="8 topics" rel="tag" style="font-size:8pt; color:#cccccc;">MySQL</a>
+<a href="http://www.viamais.net/blog/tag/yahoo/" id="tag-link-14" class="st-tags t1" title="6 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Yahoo</a>
+<a href="http://www.viamais.net/blog/tag/mozilla/" id="tag-link-59" class="st-tags t1" title="15 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Mozilla</a>
+<a href="http://www.viamais.net/blog/tag/twitter/" id="tag-link-62" class="st-tags t1" title="7 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Twitter</a>
+<a href="http://www.viamais.net/blog/tag/oracle/" id="tag-link-26" class="st-tags t2" title="100 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">Oracle</a>
+<a href="http://www.viamais.net/blog/tag/netbeans/" id="tag-link-33" class="st-tags t1" title="6 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Netbeans</a>
+<a href="http://www.viamais.net/blog/tag/qlikview-2/" id="tag-link-49" class="st-tags t1" title="4 topics" rel="tag" style="font-size:8pt; color:#cccccc;">qlikview</a>
+<a href="http://www.viamais.net/blog/tag/windows/" id="tag-link-24" class="st-tags t4" title="222 topics" rel="tag" style="font-size:12.67pt; color:#888888;">windows</a>
+<a href="http://www.viamais.net/blog/tag/tecnologia/" id="tag-link-10" class="st-tags t8" title="457 topics" rel="tag" style="font-size:18.89pt; color:#2d2d2d;">Tecnologia</a>
+<a href="http://www.viamais.net/blog/tag/musica/" id="tag-link-15" class="st-tags t1" title="3 topics" rel="tag" style="font-size:8pt; color:#cccccc;">música</a>
+<a href="http://www.viamais.net/blog/tag/novidades/" id="tag-link-8" class="st-tags t10" title="524 topics" rel="tag" style="font-size:22pt; color:#000000;">Novidades</a>
+<a href="http://www.viamais.net/blog/tag/wordpress/" id="tag-link-38" class="st-tags t1" title="6 topics" rel="tag" style="font-size:8pt; color:#cccccc;">wordpress</a>
+<a href="http://www.viamais.net/blog/tag/ubuntu/" id="tag-link-18" class="st-tags t2" title="95 topics" rel="tag" style="font-size:9.56pt; color:#b5b5b5;">ubuntu</a>
+<a href="http://www.viamais.net/blog/tag/seguranca/" id="tag-link-17" class="st-tags t5" title="269 topics" rel="tag" style="font-size:14.22pt; color:#717171;">segurança</a>
+<a href="http://www.viamais.net/blog/tag/webdesigner/" id="tag-link-31" class="st-tags t1" title="13 topics" rel="tag" style="font-size:8pt; color:#cccccc;">webdesigner</a>
+<a href="http://www.viamais.net/blog/tag/webdesign/" id="tag-link-11" class="st-tags t1" title="24 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Webdesign</a>
+<a href="http://www.viamais.net/blog/tag/seo/" id="tag-link-23" class="st-tags t1" title="18 topics" rel="tag" style="font-size:8pt; color:#cccccc;">SEO</a>
+<a href="http://www.viamais.net/blog/tag/php/" id="tag-link-9" class="st-tags t1" title="42 topics" rel="tag" style="font-size:8pt; color:#cccccc;">PHP</a>
+<a href="http://www.viamais.net/blog/tag/opera/" id="tag-link-51" class="st-tags t1" title="6 topics" rel="tag" style="font-size:8pt; color:#cccccc;">Opera</a>
+<a href="http://www.viamais.net/blog/tag/plsql/" id="tag-link-39" class="st-tags t1" title="58 topics" rel="tag" style="font-size:8pt; color:#cccccc;">PL/SQL</a></div>
+
+</div>		<div id="recent-posts-2" class="widget">		<h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Tópicos recentes</a></h4>		<ul>
+					<li>
+				<a href="http://www.viamais.net/blog/facebook-finalmente-libera-busca-por-posts/" title="Facebook finalmente libera busca por posts">Facebook finalmente libera busca por posts</a>
+						</li>
+					<li>
+				<a href="http://www.viamais.net/blog/anuncios-no-app-do-gmail/" title="Anúncios no App do Gmail">Anúncios no App do Gmail</a>
+						</li>
+					<li>
+				<a href="http://www.viamais.net/blog/erro-grave-no-gtalkhangout/" title="Erro grave no Gtalk/Hangout">Erro grave no Gtalk/Hangout</a>
+						</li>
+					<li>
+				<a href="http://www.viamais.net/blog/finalmente-voce-podera-editar-seus-posts-no-facebook/" title="Finalmente você poderá editar seus posts no Facebook">Finalmente você poderá editar seus posts no Facebook</a>
+						</li>
+					<li>
+				<a href="http://www.viamais.net/blog/o-gerenciador-de-dispositivos-do-android/" title="O gerenciador de dispositivos do Android">O gerenciador de dispositivos do Android</a>
+						</li>
+				</ul>
+		</div><div id="recent-comments-2" class="widget"><h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Comentários</a></h4><ul id="recentcomments"><li class="recentcomments"><a href="http://www.viamais.net/blog/smartphone-saira-de-fabrica-com-o-cyanogenmod/" rel="external nofollow" class="url">Smartphone sairá de fábrica com o CyanogenMod | Viablog</a> em <a href="http://www.viamais.net/blog/cyanogenmod-virou-uma-empresa/#comment-73522">CyanogenMod virou uma empresa</a></li><li class="recentcomments"><a href="http://www.viamais.net/blog/touch-id-do-iphone-e-burlado/" rel="external nofollow" class="url">Touch ID do iPhone é burlado | Viablog</a> em <a href="http://www.viamais.net/blog/evento-de-lancamento-da-apple-para-o-iphone/#comment-73521">Evento de lançamento da Apple para o iPhone</a></li><li class="recentcomments"><a href="http://www.viamais.net/blog" rel="external nofollow" class="url">Petter Rafael</a> em <a href="http://www.viamais.net/blog/recuperando-o-proximo-registro-no-oracle-plsql/#comment-73519">Recuperando o próximo registro no Oracle PL/SQL</a></li><li class="recentcomments">Lucas em <a href="http://www.viamais.net/blog/recuperando-o-proximo-registro-no-oracle-plsql/#comment-73514">Recuperando o próximo registro no Oracle PL/SQL</a></li><li class="recentcomments">Tunusat em <a href="http://www.viamais.net/blog/multiplos-insert-no-oracle/#comment-73478">Multiplos insert no Oracle</a></li></ul></div><div id="categories-304808591" class="widget"><h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Categorias</a></h4>		<ul>
+	<li class="cat-item cat-item-47"><a href="http://www.viamais.net/blog/category/android/" title="Ver todos os posts arquivados em Android">Android</a> (172)
+</li>
+	<li class="cat-item cat-item-55"><a href="http://www.viamais.net/blog/category/apple/" title="Ver todos os posts arquivados em Apple">Apple</a> (58)
+</li>
+	<li class="cat-item cat-item-3"><a href="http://www.viamais.net/blog/category/clientes/" title="Ver todos os posts arquivados em Clientes">Clientes</a> (185)
+</li>
+	<li class="cat-item cat-item-42"><a href="http://www.viamais.net/blog/category/dicas/" title="Ver todos os posts arquivados em Dicas">Dicas</a> (87)
+</li>
+	<li class="cat-item cat-item-4"><a href="http://www.viamais.net/blog/category/diversos/" title="Ver todos os posts arquivados em Diversos">Diversos</a> (541)
+</li>
+	<li class="cat-item cat-item-52"><a href="http://www.viamais.net/blog/category/facebook/" title="Ver todos os posts arquivados em Facebook">Facebook</a> (39)
+</li>
+	<li class="cat-item cat-item-44"><a href="http://www.viamais.net/blog/category/google/" title="Ver todos os posts arquivados em Google">Google</a> (153)
+</li>
+	<li class="cat-item cat-item-12"><a href="http://www.viamais.net/blog/category/imagem-criacao/" title="Ver todos os posts arquivados em Imagem &amp; Criação">Imagem &amp; Criação</a> (13)
+</li>
+	<li class="cat-item cat-item-56"><a href="http://www.viamais.net/blog/category/ios/" title="Ver todos os posts arquivados em iOS">iOS</a> (41)
+</li>
+	<li class="cat-item cat-item-6"><a href="http://www.viamais.net/blog/category/java/" title="Ver todos os posts arquivados em Java">Java</a> (102)
+</li>
+	<li class="cat-item cat-item-40"><a href="http://www.viamais.net/blog/category/javascript/" title="Ver todos os posts arquivados em JavaScript">JavaScript</a> (8)
+</li>
+	<li class="cat-item cat-item-41"><a href="http://www.viamais.net/blog/category/jquery/" title="Ver todos os posts arquivados em JQuery">JQuery</a> (7)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://www.viamais.net/blog/category/linux/" title="Ver todos os posts arquivados em Linux">Linux</a> (134)
+</li>
+	<li class="cat-item cat-item-13"><a href="http://www.viamais.net/blog/category/microsoft/" title="Ver todos os posts arquivados em Microsoft">Microsoft</a> (170)
+</li>
+	<li class="cat-item cat-item-59"><a href="http://www.viamais.net/blog/category/mozilla/" title="Ver todos os posts arquivados em Mozilla">Mozilla</a> (15)
+</li>
+	<li class="cat-item cat-item-8"><a href="http://www.viamais.net/blog/category/novidades/" title="Ver todos os posts arquivados em Novidades">Novidades</a> (535)
+</li>
+	<li class="cat-item cat-item-26"><a href="http://www.viamais.net/blog/category/oracle/" title="Ver todos os posts arquivados em Oracle">Oracle</a> (100)
+</li>
+	<li class="cat-item cat-item-9"><a href="http://www.viamais.net/blog/category/php/" title="Ver todos os posts arquivados em PHP">PHP</a> (46)
+</li>
+	<li class="cat-item cat-item-48"><a href="http://www.viamais.net/blog/category/qlikview/" title="Ver todos os posts arquivados em QlikView">QlikView</a> (4)
+</li>
+	<li class="cat-item cat-item-46"><a href="http://www.viamais.net/blog/category/seguranca-2/" title="Ver todos os posts arquivados em Segurança">Segurança</a> (147)
+</li>
+	<li class="cat-item cat-item-23"><a href="http://www.viamais.net/blog/category/seo/" title="Artigos sobre SEO">SEO</a> (15)
+</li>
+	<li class="cat-item cat-item-10"><a href="http://www.viamais.net/blog/category/tecnologia/" title="Ver todos os posts arquivados em Tecnologia">Tecnologia</a> (576)
+</li>
+	<li class="cat-item cat-item-11"><a href="http://www.viamais.net/blog/category/webdesign/" title="Ver todos os posts arquivados em Webdesign">Webdesign</a> (36)
+</li>
+		</ul>
+</div><div id="calendar-2" class="widget"><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>outubro 2013</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="domingo">D</th>
+		<th scope="col" title="segunda-feira">S</th>
+		<th scope="col" title="terça-feira">T</th>
+		<th scope="col" title="quarta-feira">Q</th>
+		<th scope="col" title="quinta-feira">Q</th>
+		<th scope="col" title="sexta-feira">S</th>
+		<th scope="col" title="sábado">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://www.viamais.net/blog/2013/09/" title="Ver posts de setembro 2013">« set</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="2" class="pad">&nbsp;</td><td>1</td><td id="today">2</td><td>3</td><td>4</td><td>5</td>
+	</tr>
+	<tr>
+		<td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
+	</tr>
+	<tr>
+		<td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td>
+	</tr>
+	<tr>
+		<td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td>
+	</tr>
+	<tr>
+		<td>27</td><td>28</td><td>29</td><td>30</td><td>31</td>
+		<td class="pad" colspan="2">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div>     
+</div>
+<div id="left">
+<p id="sidebar_show" style="display: none;"><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" id="show_s">← Sidebar</a></p>
+<!-- single post -->
+<div class="headline clearfix">
+<div class="date"></div>
+<h1>Formatando CNPJ e CPF no Oracle com Regex</h1>
+<div class="clearfix"></div>
+<p class="post_info">         
+<a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#respond" class="comment-link info-icon" title="Comentário para Formatando CNPJ e CPF no Oracle com Regex">Sem comentários</a> · Posted by <i>Petter Rafael</i> in <a href="http://www.viamais.net/blog/category/oracle/" title="Ver todos os posts em Oracle" rel="category tag">Oracle</a></p>
+</div>
+<div class="single_content">
+<div class="addthis_toolbox addthis_default_style " addthis:url="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/" addthis:title="Formatando CNPJ e CPF no Oracle com Regex "><a class="addthis_button_facebook_like at300b" fb:like:layout="button_count"><div class="fb-like fb_edge_widget_with_comment fb_iframe_widget" data-ref=".Ukx3XIFlXVQ.like" data-layout="button_count" data-show_faces="false" data-action="like" data-width="90" data-font="arial" data-href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/" data-send="false" fb-xfbml-state="rendered"><span style="height: 20px; width: 82px;"><iframe id="f55aa89f8" name="f21cf62a9c" scrolling="no" title="Like this content on Facebook." class="fb_ltr" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/like.htm" style="border: none; overflow: hidden; height: 20px; width: 82px;"></iframe></span></div></a><a class="addthis_button_tweet at300b"><iframe frameborder="0" role="presentation" scrolling="no" allowtransparency="true" scrollbars="no" style="width:110px; height:20px;" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/tweet027.htm"></iframe></a><a class="addthis_button_pinterest_pinit at300b"><span class="at_PinItButton"></span></a><a class="addthis_counter addthis_pill_style addthis_nonzero" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" style="display: inline-block;"><a class="atc_s addthis_button_compact"><span></span></a><a class="addthis_button_expanded" target="_blank" title="Mais..." href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#">2</a></a><div class="atclear"></div></div><p><script type="text/javascript"><!--
+google_ad_client = "pub-9129359207427847";
+/* Bloco de texto e imagem grande (vertical) */
+google_ad_slot = "4548339099";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></p>
+<p>Seguindo a pedidos segue mais um pouco de <a title="Regex com PL/SQL (Oracle)" href="http://www.viamais.net/blog/regex-com-plsql-oracle/" target="_blank"><b>Regex</b> aplicado ao <b>Oracle PL/SQL</b></a>.</p>
+<p>Uma das grandes dúvidas é uma forma simples e eficiente para impor uma <b>máscara</b> para variáveis contendo um <b>CNPJ</b> ou <b>CPF</b>, constantemente veja o uso de <i>DECODE´s</i> empilhados ou complicadas funções que contam caracter a caracter para então ir realizando a formatação escolhido, estes casos ou causam perda de performance ou ainda se tornam pequenos <i>“monstros”</i> difíceis de manter.</p>
+<p>Veja o caso do CPF:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="sql" style="font-family:monospace;"><span style="color: #993333; font-weight: bold;">SELECT</span> regexp_replace<span style="color: #66cc66;">(</span>LPAD<span style="color: #66cc66;">(</span>‘<span style="color: #cc66cc;">12543684261</span>’<span style="color: #66cc66;">,</span> <span style="color: #cc66cc;">11</span><span style="color: #66cc66;">,</span> <span style="color: #ff0000;">'0'</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">,</span> <span style="color: #ff0000;">'([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{2})'</span><span style="color: #66cc66;">,</span><span style="color: #ff0000;">'<span style="color: #000099; font-weight: bold;">\1</span>.<span style="color: #000099; font-weight: bold;">\2</span>.<span style="color: #000099; font-weight: bold;">\3</span>-<span style="color: #000099; font-weight: bold;">\4</span>'</span><span style="color: #66cc66;">)</span> <span style="color: #993333; font-weight: bold;">FROM</span> dual</pre></td></tr></tbody></table></div>
+
+<p>E no caso de um <b>CNPJ</b>:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="sql" style="font-family:monospace;"><span style="color: #993333; font-weight: bold;">SELECT</span> regexp_replace<span style="color: #66cc66;">(</span>LPAD<span style="color: #66cc66;">(</span><span style="color: #ff0000;">'1238524478912'</span><span style="color: #66cc66;">,</span> <span style="color: #cc66cc;">15</span><span style="color: #66cc66;">,</span> <span style="color: #ff0000;">'0'</span><span style="color: #66cc66;">)</span><span style="color: #66cc66;">,</span><span style="color: #ff0000;">'([0-9]{3})([0-9]{3})([0-9]{3})([0-9]{4})([0-9]{2})'</span><span style="color: #66cc66;">,</span><span style="color: #ff0000;">'<span style="color: #000099; font-weight: bold;">\1</span>.<span style="color: #000099; font-weight: bold;">\2</span>.<span style="color: #000099; font-weight: bold;">\3</span>/<span style="color: #000099; font-weight: bold;">\4</span>-<span style="color: #000099; font-weight: bold;">\5</span>'</span><span style="color: #66cc66;">)</span> <span style="color: #993333; font-weight: bold;">FROM</span> dual</pre></td></tr></tbody></table></div>
+
+<p>Nem são precisos demais comentários (se quiser pode verificar o que falamos anteriormente sobre <a title="Regex com PL/SQL, metacaracteres" href="http://www.viamais.net/blog/regex-com-plsql-metacaracteres/" target="_blank"><b>Regex</b> com <b>PL/SQL</b></a>), fica fácil identificar a divisão <i>“em blocos”</i> que fizemos com o <b>Regex</b> e em seguida sua métrica para formatar os dados.</p>
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:url="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/" addthis:title="Formatando CNPJ e CPF no Oracle com Regex "><a class="addthis_button_facebook at300b" title="Facebook" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#"><span class=" at300bs at15nc at15t_facebook"><span class="at_a11y">Share on facebook</span></span></a><a class="addthis_button_twitter at300b" title="Tweet" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#"><span class=" at300bs at15nc at15t_twitter"><span class="at_a11y">Share on twitter</span></span></a><a class="addthis_button_email at300b" target="_blank" title="E-mail" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#"><span class=" at300bs at15nc at15t_email"><span class="at_a11y">Share on email</span></span></a><a class="addthis_button_pinterest_share at300b" target="_blank" title="Pinterest" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#"><span class=" at300bs at15nc at15t_pinterest_share"><span class="at_a11y">Share on pinterest_share</span></span></a><a class="addthis_button_compact at300m" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#"><span class=" at300bs at15nc at15t_compact"><span class="at_a11y">More Sharing Services</span></span></a><a class="addthis_counter addthis_bubble_style" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" style="display: inline-block;"><a class="addthis_button_expanded" target="_blank" title="Mais..." href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#">2</a><a class="atc_s addthis_button_compact"><span></span></a></a><div class="atclear"></div></div>
+	<h4>Leia mais:</h4>
+	<ul class="st-related-posts">
+	<li><a href="http://www.viamais.net/blog/verificando-cursores-no-plsql/" title="Verificando cursores no PL/SQL ()">Verificando cursores no PL/SQL</a> (0)</li>
+	<li><a href="http://www.viamais.net/blog/validando-diversos-campos-no-oracle-forms-6i/" title="Validando diversos campos no Oracle Forms 6i ()">Validando diversos campos no Oracle Forms 6i</a> (0)</li>
+	<li><a href="http://www.viamais.net/blog/utilizando-nocopy-no-oracle/" title="Utilizando NOCOPY no Oracle ()">Utilizando NOCOPY no Oracle</a> (0)</li>
+	<li><a href="http://www.viamais.net/blog/utilizando-hint-no-seu-plsql/" title="Utilizando Hint no seu PL/SQL ()">Utilizando Hint no seu PL/SQL</a> (0)</li>
+	<li><a href="http://www.viamais.net/blog/utilizando-cache-no-oracle-com-subquery/" title="Utilizando cache no Oracle com subquery ()">Utilizando cache no Oracle com subquery</a> (0)</li>
+</ul>
+
+<div class="clearfix"></div>
+
+<br>
+<script> 
+   var partnership_width = 468;                       
+   var partnership_height = 60;                     
+   var partnership_mtype = 'rmt';                      
+   var partnership_partner = 'AFL-03-42062';           
+   var domain_url = 'http://afiliados-2012.submarino.com.br';                        
+   var partnership_bidentifier = 2; 					  
+   var partnership_bformat = 4;				  
+   var partnership_final_url = domain_url + '/afiliados/midia/'+partnership_mtype+'/'+partnership_bidentifier+'/'+partnership_bformat+'/'+partnership_partner;     
+   var partnership_wname = partnership_partner +'__'+ partnership_bidentifier+'__'+partnership_bformat+partnership_mtype;  
+   this.window.document.write('<iframe FRAMEBORDER="0" SCROLLING="no" MARGINWIDTH="0" MARGINHEIGHT="0" width=' + partnership_width + ' height=' + partnership_height + ' src="' + partnership_final_url + '" name="' + partnership_wname + '"></iframe>'); 
+</script><iframe frameborder="0" scrolling="no" marginwidth="0" marginheight="0" width="468" height="60" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/AFL-03-42062.htm" name="AFL-03-42062__2__4rmt"></iframe>
+<br>
+
+<p class="tag_info"><a href="http://www.viamais.net/blog/tag/oracle/" rel="tag">Oracle</a> · <a href="http://www.viamais.net/blog/tag/plsql/" rel="tag">PL/SQL</a></p>
+<!-- You can start editing here. -->
+
+			<!-- If comments are open, but there are no comments. -->
+		<h3>Sem comentários</h3>
+	 
+<!-- comment form -->
+
+<div id="respond">
+
+<h2>Deixe uma resposta</h2>
+
+<div class="cancel-comment-reply">
+	<a rel="nofollow" id="cancel-comment-reply-link" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#respond" style="display:none;">Clique aqui para cancelar a resposta.</a></div>
+
+
+<form action="http://www.viamais.net/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<label for="author">Nome*</label>
+<input type="text" name="author" id="author" class="text" value="" size="22" tabindex="1" aria-required="true">
+
+<label for="email">e-mail* (will not be published) </label>
+<input type="text" name="email" id="email" class="text" value="" size="22" tabindex="2" aria-required="true">
+
+<label for="url">Website</label>
+<input type="text" name="url" id="url" class="text" value="" size="22" tabindex="3">
+
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<label for="message">Seu comentário</label>
+<p><div id="aec_edit_options"><span id="AtD_0"><span class="AtD_proofread_button"></span></span><span class="aec_expand cboxElement"></span></div><div><textarea name="comment" id="comment" cols="58" rows="10" tabindex="4"></textarea></div></p>
+
+<input name="submit" type="submit" id="submit" class="submit" tabindex="5" value="Enviar">
+<input type="hidden" name="comment_post_ID" value="5029" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="2d0b9acf5a"></p>
+
+	<p style="clear: both;" class="subscribe-to-comments">
+	<input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;">
+	<label for="subscribe">Avise-me de novos comentários via e-mail</label>
+	</p>
+
+
+
+</form>
+
+</div>
+
+<p class="previous-posts">&lt;&lt; <a href="http://www.viamais.net/blog/nokia-vai-lancar-novos-smartphones/" rel="next">Nokia vai lançar novos smartphones</a></p>
+<p class="next-posts"><a href="http://www.viamais.net/blog/motorola-ira-lancar-android-puro/" rel="prev">Motorola irá lançar Android “puro”</a> &gt;&gt;</p>
+</div>
+</div>
+</div>
+<!-- footer template -->
+<div id="appendix" class="clearfix">
+<div class="app_widget">
+<!-- sidebar_bottom_left -->
+<div class="widget">
+<h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Find it!</a></h4>
+<!-- custom search form -->
+<div id="searchform" class="clearfix">
+	<form method="get" action="http://www.viamais.net/blog/">
+		<input type="text" name="s" id="search" value="Busca" onfocus="if (this.value == &#39;Search...&#39;) {this.value = &#39;&#39;;}" onblur="if (this.value == &#39;&#39;) {this.value = &#39;Search...&#39;;}"><input type="submit" id="search-submit" class="submit" name="submit" value="Vai!">
+	</form>
+</div>
+</div>
+<p class="wp-bookmark"><a class="wp-logo" href="http://wordpress.org/"><img src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/wordpress-logo.png" alt="WordPress"></a></p>
+<div id="credits">Theme Design by <a href="http://devolux.nh2.me/"><strong>devolux.nh2.me</strong></a></div>
+<div id="credits">Traduzido por <a href="http://www.viamais.net/"><strong>Viamais Web Intelligence</strong></a></div>
+</div>
+<div class="app_widget">
+<!-- sidebar_bottom_middle -->
+<div id="tag_cloud" class="widget">
+<h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Tag Cloud</a></h4>
+<div><a href="http://www.viamais.net/blog/tag/amd/" class="tag-link-57" title="13 tópicos" style="font-size: 10.2340425532pt;">AMD</a>
+<a href="http://www.viamais.net/blog/tag/android/" class="tag-link-47" title="174 tópicos" style="font-size: 18.3510638298pt;">Android</a>
+<a href="http://www.viamais.net/blog/tag/app-do-dia/" class="tag-link-53" title="17 tópicos" style="font-size: 11.0531914894pt;">App do dia</a>
+<a href="http://www.viamais.net/blog/tag/apple/" class="tag-link-55" title="58 tópicos" style="font-size: 14.8510638298pt;">Apple</a>
+<a href="http://www.viamais.net/blog/tag/chrome/" class="tag-link-45" title="29 tópicos" style="font-size: 12.6914893617pt;">Chrome</a>
+<a href="http://www.viamais.net/blog/tag/clientes/" class="tag-link-3" title="186 tópicos" style="font-size: 18.5744680851pt;">Clientes</a>
+<a href="http://www.viamais.net/blog/tag/criacao/" class="tag-link-20" title="19 tópicos" style="font-size: 11.3510638298pt;">criação</a>
+<a href="http://www.viamais.net/blog/tag/curso/" class="tag-link-35" title="6 tópicos" style="font-size: 8pt;">curso</a>
+<a href="http://www.viamais.net/blog/tag/cyanogenmod/" class="tag-link-60" title="9 tópicos" style="font-size: 9.1170212766pt;">CyanogenMod</a>
+<a href="http://www.viamais.net/blog/tag/design/" class="tag-link-22" title="20 tópicos" style="font-size: 11.5pt;">design</a>
+<a href="http://www.viamais.net/blog/tag/dicas-2/" class="tag-link-43" title="86 tópicos" style="font-size: 16.1170212766pt;">dicas</a>
+<a href="http://www.viamais.net/blog/tag/diversos/" class="tag-link-4" title="534 tópicos" style="font-size: 22pt;">Diversos</a>
+<a href="http://www.viamais.net/blog/tag/facebook/" class="tag-link-52" title="60 tópicos" style="font-size: 15pt;">Facebook</a>
+<a href="http://www.viamais.net/blog/tag/firefox/" class="tag-link-21" title="83 tópicos" style="font-size: 15.9680851064pt;">firefox</a>
+<a href="http://www.viamais.net/blog/tag/fotografia/" class="tag-link-30" title="8 tópicos" style="font-size: 8.74468085106pt;">fotografia</a>
+<a href="http://www.viamais.net/blog/tag/google/" class="tag-link-44" title="159 tópicos" style="font-size: 18.0531914894pt;">Google</a>
+<a href="http://www.viamais.net/blog/tag/intel/" class="tag-link-58" title="18 tópicos" style="font-size: 11.2021276596pt;">Intel</a>
+<a href="http://www.viamais.net/blog/tag/internet/" class="tag-link-28" title="481 tópicos" style="font-size: 21.6276595745pt;">internet</a>
+<a href="http://www.viamais.net/blog/tag/ios/" class="tag-link-56" title="43 tópicos" style="font-size: 13.8829787234pt;">iOS</a>
+<a href="http://www.viamais.net/blog/tag/java/" class="tag-link-6" title="95 tópicos" style="font-size: 16.414893617pt;">Java</a>
+<a href="http://www.viamais.net/blog/tag/javascript/" class="tag-link-40" title="10 tópicos" style="font-size: 9.41489361702pt;">JavaScript</a>
+<a href="http://www.viamais.net/blog/tag/jquery/" class="tag-link-41" title="8 tópicos" style="font-size: 8.74468085106pt;">JQuery</a>
+<a href="http://www.viamais.net/blog/tag/links/" class="tag-link-36" title="55 tópicos" style="font-size: 14.7021276596pt;">links</a>
+<a href="http://www.viamais.net/blog/tag/linux/" class="tag-link-7" title="128 tópicos" style="font-size: 17.3829787234pt;">Linux</a>
+<a href="http://www.viamais.net/blog/tag/linux-mint/" class="tag-link-27" title="6 tópicos" style="font-size: 8pt;">linux mint</a>
+<a href="http://www.viamais.net/blog/tag/microsoft/" class="tag-link-13" title="266 tópicos" style="font-size: 19.7659574468pt;">Microsoft</a>
+<a href="http://www.viamais.net/blog/tag/mobile/" class="tag-link-16" title="217 tópicos" style="font-size: 19.0957446809pt;">mobile</a>
+<a href="http://www.viamais.net/blog/tag/mozilla/" class="tag-link-59" title="15 tópicos" style="font-size: 10.6063829787pt;">Mozilla</a>
+<a href="http://www.viamais.net/blog/tag/mysql/" class="tag-link-34" title="8 tópicos" style="font-size: 8.74468085106pt;">MySQL</a>
+<a href="http://www.viamais.net/blog/tag/netbeans/" class="tag-link-33" title="6 tópicos" style="font-size: 8pt;">Netbeans</a>
+<a href="http://www.viamais.net/blog/tag/novidades/" class="tag-link-8" title="524 tópicos" style="font-size: 21.9255319149pt;">Novidades</a>
+<a href="http://www.viamais.net/blog/tag/opera/" class="tag-link-51" title="6 tópicos" style="font-size: 8pt;">Opera</a>
+<a href="http://www.viamais.net/blog/tag/oracle/" class="tag-link-26" title="100 tópicos" style="font-size: 16.5638297872pt;">Oracle</a>
+<a href="http://www.viamais.net/blog/tag/php/" class="tag-link-9" title="42 tópicos" style="font-size: 13.8085106383pt;">PHP</a>
+<a href="http://www.viamais.net/blog/tag/plsql/" class="tag-link-39" title="58 tópicos" style="font-size: 14.8510638298pt;">PL/SQL</a>
+<a href="http://www.viamais.net/blog/tag/seguranca/" class="tag-link-17" title="269 tópicos" style="font-size: 19.7659574468pt;">segurança</a>
+<a href="http://www.viamais.net/blog/tag/seo/" class="tag-link-23" title="18 tópicos" style="font-size: 11.2021276596pt;">SEO</a>
+<a href="http://www.viamais.net/blog/tag/tecnologia/" class="tag-link-10" title="457 tópicos" style="font-size: 21.4787234043pt;">Tecnologia</a>
+<a href="http://www.viamais.net/blog/tag/twitter/" class="tag-link-62" title="7 tópicos" style="font-size: 8.37234042553pt;">Twitter</a>
+<a href="http://www.viamais.net/blog/tag/ubuntu/" class="tag-link-18" title="95 tópicos" style="font-size: 16.414893617pt;">ubuntu</a>
+<a href="http://www.viamais.net/blog/tag/webdesign/" class="tag-link-11" title="24 tópicos" style="font-size: 12.0957446809pt;">Webdesign</a>
+<a href="http://www.viamais.net/blog/tag/webdesigner/" class="tag-link-31" title="13 tópicos" style="font-size: 10.2340425532pt;">webdesigner</a>
+<a href="http://www.viamais.net/blog/tag/windows/" class="tag-link-24" title="222 tópicos" style="font-size: 19.170212766pt;">windows</a>
+<a href="http://www.viamais.net/blog/tag/wordpress/" class="tag-link-38" title="6 tópicos" style="font-size: 8pt;">wordpress</a>
+<a href="http://www.viamais.net/blog/tag/yahoo/" class="tag-link-14" title="6 tópicos" style="font-size: 8pt;">Yahoo</a></div>
+</div>
+</div>
+<div class="app_widget">
+<!-- sidebar_bottom_right -->
+<div id="archives" class="widget">
+<h4><a href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#" title="Toggle" class="hide_widget">Arquivos</a></h4>
+<ul>	<li><a href="http://www.viamais.net/blog/2013/09/" title="setembro 2013">setembro 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2013/08/" title="agosto 2013">agosto 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2013/07/" title="julho 2013">julho 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2013/06/" title="junho 2013">junho 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2013/05/" title="maio 2013">maio 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2013/04/" title="abril 2013">abril 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2013/03/" title="março 2013">março 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2013/02/" title="fevereiro 2013">fevereiro 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2013/01/" title="janeiro 2013">janeiro 2013</a></li>
+	<li><a href="http://www.viamais.net/blog/2012/12/" title="dezembro 2012">dezembro 2012</a></li>
+	<li><a href="http://www.viamais.net/blog/2012/11/" title="novembro 2012">novembro 2012</a></li>
+	<li><a href="http://www.viamais.net/blog/2012/10/" title="outubro 2012">outubro 2012</a></li>
+</ul>
+</div>
+<a id="totop" href="http://www.viamais.net/blog/formatando-cnpj-e-cpf-no-oracle-com-regex/#">Topo</a>
+</div>
+</div>
+</div>
+<script src="http://ads5988.hotwords.com.br/show.jsp?id=5988&cor=236bd1"></script>
+<!-- wp_footer -->
+<!-- AdSense Manager v4.0.3 (0,509 seconds.) --><script type="text/javascript">if (typeof(addthis_share) == "undefined"){ addthis_share = {"url_transforms":{"shorten":{"twitter":"bitly"}},"shorteners":{"bitly":""}};}
+
+var addthis_config = {"data_track_clickback":true,"data_track_addressbar":true,"data_track_textcopy":true,"ui_language":"pt","ui_atversion":"300"};
+var addthis_product = 'wpp-3.5.1';
+</script><script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/addthis_widget.js"></script><div id="_atssh" style="visibility: hidden; height: 1px; width: 1px; position: absolute; z-index: 100000;"><iframe id="_atssh132" title="AddThis utility frame" style="height: 1px; width: 1px; position: absolute; z-index: 100000; border: 0px; left: 0px; top: 0px;" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/sh138.htm"></iframe></div><script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/core103.js"></script><script type="text/javascript">
+/* <![CDATA[ */
+var aec_frontend = {"atdlang":"true","atd":"true","expand":"true","url":"http:\/\/www.viamais.net\/blog\/?aec_page=comment-popup.php","title":"Comment Box"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/jquery.atd.textarea.js"></script>
+<script type="text/javascript" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/frontend.js"></script>
+<!--wp_footer-->
+
+
+<!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+
+ Served from: www.viamais.net @ 2013-10-02 16:43:51 by W3 Total Cache --><div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div><div id="cboxCurrent" style="float: left;"></div><button type="button" id="cboxPrevious"></button><button type="button" id="cboxNext"></button><button id="cboxSlideshow"></button><div id="cboxLoadingOverlay" style="float: left;"></div><div id="cboxLoadingGraphic" style="float: left;"></div><button type="button" id="cboxClose"></button></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none;"></div></div><div id="fb-root" class=" fb_reset"><script src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/all.js" async=""></script><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="f2c684831" frameborder="0" allowtransparency="true" scrolling="no" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/ping.htm" style="display: none;"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_http" frameborder="0" allowtransparency="true" scrolling="no" id="fb_xdm_frame_http" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tab-index="-1" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/xd_arbiter.htm" style="border: none;"></iframe><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" scrolling="no" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tab-index="-1" src="./Formatando CNPJ e CPF no Oracle com Regex   Viablog_files/xd_arbiter(1).htm" style="border: none;"></iframe></div></div></div></body></html>

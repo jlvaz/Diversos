@@ -1,0 +1,40 @@
+/*
+Theme Name: Current
+Theme URI: http://www.marciobrasil.net.br
+Description: Professor de Tecnologia e Interface Web
+Version: 0.0.1
+Author: admin
+Author URI: 
+*/
+
+.question-content {
+    font-weight: bold;
+}
+
+.nggv-link-like img {
+    border:none !important;
+    display: inline !important;
+}
+
+.nggv-link-dislike img {
+    border:none !important;
+    display: inline !important;
+}
+
+article > h1, article > h2, article > h3, article header h1, article header h2, article header h3 {font-size: 3em !important;  text-shadow: 0 1px #AAAAAA; border-left: 16px solid #B0A88B;}
+
+article .entry p {
+    margin-bottom: 1.5em !important;
+}
+
+.entry tr td {
+    padding: 2px !important;
+}
+
+pre {
+    font-size: 0.8em !important;
+    font-style: italic !important;
+    line-height: 2em !important;
+}
+
+.regex{table-layout: fixed;}
