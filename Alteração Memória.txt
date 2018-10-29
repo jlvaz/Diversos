@@ -1,0 +1,10 @@
+select * from v$sga
+
+select * from v$sgainfo;
+
+select * from v$parameter   sga_target, sga_max_size
+
+ALTER SYSTEM SET sga_max_size=24G scope=spfile;
+
+ALTER SYSTEM SET SGA_TARGET = 0 scope=spfile;
+

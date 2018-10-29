@@ -1,0 +1,56 @@
+ Aprimoramentos da tablespace TEMP no Oracle 11g
+
+Neste artigo  estou apresentando os aprimoramentos para a tablespace TEMP, na versão 11g. Apartir da versão 11g, a  Oracle criou uma nova “view” chamada DBA_TEMP_FREE_SPACE que exibe as informações sobre o uso do espaço da tablespace TEMP.
+
+SQL> SELECT * FROM dba_temp_free_space;
+
+TABLESPACE_NAME                TABLESPACE_SIZE ALLOCATED_SPACE FREE_SPACE
+------------------------------ --------------- --------------- ----------
+TEMP                                  56623104        56623104   55574528
+
+1 row selected.
+
+Com essa nova “view” o DBA poderá executar uma redução em modo “on-line”  da  tablespace TEMP usando o comando ALTER TABLESPACE, conforme apresentado abaixo.
+SQL> ALTER TABLESPACE temp SHRINK SPACE KEEP 40M;
+
+Tablespace altered.
+
+SQL> SELECT * FROM dba_temp_free_space;
+
+TABLESPACE_NAME                TABLESPACE_SIZE ALLOCATED_SPACE FREE_SPACE
+------------------------------ --------------- --------------- ----------
+TEMP                                  42991616         1048576   41943040
+
+1 row selected.
+
+A redução “shrink” também pode ser executado para um arquivo de “tempfile” específico,  usando a cláusula TEMPFILE.
+
+SQL> ALTER TABLESPACE temp SHRINK
+     TEMPFILE '/u01/app/oracle/oradata/DB11G/temp01.dbf' KEEP 30M;
+
+Tablespace altered.
+
+SQL> SELECT * FROM dba_temp_free_space;
+
+TABLESPACE_NAME                TABLESPACE_SIZE ALLOCATED_SPACE FREE_SPACE
+------------------------------ --------------- --------------- ----------
+TEMP                                  31522816           65536   31457280
+
+1 row selected.
+
+
+A cláusula “keep” especifica o tamanho mínimo da tablespace TEMP ou do “tempfile”. Se o parâmetro for omitido, o banco de dados irá diminuir a tablespace TEMP ou tempfile para o menor tamanho possível.
+
+
+SQL> ALTER TABLESPACE temp SHRINK SPACE;
+
+Tablespace altered.
+
+SQL> SELECT * FROM dba_temp_free_space;
+
+TABLESPACE_NAME                TABLESPACE_SIZE ALLOCATED_SPACE FREE_SPACE
+------------------------------ --------------- --------------- ----------
+TEMP                                   1114112           65536    1048576
+
+1 row selected.
+
