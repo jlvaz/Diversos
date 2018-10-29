@@ -1,0 +1,37 @@
+*** KEWROCISTMTEXEC - encountered error: (ORA-00001: unique constraint (SYS.WRH$_SEG_STAT_PK) violated
+)  
+  *** SQLSTR: total-len=1759, dump-len=240, 
+      STR={insert into wrh$_seg_stat   (snap_id, dbid, instance_number, ts#, obj#, dataobj#, logical_reads_total,    logical_reads_delta, buffer_busy_waits_total, buffer_busy_waits_delta,    db_block_changes_total, db_block_changes_delta, physical_rea}
+*** KEWRAFM1: Error=13509 encountered by kewrfteh
+
+
+Solução :
+
+alter table WRH$_SEG_STAT_OBJ drop constraint WRH$_SEG_STAT_OBJ_PK; 
+
+alter table WRH$_SEG_STAT_OBJ 
+add constraint WRH$_SEG_STAT_OBJ_PK 
+PRIMARY KEY (dbid, obj#, dataobj#, ts#) 
+using index tablespace SYSAUX nologging; 
+
+alter index WRH$_SEG_STAT_OBJ_PK logging; 
+. 
+
+alter table WRH$_SEG_STAT_BL drop constraint WRH$_SEG_STAT_BL_PK; 
+
+alter table WRH$_SEG_STAT_BL 
+add constraint WRH$_SEG_STAT_BL_PK 
+PRIMARY KEY (dbid, snap_id, instance_number, obj#, dataobj#, ts#) 
+using index tablespace SYSAUX nologging; 
+
+alter index WRH$_SEG_STAT_BL_PK logging; 
+. 
+
+alter table WRH$_SEG_STAT drop constraint WRH$_SEG_STAT_PK; 
+
+alter table WRH$_SEG_STAT 
+add constraint WRH$_SEG_STAT_PK 
+PRIMARY KEY (dbid, snap_id, instance_number, obj#, dataobj#, ts#) 
+using index tablespace SYSAUX local nologging; 
+
+alter index WRH$_SEG_STAT_PK logging; 

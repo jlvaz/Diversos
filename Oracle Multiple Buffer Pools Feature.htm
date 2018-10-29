@@ -1,0 +1,945 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<!-- $MVD$:app("MicroVision WebExpress","769") --><!-- $MVD$:template("","0","0") --><!-- $MVD$:color("18","6666ff","Custom #1","0") --><!-- $MVD$:color("19","80ff","Orange","1") --><!-- $MVD$:color("20","ffd6ce","Lavender","1") -->
+  <title>Oracle Multiple Buffer Pools Feature</title>
+<meta name="Keywords" content="buffer, pool, cache, blocks, keep, oracle, default, object, recycle, data, buffers, objects">
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+</head>
+<body>
+<p align="center"><big> <b><u><font color="#ff6666"><font size="5"><big>Oracle
+Multiple Buffer Pools Feature</big></font></font></u></b></big></p>
+<p><br>
+</p>
+<p><span style="font-weight: bold; text-decoration: underline;">WORK
+WITH THIS!!!</span><br>
+The buffer cache is a holding area in memory for database blocks
+retrieved from disk. Oracle will typically check for the existence of a
+needed data block before performing an I/O operation to retrieve it.<br>
+<br>
+Buffer cache hit ratio.<br>
+<span style="font-family: monospace;">select
+round(((sum(decode(name,'db block gets',value))</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
++ sum(decode(name,'consistent
+gets',value)))</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+- sum(decode(name,'physical
+reads',value))) /</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(sum(decode(name,'db block
+gets',value))</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
++ sum(decode(name,'consistent
+gets',value))) * 100) "Buffer Cache Hit Ratio"</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">from v$sysstat;</span><br>
+<br>
+<br>
+<br>
+The buffer cache hit ratio is a ratio of the number of times Oracle
+needed a block and found it already in the SGA. Although this ratio can
+vary greatly depending on the type of application using the database,
+it’s generally preferred to have the SGA large enough so that this
+buffer cache hit ratio is above 90 percent. The size of the buffer
+cache is determined by the init.ora parameter DB_CACHE_SIZE (Oracle9)
+(DB_BLOCK_BUFFERS in Oracle8).<br>
+To tune the buffer cache, increase the init.ora parameter DB_CACHE_SIZE
+until the buffer cache hit ratio is minimally affected by increasing
+this parameter.<br>
+<br>
+Oracle8 introduced a method of breaking the existing buffer pool into
+three regions, namely, the KEEP pool, the RECYCLE pool, and the DEFAULT
+pool. If these regions aren’t explicitly defined, the DEFAULT pool is
+used. Note that each database object (for instance, a table) is
+associated with a buffer pool, and you can query this information using
+the Oracle data dictionary view.<br>
+<br>
+Each buffer cache has a specific purpose and is handled quite
+differently by the Oracle kernel.<br>
+<br>
+The KEEP pool<br>
+The role of the KEEP buffer pool is to cache those static or
+non-updating objects that have a lot of select activity for example,
+lookup tables and some indexes. Once the KEEP buffer pool is correctly
+sized, the blocks for objects assigned to this pool are never removed.
+As a result, access to the objects in this pool doesn’t require disk
+operation, greatly increasing the query performance. The famous DEPT
+table would be a good example of a reference table that would have
+little DML activity and can be cached in the KEEP pool.<br>
+<br>
+The RECYCLE pool<br>
+The role of the RECYCLE buffer pool is just the opposite. It’s designed
+for those objects that will be accessed once, such as a full table scan
+on a large object, or objects that have many DML statements that won’t
+be referenced again by the application, such as transaction logs or
+audit trail type logs.<br>
+<br>
+The DEFAULT pool<br>
+The DEFAULT buffer pool is really the area of the buffer cache that
+isn’t being used by the KEEP buffer pool or the RECYCLE buffer pool.
+All other objects not directed specifically at the KEEP buffer pool or
+the RECYCLE buffer pool will remain in the DEFAULT buffer pool.<br>
+<br>
+<br>
+<br>
+<span style="font-weight: bold;">Configuring buffer pool features</span><br>
+The defined caches take space from the DB_CACHE_SIZE. V$DB_CACHE_ADVICE
+is a new virtual table that helps you track the buffer cache usage.<br>
+The DB_CACHE_SIZE is a dynamically configured parameter in Oracle9. In
+other words, you don’t have to bounce the database when changing the
+value of this parameter.<br>
+<br>
+<br>
+<span style="font-weight: bold;">Buffer pool space management</span><br>
+The buffer pools are populated with blocks as users make requests for
+data. If these blocks happen to be cached in the buffer pool
+(theoretically) if more than one user is accessing them, this makes for
+a nice “logical” read. A logical read refers to a read request that was
+satisfied with a block that’s already been read from disk and is
+currently in memory, in one of these buffer pools.<br>
+Oracle caches blocks using the “least recently used” list, or LRU list.
+This list tracks the blocks in the buffers and their current status.<br>
+<br>
+Oracle9 has done away with the latches and has implanted something
+called “touches.” Oracle9 tracks this touch count. The more an object
+has been “touched,” the higher its touch count and the more likely that
+something else will be chosen to be written out if/when space is
+required for other requests. The LRU list is no longer plagued with LRU
+latches but because of this, the touch count might not always be
+accurate.<br>
+<br>
+<br>
+<br>
+<span style="font-weight: bold;">Buffer cache sizing</span><br>
+The easiest way to size objects is to collect statistics and simply
+select table_name, blocks from ba_tables where ... (owner = '&lt;schema
+owner&gt;') or table_name in ('&lt;some list of objects&gt;') and so
+forth. <br>
+Remember that it might be more beneficial to completely cache indexes
+rather than the underlying structure! The idea is to make the KEEP pool
+large enough to hold the entire object so that it always has<br>
+a hit ratio near 100%.<br>
+Sizing the RECYCLE pool is different. This pool should be populated
+with tables that are constantly changing. This next comment is
+application-specific, but most of the time the entire table/index
+won’t&nbsp; hange. Size the RECYCLE pool by adding up all the blocks
+needed and then divide by 4. This is a good&nbsp; starting point. Once
+again, increase the size of this pool until you don’t see the hit ratio
+changing, and then decrease its size slightly. Monitor these pools,
+adjust both the KEEP and RECYCLE, and let the DEFAULT fall where it may.<br>
+<br>
+<br>
+<br>
+<span style="font-weight: bold;">Assigning objects to the buffer cache</span><br>
+Here are some examples that illustrate the syntax required to assign
+objects to the various buffer caches.<br>
+<span style="font-family: monospace;">CREATE TABLE EMP (</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">EMPNO NUMBER(4) NOT NULL,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">ENAME CHAR(10),</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">JOB CHAR(9),</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">MGR NUMBER(4),</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">HIREDATE DATE,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">SAL NUMBER(7,2),</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">COMM NUMBER(7,2),</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DEPTNO NUMBER(2) NOT NULL</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">STORAGE (BUFFER_POOL KEEP) CACHE;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">ALTER TABLE &lt;table name&gt;
+STORAGE (BUFFER_POOL KEEP | RECYCLE)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">CREATE INDEX &lt;index name&gt;…
+STORAGE (BUFFER_POOL KEEP | RECYCLE)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">CREATE TABLE &lt;table name&gt; …
+STORAGE (BUFFER_POOL KEEP | RECYCLE)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">ALTER INDEX &lt;index name&gt;
+REBUILD STORAGE (BUFFER_POOL KEEP |
+RECYCLE)</span><br>
+<br>
+<br>
+An object that’s not explicitly assigned will be cached in the DEFAULT
+pool.<br>
+Use the BUFFER_POOL clause in the storage clause to assign objects to
+specific buffer caches. The “cache” clause will cause the object to be
+read for the first time upon database startup so that even the first
+user accessing the object receives the benefit.<br>
+<br>
+<br>
+<br>
+<span style="font-weight: bold;">Monitoring the buffer caches</span><br>
+These three buffer pools can be easily monitored via the
+v$buffer_pool_statistics virtual table.<br>
+By properly allocating objects to specific buffer pools, you can reduce
+I/Os by better managing various types of data objects in the buffer
+cache. <br>
+<br>
+<br>
+<span style="font-weight: bold;">Candidates for the KEEP pool</span><br>
+The following script can be used to identify objects, including
+frequently used Oracle dictionary objects, to be put in the KEEP pool.
+Run this script several times and possibly add the more frequently
+accessed objects to the KEEP pool.<br>
+<span style="font-family: monospace;">column owner format a10 heading
+Owner</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column object_name format a20
+heading 'Object Name'</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column object_type format a20
+heading Type</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column obj format 999999 heading
+'Object ID'</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column count(file#) format 999999
+heading 'Memory Blocks'</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">SELECT owner, object_name,
+object_type, obj, count(file#)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; FROM x$bh, dba_objects</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; WHERE x$bh.obj =
+dba_objects.object_id</span><br style="font-family: monospace;">
+<span style="font-size: 10pt; font-family: &quot;Courier New&quot;; color: black;"><span style="">&nbsp; &nbsp; </span>and o.owner not in ('SYS','SYSTEM')<br>
+<span style="">&nbsp;&nbsp;&nbsp; </span>and bh.status != 'free'<br style="">
+<!--[if !supportLineBreakNewLine]--><!--[endif]--></span><span style="font-family: monospace;">&nbsp; GROUP BY owner, object_name,
+object_type, obj</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; order by count(file#) DESC;</span><br>
+</p>
+<p><br>
+</p>
+<p><b><u><br>
+</u></b></p>
+<p><b><u><br>
+</u></b></p>
+<p><b><u><br>
+Overview of Multiple Buffer Pools Feature</u></b><br>
+Buffer Cache Overview - Oracle uses a Buffer Cache to manage data
+blocks in memory. The buffer cache holds copies of datablocks read from
+data files comprising the database. The buffer cache is loacted in the
+System Global Area (SGA) and is shared by all processes connected to an
+instance. The advantage of using the buffer cache is to eliminate
+physical I/O on frequently accessed blocks. Memory is fast!</p>
+<p> Oracle users have seen that Oracle segments (tables, indexes, etc.)
+have varying usage patterns that they should be treated differently
+when it comes to how long oracle should keep those objects in the
+buffer cache. For example, it is more important to find blocks in
+memory for a table that is frequently accessed than finding blocks for
+a table that is only accessed at application initialization time. For
+the first case, we would like the blocks to be in memory as much as
+possible to eliminate the need to read the blocks from disk. However,
+for the second case, we don't care if the blocks get overwritten by
+newly read blocks.</p>
+<p> Prior to Oracle7.3, Oracle addressed this problem by allowing users
+to specify a CACHE cluase during segment creation. Blocks of segments
+created with this option where loaded and kept in memory as long as the
+space was not needed to load other blocks. If a large table -- twice
+the size of the buffer pool -- is accessed frequently in a random
+fashion, it is very likely that the blocks from the CACHED table will
+be removed from memory. If Oracle could segment the I/O on the CACHED
+table and the large table into different buffer pools, then it could
+increase the probability of the CACHED table being in memory for a
+longer period of time.</p>
+<p> With the Multiple Buffer Pools Feature, you can use a "keep" buffer
+pool to maintain an object in the buffer cache, and a "recycle" buffer
+pool to prevent an object from taking up unnecessary space in the
+cache. When an object is allocated to a cache, all blocks from that
+object are placed in that cache. Oracle maintains a "default" cache for
+objects that have not been assigned to one of the buffer pools.</p>
+<p> Each buffer pool in Oracle8 comprises a number of working sets. A
+different number of sets can be allocated for each buffer pool.&nbsp;
+All sets use the same LRU replacement policy. A strict LRU aging policy
+provides very good hit rates in most cases, but you can sometimes
+improve the hit rate by providing some hints.</p>
+<p> The main problem with the LRU list occurs when a very large segment
+is accessed frequently in a random fashion. Here, "very large" means
+large compared to the size of the cache. Any single segment that
+accounts for a substantial portion (more than 10%) of nonsequential
+physical reads is probably one of these segments. Random reads to such
+a large segment can cause buffers that contain data for other segments
+to be aged out of the cache. The large segment ends up consuming a
+large percentage of the cache, but does not benefit from the cache.</p>
+<p> Very frequently accessed segments are not affected by large segment
+reads, because their buffers are warmed frequently enough that they do
+not age out of the cache. The main trouble occurs with "warm" segments
+that are not accessed frequently enough to survive the buffer flushing
+caused by the large segment reads.</p>
+<p> You have two options for solving this problem. One is to move the
+large segment into a separate "recycle" cache so that it does not
+disturb the other segments. The recycle cache should be smaller than
+the default cache and should reuse buffers more quickly than the
+default cache.</p>
+<p> The other approach is to move the small warm segments into a
+separate "keep" cache that is not used at all for large segments. The
+"keep" cache can be sized to minimize misses in the cache. You can make
+the response times for specific queries more predictable by putting the
+segments accessed by the queries in the "keep" cache to ensure that
+they are never aged out.</p>
+<p> <b><u>When to Use Multiple Buffer Pools</u></b><br>
+When you examine system I/O performance, you should analyze the schema
+and determine whether or not multiple buffer pools would be
+advantageous. Consider a "keep" cache if there are small, frequently
+accessed tables that require quick response time.&nbsp; Very large
+tables with random I/O are good candidates for a "recycle" cache.</p>
+<p> Use the following steps to determine the percentage of the cache
+used by an individual object at a given point in time:</p>
+<p> 1.Find the Oracle internal object number of the segment by entering:<br>
+<span style="font-family: monospace;"> SELECT&nbsp; data_object_id,
+object_type</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"> &nbsp;FROM&nbsp;&nbsp;&nbsp;
+user_objects</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"> &nbsp;WHERE&nbsp;&nbsp;
+object_name = '&lt;segment_name';</span></p>
+<p> Since two objects can have the same name (if they are different
+types of object), you can use the OBJECT_TYPE column to identify the
+object of interest. If the object is owned by another user, then use
+the view DBA_OBJECTS or ALL_OBJECTS instead of USER_OBJECTS.</p>
+<p> 2.Find the number of buffers in the buffer cache for segment_name:<br>
+<span style="font-family: monospace;"> SELECT count(*) buffers</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"> &nbsp;FROM&nbsp;&nbsp;&nbsp; x$bh</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"> &nbsp;WHERE&nbsp;&nbsp; obj =
+&lt;data_object_id;</span></p>
+<p> where data_object_id is from Step 1.</p>
+<p> 3.Find the total number of buffers in the instance:<br>
+<span style="font-family: monospace;">SELECT&nbsp; value "total buffers"<br>
+&nbsp;FROM&nbsp;&nbsp;&nbsp; v$parameter<br>
+&nbsp;WHERE&nbsp;&nbsp; name = 'db_cache_size';</span><span style="font-family: monospace;"></span></p>
+<p> 4.Calculate the ratio of buffers to total buffers, to obtain the
+percentage of the cache currently used by segment_name.<br>
+%cache used by segment_name = buffers (step2) / total buffers (step3)</p>
+<p> Note: This technique works only for a single segment; for a
+partitioned object, the query must be run for each partition.</p>
+<p> If the number of local block gets equals the number of physical
+reads for statements involving such objects, consider employing a
+recycle cache because of the limited usefulness of the buffer cache for
+the objects.</p>
+<p> <b><u>Tuning the Buffer Cache Using Multiple Buffer Pools</u></b><br>
+When you partition your buffer cache into multiple buffer pools, each
+buffer pool can be used for blocks from objects that are accessed in
+different ways. If the blocks of a particular object are likely to be
+reused, then you should keep that object in the buffer cache so that
+the next use of the block will not require another disk I/O operation.
+Conversely, if a block probably will not be reused within a reasonable
+period of time, there is no reason to keep it in the cache; the block<br>
+should be discarded to make room for a more popular block.<br>
+By properly allocating objects to appropriate buffer pools, you can:<br>
+- reduce or eliminate I/Os<br>
+- isolate an object in the cache<br>
+- restrict or limit an object to a part of the cache</p>
+<p> <b><u>How to Enable Multiple Buffer Pools</u></b><br>
+You can create multiple buffer pools for each database instance. The
+same set of buffer pools need not be defined for each instance of the
+database. Between instances a buffer pool may be different sizes or not
+defined at all. Each instance should be tuned separately.</p>
+<p> <b><u>Defining New Buffer Pools</u></b><br>
+You can define each buffer pool using the BUFFER_POOL_name
+initialization parameter. You can specify two attributes for each
+buffer pool: the number<br>
+of buffers in the buffer pool and the number of LRU latches allocated
+to the buffer pool.<br>
+The initialization parameters used to define buffer pools are:<br>
+&nbsp;BUFFER_POOL_KEEP Defines the KEEP buffer pool.<br>
+&nbsp;BUFFER_POOL_RECYCLE&nbsp;&nbsp; Defines the RECYCLE buffer pool.</p>
+<p>DB_CACHE_SIZE&nbsp; Defines the number of buffers for the
+database instance. Each individual buffer pool is created from this
+total amount with the remainder allocated to the default buffer pool.
+The buffer cache is a holding area in memory for database blocks
+retrieved from disk. Oracle will typically check for the existence of a
+needed data block before performing an I/O operation to retrieve it.<br>
+&nbsp;<br>
+DB_BLOCK_LRU_LATCHES&nbsp; Defines the number of LRU latches for
+the entire database instance.&nbsp; Each buffer pool defined takes from
+this total in a fashion similar to the DB_CACHE_SIZE.<br>
+&nbsp;</p>
+<p> <b><u>Example of Buffer Pools:</u></b><br>
+DB_BLOCK_BUFFERS=1000<br>
+DB_BLOCK_LRU_LATCHES=6<br>
+BUFFER_POOL_KEEP=(buffers:400, lru_latches:2)<br>
+BUFFER_POOL_RECYCLE=100</p>
+<p> We will have an SGA with three buffer pools, KEEP pool using 400
+blocks and 2 LRU latches, RECYCLE pool using 100 blocks and 1 LRU latch
+(default number of latches) and DEFAULT pool using 500 blocks (1000 -
+400 - 100) and 3 LRU latches (6 - 2- 1)</p>
+<p> The size of each buffer pool is subtracted from the total number of
+buffers defined for the entire buffer cache (that is, the value of the
+DB_BLOCK_BUFFERS parameter). The aggregate number of buffers in all of
+the buffer pools cannot, therefore, exceed this value. Likewise, the
+number of LRU latches allocated to each buffer pool is taken from the
+total number allocated to the instance by the DB_BLOCK_LRU_LATCHES
+parameter. If either constraint is violated then an error occurs and
+the database is not mounted.</p>
+<p> The minimum number of buffers that you must allocate to each buffer
+pool is 50 times the number of LRU latches. For example, a buffer pool
+with 3 LRU latches must have at least 150 buffers.</p>
+<p> Oracle8 defines three buffer pools: KEEP, RECYCLE, and DEFAULT. The
+default buffer pool always exists. It is equivalent to the single
+buffer cache in Oracle7. You do not explicitly define the size of the
+default buffer pool and number of working sets assigned to the default
+buffer pool. Rather, each value is inferred from the total number
+allocated minus the number allocated to every other buffer pool. There
+is no requirement that any buffer pool be defined for another buffer
+pool to be used.<br>
+&nbsp;</p>
+<p> <b><u>Guidelines For Configuring Initializtion Parameters</u></b><br>
+DB_BLOCK_LRU_LATCHES: This parameter must be set to at least:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 + #latches for "keep" pool
++ #latches for "recycle" pool.<br>
+The maximum number of LRU latches that can be scpecified is limited to
+2 x #CPUs x #possible buffer pools, in Oracle8 release 8.0.3 is limited
+to 6 x #CPUs (we can have 3 different pools).</p>
+<p> DB_BLOCK_BUFFERS: This parameter must be set to at least:<br>
+50 x ( DB_BLOCK_LRU_LATCHES - #latches for "keep" pool - #latches for
+"recycle" pool) + #buffers for "keep" pool + #buffers for "recycle"
+pool.</p>
+<p> If either blocks or LRU latches assigned are outside of the limits,
+the error "ORA-00378: buffer pools cannot be created as specified" is
+signaled, and we have to look into the alert file to see what is
+causing the error.<br>
+&nbsp;</p>
+<p> <b><u>How to Use Multiple Buffer Pools</u></b><br>
+This section describes how to establish a default buffer pool for an
+object. All blocks for the object will go in the specified buffer pool.</p>
+<p> The BUFFER_POOL clause is used to define the default buffer pool
+for an object. This clause is valid for CREATE and ALTER table,
+cluster, and index DDL statements. The buffer pool name is case
+insensitive. The blocks from an object without an explicitly set buffer
+pool go into the DEFAULT buffer pool.</p>
+<p> If a buffer pool is defined for a partitioned table or index then
+each partition of the object inherits the buffer pool from the table or
+index definition unless overridden with a specific buffer pool.</p>
+<p> When the default buffer pool of an object is changed using the
+ALTER statement, all buffers that currently contain blocks of the
+altered segment remain in the buffer pool they were in before the ALTER
+statement. Newly loaded blocks and any blocks that have aged out and
+are reloaded will go into the new buffer pool.</p>
+<p> The syntax for the buffer pool clause is:<br>
+BUFFER_POOL { KEEP | RECYCLE | DEFAULT }</p>
+<p> For example,<br>
+BUFFER_POOL KEEP<br>
+or<br>
+BUFFER_POOL RECYCLE</p>
+<p> The following DDL statements accept the buffer pool clause:<br>
+CREATE TABLE table name ... STORAGE (buffer_pool_clause)</p>
+<p> A buffer pool is not permitted for a clustered table. The buffer
+pool for a clustered table is specified at the cluster level.</p>
+<p> For an index-organized table, a buffer pool can be defined on both
+the index and the overflow segment.</p>
+<p> For a partitioned table, a buffer pool can be defined on each
+partition. The buffer pool is specified as a part of the storage clause
+for each partition.<br>
+For example:<br>
+CREATE TABLE table_name (col_1 number, col_2 number)<br>
+PARTITION BY RANGE (col_1)<br>
+(PARTITION ONE VALUES LESS THAN (10)<br>
+STORAGE (INITIAL 10k BUFFER_POOL RECYCLE),<br>
+PARTITION TWO VALUES LESS THAN (20) STORAGE (BUFFER_POOL KEEP));</p>
+<p> CREATE INDEX index name ... STORAGE (buffer_pool_clause)</p>
+<p> For a global or local partitioned index, a buffer pool can be
+defined on each partition.<br>
+CREATE CLUSTER cluster_name...STORAGE (buffer_pool_clause)<br>
+ALTER TABLE table_name ... STORAGE (buffer_pool_clause)</p>
+<p> A buffer pool can be defined during a simple alter table as well as
+modify partition, move partition, add partition, and split partition
+(for both new partitions).<br>
+ALTER INDEX index_name ... STORAGE (buffer_pool_clause)</p>
+<p> A buffer pool can be defined during a simple alter index as well as
+rebuild, modify partition, split partition (for both new partitions),
+and rebuild partition.<br>
+ALTER CLUSTER cluster_name ... STORAGE (buffer_pool_clause)<br>
+&nbsp;</p>
+<p> <b><u>How to Size Each Buffer Pool</u></b><br>
+This section explains how to size the keep and recycle buffer pools.</p>
+<p> <b><u>Keep Buffer Pool</u></b><br>
+The goal of the "keep" buffer pool is to retain objects in memory, thus
+avoiding I/O operations. The size of the "keep" buffer pool therefore
+depends on the objects that you wish to keep in the buffer cache. You
+can compute an approximate size for the "keep" buffer pool by adding
+together the sizes of all objects dedicated to this pool. Use the
+ANALYZE command to obtain the size of each object. Although the
+ESTIMATE option provides a rough measurement of sizes, the COMPUTE
+STATISTICS option is preferable because it provides the most accurate
+value possible.<br>
+The buffer pool hit ratio can be determined using the formula:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hit ratio = 1 - (physical
+reads) / (block gets + consistant gets)<br>
+where the values of physical reads, block gets, and consistent gets can
+be obtained for the keep buffer pool from the following query:<br>
+&nbsp;&nbsp;&nbsp; SELECT&nbsp; PHYSICAL_READS, BLOCK_GETS,
+CONSISTENT_GETS<br>
+&nbsp;&nbsp;&nbsp; FROM&nbsp;&nbsp;&nbsp; V$BUFFER_POOL_STATISTICS<br>
+&nbsp;&nbsp;&nbsp; WHERE&nbsp;&nbsp; NAME = 'KEEP';</p>
+<p> The "keep" buffer pool will have a 100% hit ratio only after the
+buffers have been loaded into the buffer pool. Therefore, do not
+compute the hit ratio until after the system has been running for a
+while and has achieved steady-state performance. Calculate the hit
+ratio by taking two snapshots of system performance using the above
+query and using the delta values of physical reads, block gets, and
+consistent gets.</p>
+<p> Keep in mind that a 100% buffer pool hit ratio may not be
+necessary. Often you can decrease the size of your "keep" buffer pool
+by quite a bit and still maintain a sufficiently high hit ratio. Those
+blocks can be allocated to other buffer pools.</p>
+<p> Note: If an object grows in size, then it may no longer fit in the
+keep buffer pool. You will begin to lose blocks out of the cache.</p>
+<p> Remember, each object kept in memory results in a trade-off: it is
+beneficial to keep frequently accessed blocks in the cache, but
+retaining infrequently used blocks results in less space being
+available for other, more active blocks.</p>
+<p> <b><u>Recycle Buffer Pool</u></b><br>
+The goal of the "recycle" buffer pool is to eliminate blocks from
+memory as soon as they are no longer needed. If an application accesses
+the blocks of a very large object in a random fashion then there is
+little chance of reusing a block stored in the buffer pool before it is
+aged out. This is true regardless of the size of the buffer pool (given
+the constraint of the amount of available physical memory). Because of
+this, the object's blocks should not be cached; those cache buffers can
+be<br>
+allocated to other objects.<br>
+Be careful, however, not to discard blocks from memory too quickly. If
+the buffer pool is too small then it is possible for a block to age out
+of the cache before the transaction or SQL statement has completed
+execution. For example, an application may select a value from a table,
+use the value to process some data, and then update the table. If the
+block is removed from the cache after the select statement then it must
+be read from disk again to perform the update. The block needs to be
+retained for the duration of the user transaction.<br>
+By executing statements with a SQL statement tuning tool such as Oracle
+Trace or with the SQL trace facility enabled and running TKPROF on the
+trace files, you can get a listing of the total number of data blocks
+physically read from disk. (This is given in the "disk" column in the
+TKPROF output.) The number of disk reads for a particular SQL statement
+should not exceed the number of disk reads of the same SQL statement
+with all objects allocated from the default buffer pool.</p>
+<p> Two other statistics can tell you whether the "recycle" buffer pool
+is too small. If the "free buffer waits" statistic ever becomes high
+then the pool is probably too small. Likewise, the number of "log file
+sync" wait events will increase. One way to size the "recycle" buffer
+pool is to run the system with the "recycle" buffer pool disabled. At a
+steady state the number of buffers in the default buffer pool that are
+being consumed by segments that would normally go in the "recycle"
+buffer pool can be divided by four. That number can be used to size the
+"recycle" cache.</p>
+<p> <u>Identifying Segments to Put into the Keep and Recycle Buffer
+Pools:</u><br>
+A good candidate for a segment to put into the recycle buffer pool is a
+segment that is at least twice the size of the default buffer pool and
+has incurred at least a few percent of the total I/Os in the system.</p>
+<p> A good candidate for a segment to put into the keep pool is a
+segment that is smaller than 10% of the size of the default buffer pool
+and has incurred at least 1% of the total I/Os in the system.</p>
+<p> The trouble with these rules is that it can sometimes be difficult
+to determine the number of I/Os per segment if a tablespace has more
+than one segment. One way to solve this problem is to sample the I/Os
+that occur over a period of time by selecting from V$SESSION_WAIT to
+determine a statistical distribution of I/Os per segment.</p>
+<p> Another option is to look at the positions of the blocks of a
+segment in the buffer cache. In particular the ratio of the count of
+blocks for a segment in the hot half of the cache to the count in the
+cold half for the same segment can give a good indication of which
+segments are hot and which are cold. If the ratio for a segment is
+close to 1, then buffers for that segment are not frequently heated and
+the segment may be a good candidate for the recycle cache. If the ratio
+is high (perhaps 3) then buffers are frequently heated and the segment
+might be a good candidate for the keep cache.<br>
+</p>
+<p><font face="Verdana, Arial, Helvetica, sans-serif"><b><br>
+</b><span style="text-decoration: underline; font-weight: bold;"><a name="Allocate_Objects_Multiple_Block_Buffers"></a>Allocating Objects
+into Multiple Block Buffers</span></font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif">So
+given that we have the ability to create multiple data buffers within
+the Oracle database, how do we decide what data that we want to put
+each of these data buffers? Let's
+start with some of the more common techniques.</font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><span style="font-weight: bold;">Segregate large-table full-table scans </span>-
+Tables that experience large-table full-table scans will benefit from
+the largest supported block size and should be placed in a tablespace
+with your largest block size.</font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><span style="font-weight: bold;">Set db_recycle_cache_size carefully</span>
+- If you are not setting db_cache_size to the largest supported block
+size for your server, you should not use the db_recycle_cache_size
+parameter. Instead, you will want to create a db_32k_cache_size (or
+whatever your max is), and assign all tables that experience frequent
+large-table full-table scans to the largest buffer cache in your
+database.</font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><span style="font-weight: bold;">The Data Dictionary uses the default cache</span>
+- You should ensure that the data dictionary (e.g. your SYSTEM
+tablespace) is always fully cached in a data buffer pool. Remember, the
+block size of the data dictionary is not as important as ensuring that
+the data buffer associated with the SYSTEM tablespace has enough RAM to
+fully-cache all data dictionary blocks. </font></p>
+<table width="100%" cellspacing="2" cellpadding="2" border="1">
+  <tbody>
+    <tr>
+      <td><b>Segregate
+Indexes</b> - in many cases, Oracle SQL statements will retrieve index
+information via an index range scan, scanning the b-tree or bitmap
+index for ranges of values that match the SQL search criteria. Hence,
+it is beneficial to have as much of an index residing in RAM as
+possible. One of the very first things the Oracle 9i database
+administrator should do is to migrate all of their Oracle indexes into
+a large blocksize tablespace. Indexes will always favor the largest
+supported blocksize.</td>
+    </tr>
+  </tbody>
+</table>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><b>Segregate
+random access reads</b> - For those databases that fetch small rows
+randomly from the disk, the Oracle DBA can segregate these types of
+tables into 2K Tablespaces. We have to remember that while disk is
+becoming cheaper every day, we still don't want to waste any available
+RAM by reading in more information to RAM number actually going be used
+by the query. Hence, many Oracle DBAs will use small block size is in
+cases of tiny, random access record retrieval.</font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><b>Segregate
+LOB column tables</b> - For those Oracle tables that contain raw, long
+raw, or in-line LOBs, moving the table rows to large block size will
+have an extremely beneficial effect on disk I/O. Experienced DBAs will
+check dba_tables.avg_row_len to make sure that the blocksize is larger
+than the average size. Row chaining will be reduced while at the same
+time the entire LOB can be read within a single disk I/O, thereby
+avoiding the additional overhead of having Oracle to go out of read
+multiple blocks.<br>
+</font></p>
+<table width="100%" cellspacing="2" cellpadding="2" border="1">
+  <tbody>
+    <tr>
+      <td><b>Check
+the average row length</b> - The block size for a tables' tablespace
+should always be greater than the average row length for the table
+(dba_tables.avg_row_len). Not it is smaller than the average row
+length, rows chaining occurs and excessive disk I/O is incurred.</td>
+    </tr>
+  </tbody>
+</table>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><b>Use
+large blocks for data sorting</b> - Your TEMP tablespace will benefit
+from the largest supported blocksize. This allows disk sorting to
+happen in large blocks with a minimum of disk I/O.</font></p>
+<p><font size="3" face="Verdana, Arial, Helvetica, sans-serif"><b><br>
+<span style="text-decoration: underline;">Tools for Viewing Data Buffer
+Usage</span></b></font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif">The
+process of segregating Oracle objects into separate data buffers is
+fairly straightforward and Oracle9i provides tools to assist in this
+effort. Many Oracle administrators are not aware of those table blocks
+which consume a disproportional amount of data space within the data
+buffer caches, and Oracle9i provides numerous scripts to allow you to
+see which objects reside most frequently within the data cache.</font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif">The
+query below counts the number of blocks for all segments that reside in
+the buffer cache at that point in time. Depending on your buffer cache
+size, this could require a lot of sort space.</font></p>
+<small><span style="font-family: monospace;">column
+object_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; format a40</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column number_of_blocks format
+999,999,999,999</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">SELECT substr(o.object_name,1,50)
+Object_Name, </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+COUNT(1) number_of_blocks</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; FROM DBA_OBJECTS o, V$BH bh</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; WHERE o.object_id&nbsp; =
+bh.objd</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; AND o.owner
+not in ('SYS','SYSTEM','PERFSTAT')</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; GROUP BY o.object_name</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; ORDER BY count(1) asc;<br>
+<br style="font-family: monospace;">
+</span><span style="font-family: monospace;">Here we see the object
+name and the number of data blocks in the buffer.<br>
+<br style="font-family: monospace;">
+</span><span style="font-family: monospace;">OBJECT_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+NUMBER_OF_BLOCKS</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">--------------------------------------------------
+----------------</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">FLOWFIELD_ARCH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3260</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">USERACTIVITYLOG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3271</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">FLOWDOCUMENT_ARCH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6370</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">CUSTOMERACCOUNT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+25627</span></small><span style="font-family: courier new,courier,mono,monospace;"><br>
+<br>
+</span>
+<p><font size="3" face="Verdana, Arial, Helvetica, sans-serif"><b>Creating
+Separate Data Buffers</b></font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif">The
+process of assigning table or index blocks into named block size
+tablespaces is very straightforward within Oracle9i. We begin by
+creating a tablespace and using the new blocksize parameter in the
+create tablespace syntax. In the example below we create a 32K
+tablespace within the Oracle database.</font></p>
+<pre><font size="2" face="Courier New, Courier, mono"><i>create tablespace 32k_tablespace<br>datafile '/u01/oradata/mysid/32k_file.dbf'<br>size 100M blocksize 32k;</i></font>
+</pre>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif">Once we
+have the names tablespaces created, the next step is to set a database
+cache to correspond to that block size. Remember, with Oracle 9i we no
+longer have the init.ora file, and we create the named cache
+dynamically with an alter database statement.</font><br>
+</p>
+<pre><font size="2" face="Courier New, Courier, mono"><i>alter system set db_2k_cache_size=200M;       <br>alter system set db_4k_cache_size=500M;       <br>alter system set db_8k_cache_size=800M;       <br>alter system set db_16k_cache_size=1600M; </i>    </font></pre>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif">Once
+we've created the named RAM buffer, and the tablespace, we are now
+ready to migrate the Oracle objects into the new tablespace. There a
+variety of methods for moving objects from one tablespace to another,
+and many Oracle administrators are already familiar with using the
+create table as select or CTAS syntax in order to move the table. For
+indexes, the alter index rebuild command can be used to quickly migrate
+an index tree between tablespaces.<br>
+</font></p>
+<p><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><br>
+This is the most important script in this text because it provides a
+detailed analysis of those objects in the data buffers. This
+information is critical when considering an alteration to the data
+buffer sizes. <br>
+</font></p>
+<p><font size="-1"><span style="font-family: monospace;">set pages 999</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">set lines 92</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">ttitle 'Contents of Data Buffers'</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">drop table t1;</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">create table t1 as</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">select
+o.owner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+owner,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+o.object_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+object_name,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+o.subobject_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+subobject_name,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+o.object_type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+object_type,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+count(distinct file# || block#) num_blocks</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">from dba_objects o, v$bh bh</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">where o.data_object_id&nbsp; =
+bh.objd</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; and o.owner not in
+('SYS','SYSTEM')</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; and bh.status != 'free'</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">group by o.owner, o.object_name,
+o.subobject_name, o.object_type</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">order by count(distinct file# ||
+block#) desc;</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">column c0 heading
+"Owner"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+format a12</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column c1 heading
+"Object|Name"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+format a20</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column c2 heading
+"Object|Type"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+format a7</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column c3 heading "Number
+of|Blocks in|Buffer|Cache"&nbsp;&nbsp; format 99,999,999</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column c4 heading "% of
+|object|blocks |in Buffer"&nbsp;&nbsp;&nbsp;&nbsp; format 999</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column c5 heading
+"Buffer|Pool"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+format a7</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">column c6 heading
+"Block|Size"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+format 99,999</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">select
+t1.owner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+c0,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+object_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+c1,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; case when
+object_type = 'TABLE PARTITION' then 'TAB PART'</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+when object_type = 'INDEX PARTITION' then 'IDX PART'</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else object_type end c2,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;
+sum(num_blocks)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+c3,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;
+(sum(num_blocks)/greatest(sum(blocks), .001))*100&nbsp;&nbsp; c4,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;
+buffer_pool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+c5,</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;
+sum(bytes)/sum(blocks)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+c6</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">from t1, dba_segments s</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">where s.segment_name =
+t1.object_name</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; and s.owner = t1.owner</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; and s.segment_type =
+t1.object_type</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; and
+nvl(s.partition_name,'-') = nvl(t1.subobject_name,'-')</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">group by t1.owner, object_name,
+object_type, buffer_pool</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">having sum(num_blocks) &gt; 10</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">order by sum(num_blocks) desc;</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">drop table t1;</span></font><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><br>
+<br>
+A sample listing from this exciting report is shown below. We can see
+that the report lists the tables and indexes that reside inside the
+data buffer. This is important information for the Oracle professional
+who needs to know how many blocks for each object reside in the RAM
+buffer. To effectively manage the limited RAM resources, the Oracle DBA
+must be able to know the ramifications of decreasing the size of the
+data buffer caches. <br>
+Here is the report from this script when run against a large Oracle
+data warehouse. <br>
+</font></p>
+<p><font size="-1"><span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Contents of Data Buffers</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Number of Percentage</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Blocks in of object</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Object&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Object&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Buffer&nbsp;&nbsp;&nbsp; Buffer&nbsp; Buffer&nbsp;&nbsp;&nbsp; Block</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">Owner&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Cache&nbsp;&nbsp;&nbsp;&nbsp; Blocks&nbsp;
+Pool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Size</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">------------
+-------------------------- ----------- ---------- ------- -------</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WORKORDER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TAB
+PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+94,856&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6
+DEFAULT&nbsp;&nbsp; 8,192</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+HOUSE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+TAB PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+50,674&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7
+DEFAULT&nbsp; 16,384</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">ODSA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WORKORDER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+TABLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+28,481&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2
+DEFAULT&nbsp; 16,384</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SUBSCRIBER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TAB
+PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+23,237&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3
+DEFAULT&nbsp;&nbsp; 4,096</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">ODS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WORKORDER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+TABLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+19,926&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1
+DEFAULT&nbsp;&nbsp; 8,192</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WRKR_ACCT_IDX&nbsp;&nbsp;&nbsp;&nbsp;
+INDEX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+8,525&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5
+DEFAULT&nbsp; 16,384</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SUSC_SVCC_IDX&nbsp;&nbsp;&nbsp;&nbsp;
+INDEX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+8,453&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 38
+KEEP&nbsp;&nbsp;&nbsp;&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WRKR_DTEN_IDX&nbsp;&nbsp;&nbsp;&nbsp; IDX
+PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+6,035&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6
+KEEP&nbsp;&nbsp;&nbsp;&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SUSC_SVCC_IDX&nbsp;&nbsp;&nbsp;&nbsp;
+INDEX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5,485&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 25 DEFAULT&nbsp;
+16,384</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WRKR_LCDT_IDX&nbsp;&nbsp;&nbsp;&nbsp; IDX
+PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5,149&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5
+DEFAULT&nbsp; 16,384</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WORKORDER_CODE&nbsp;&nbsp;&nbsp;
+TABLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0
+RECYCLE&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WRKR_LCDT_IDX&nbsp;&nbsp;&nbsp;&nbsp; IDX
+PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4,929&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4
+KEEP&nbsp;&nbsp;&nbsp;&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WOSC_SCDE_IDX&nbsp;&nbsp;&nbsp;&nbsp;
+INDEX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4,479&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 6
+KEEP&nbsp;&nbsp;&nbsp;&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+SBSC_ACCT_IDX&nbsp;&nbsp;&nbsp;&nbsp;
+INDEX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+4,439&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8
+DEFAULT&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WRKR_WKTP_IDX&nbsp;&nbsp;&nbsp;&nbsp; IDX
+PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3,825&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7
+KEEP&nbsp;&nbsp;&nbsp;&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DB_AUDIT&nbsp;&nbsp;&nbsp;&nbsp;
+CUSTOMER_AUDIT&nbsp;&nbsp;&nbsp;
+TABLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+3,301&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 99
+DEFAULT&nbsp;&nbsp; 4,096</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WRKR_CLSS_IDX&nbsp;&nbsp;&nbsp;&nbsp; IDX
+PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2,984&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5
+KEEP&nbsp;&nbsp;&nbsp;&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WRKR_AHWO_IDX&nbsp;&nbsp;&nbsp;&nbsp;
+INDEX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2,838&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2
+DEFAULT&nbsp; 32,768</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">DW01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+WRKR_DTEN_IDX&nbsp;&nbsp;&nbsp;&nbsp; IDX
+PART&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2,801&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5
+KEEP&nbsp;&nbsp;&nbsp;&nbsp; 32,768</span></font><font size="-1" face="Verdana, Arial, Helvetica, sans-serif"><br>
+<br>
+This is a very important report because we see three object types
+(tables, indexes, and partitions), and we also see the sub-sets of the
+DEFAULT pool for KEEP and RECYCLE. <br>
+Also, <span style="font-weight: bold; text-decoration: underline;">note
+that all indexes </span>are defined in the largest supported block
+size (db_32k_cache_size), and multiple buffer pools of 4K, 8K, 16K and
+32K sizes are defined.&nbsp; <br>
+The output of this script is somewhat confusing because of the repeated
+DEFAULT buffer pool name. This is misleading because the KEEP and
+RECYCLE buffer pools are sub-sets of db_cache_size and can ONLY
+accommodate objects with the DEFAULT db_block_size. <br>
+Conversely, any block sizes that are NOT the default db_block_size, go
+into the buffer pool named DEFAULT. As you can see from the output
+listing, there are really 6 mutually exclusive and independently-sized
+buffer pools, and four of them are called "DEFAULT." <br>
+It is valuable to run this report repeatedly because the Oracle data
+buffers are dynamic and constantly changing. Running this script
+frequently allows us to view the blocks entering and leaving the data
+buffer. We can see the midpoint insertion method in action and the hot
+and cold regions as they update. Each time a block is re-referenced it
+moves to the head of the MRU chain on the hot side of the data buffer.
+Blocks that are accessed less frequently will age-out, first moving
+into the cold region and eventually being paged-out to make room for
+new incoming blocks. <br>
+This approach is even more important when considering a decrease to a
+cache size. When you issue an alter system command to decrease the
+cache size, Oracle will grab pages from the least recently used (LRU)
+end of the buffer. Depending on the amount of RAM removed, an alter
+system command will un-cache data blocks that may be needed by upcoming
+SQL statements<br>
+<br>
+</font></p>
+<p> </p>
+<script src="Oracle%20Multiple%20Buffer%20Pools%20Feature_arquivos/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-513593-1";
+urchinTracker();
+</script>
+
+
+</body></html>

@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html style="height: 100%;" lang="en"><head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <link rel="shortcut icon" href="https://oracle-base.com/favicon.ico" type="image/x-icon">
+<!-- End of HtmlHeader.php -->
+
+<!-- Start of Title and Meta -->
+  <title>ORACLE-BASE - Scheduler (DBMS_SCHEDULER) in Oracle Database 10g</title>
+  <meta name="description" content="ORACLE-BASE - Scheduler (DBMS_SCHEDULER) in Oracle Database 10g">
+  <meta name="keywords" content="oracle, 10g, scheduler, dbms_scheduler, program, schedule, job class, window, group, calendar, syntax">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/bootstrap.css" rel="stylesheet">
+  <link href="data:text/css;charset=utf-8," data-href="/frameworks/bootstrap-3-3-6/css/bootstrap-theme.min.css" rel="stylesheet" id="bs-theme-stylesheet">
+
+  <meta property="og:title" content="ORACLE-BASE - Scheduler (DBMS_SCHEDULER) in Oracle Database 10g">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="ORACLE-BASE - Scheduler (DBMS_SCHEDULER) in Oracle Database 10g">
+  <meta property="og:image" content="https://oracle-base.com/images/site-media-image.png">
+  <meta property="og:url" content="https://oracle-base.com/articles/10g/scheduler-10g">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta property="og:site_name" content="oracle-base.com">
+  <meta name="twitter:image:alt" content="ORACLE-BASE - Oracle DBA and development articles, scripts, HOWTOs and forums (8i, 9i, 10g, 11g, 12c, 13c)">
+
+<!-- End of Title and Meta -->
+
+  <!-- Font Awesome -->
+  <link href="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/font-awesome.css" rel="stylesheet">
+
+  <!-- Custom -->
+  <link href="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/callouts.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+<!-- Google Analytics Start-->
+<script src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/cbgapi.loaded_0" async=""></script><script src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/ca-pub-9901106718381505.js"></script><script type="text/javascript" async="" src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/plusone.js" gapi_processed="true"></script><script async="" src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/analytics.js"></script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-2100406-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- Google Analytics End-->
+
+  <link rel="canonical" href="https://oracle-base.com/articles/10g/scheduler-10g">
+
+<link type="text/css" rel="stylesheet" charset="UTF-8" href="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/translateelement.css"><script type="text/javascript" charset="UTF-8" src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/main.js"></script><script type="text/javascript" charset="UTF-8" src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/element_main.js"></script><style>.goog-te-ftab-float {z-index:9999999; overflow:visible; position:fixed; _position:absolute;top:auto;left:auto;bottom:0px; _top:expression((-0-document.getElementById('\3a 0.floatContainer').offsetHeight+(hack3=document.documentElement.clientHeight||document.body.clientHeight)+(hack4=document.documentElement.scrollTop||document.body.scrollTop))+'px');right:20px; _left:expression((-20-document.getElementById('\3a 0.floatContainer').offsetWidth+(hack5=document.documentElement.clientWidth||document.body.clientWidth)+(hack6=document.documentElement.scrollLeft||document.body.scrollLeft))+'px');}</style></head>
+<body style="position: relative; min-height: 100%; top: 0px;">
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://oracle-base.com/" style="padding-top:7px;"><img src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/site_logo_medium.gif" alt=""></a>
+    </div>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Articles <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="https://oracle-base.com/articles/8i/articles-8i">Oracle 8i</a></li>
+            <li><a href="https://oracle-base.com/articles/9i/articles-9i">Oracle 9i</a></li>
+            <li><a href="https://oracle-base.com/articles/10g/articles-10g">Oracle 10g</a></li>
+            <li><a href="https://oracle-base.com/articles/11g/articles-11g">Oracle 11g</a></li>
+            <li><a href="https://oracle-base.com/articles/12c/articles-12c">Oracle 12c</a></li>
+            <li><a href="https://oracle-base.com/articles/13c/articles-13c">Oracle 13c</a></li>
+            <li><a href="https://oracle-base.com/articles/misc/articles-misc">Miscellaneous</a></li>
+            <li><a href="https://oracle-base.com/articles/plsql/articles-plsql">PL/SQL</a></li>
+            <li><a href="https://oracle-base.com/articles/sql/articles-sql">SQL</a></li>
+            <li><a href="https://oracle-base.com/articles/rac/articles-rac">Oracle RAC</a></li>
+            <li><a href="https://oracle-base.com/articles/apps/articles-apps">Oracle Apps</a></li>
+            <li><a href="https://oracle-base.com/articles/web/articles-web">WebLogic</a></li>
+            <li><a href="https://oracle-base.com/articles/linux/articles-linux">Linux</a></li>
+            <li><a href="https://oracle-base.com/articles/mysql/articles-mysql">MySQL</a></li>
+          </ul>
+        </li>
+        <li><a href="https://oracle-base.com/dba/scripts">Scripts</a></li>
+        <li><a href="https://oracle-base.com/blog/">Blog</a></li>
+        <li><a href="https://oracle-base.com/misc/ocp-certification">Certification</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Misc <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="https://oracle-base.com/forums/">Forums</a></li>
+            <li><a href="https://oracle-base.com/aggregator/">Aggregator</a></li>
+            <li><a href="https://oracle-base.com/books/books">Books</a></li>
+            <li><a href="https://oracle-base.com/misc/industry-news">Industry News</a></li>
+            <li><a href="https://oracle-base.com/misc/firefox">Firefox Plugins</a></li>
+            <li><a href="https://oracle-base.com/misc/social">Social</a></li>
+            <li><a href="https://oracle-base.com/misc/links">Links</a></li>
+          </ul>
+        </li>
+
+        <li><a href="https://oracle-base.com/articles/10g/scheduler-10g?display_type=printable" rel="nofollow">Printer Friendly</a></li>
+
+        <li><a href="https://oracle-base.com/misc/site-info">About</a></li>
+      </ul>
+
+      <form class="navbar-form navbar-right" target="_top" action="/misc/search-results" id="cse-search-box">
+        <div class="form-group">
+        <input name="cx" value="partner-pub-9901106718381505:8435801439" type="hidden">
+        <input name="cof" value="FORID:10" type="hidden">
+        <input name="ie" value="UTF-8" type="hidden">
+        <input class="form-control" name="q" size="15" type="text">
+        </div>
+        <button type="submit" name="sa" class="btn btn-default">Search</button>
+      </form>
+
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+
+
+<div class="container-fluid" id="content" style="margin-right: 5px; margin-left: 5px;">
+
+<!-- End of PageHeaderResponsive.php -->
+
+<!-- Start of Content -->
+
+      <div style="float:right">
+        <!-- Article, Top, Desktop 336x280 -->
+        <ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-9901106718381505" data-ad-slot="2858304370" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;width:336px;height:280px;" width="336" height="280" frameborder="0"></iframe></ins></ins></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+            <div style="text-align:center;line-height:10px;">
+
+      <a id="twtButton" style="color:#4099FF" target="_blank" href="http://twitter.com/intent/tweet?status=ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g+https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs"><i class="fa fa-twitter-square fa-3x" aria-hidden="true"></i></a>
+
+      <a id="fbButton" style="color:#3b5998" target="_blank" href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs&amp;title=ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g"><i class="fa fa-facebook-square fa-3x" aria-hidden="true"></i></a>
+
+      <a id="gplusButton" style="color:#dd4b39" target="_blank" href="https://plus.google.com/share?url=https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs"><i class="fa fa-google-plus-square fa-3x" aria-hidden="true"></i></a>
+
+      <a id="liButton" style="color:#0077B5" target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs&amp;title=ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g&amp;source=oracle-base.com"><i class="fa fa-linkedin-square fa-3x" aria-hidden="true"></i></a>
+
+      <a id="redditButton" style="color:#FF5700" target="_blank" href="http://www.reddit.com/submit?url=https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs&amp;title=ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g"><i class="fa fa-reddit-square fa-3x" aria-hidden="true"></i></a>
+
+   </div>
+
+<script type="text/javascript">
+var doc_title = encodeURIComponent(document.title);
+var doc_url   = encodeURIComponent(window.location.href);
+
+document.getElementById('twtButton').setAttribute('href', 'http://twitter.com/intent/tweet?status='+doc_title+'+'+doc_url);
+document.getElementById('fbButton').setAttribute('href', 'http://www.facebook.com/sharer/sharer.php?u='+doc_url+'&title='+doc_title);
+document.getElementById('gplusButton').setAttribute('href', 'https://plus.google.com/share?url='+doc_url);
+document.getElementById('liButton').setAttribute('href', 'http://www.linkedin.com/shareArticle?mini=true&url='+doc_url+'&title='+doc_title+'&source=oracle-base.com');
+document.getElementById('redditButton').setAttribute('href', 'http://www.reddit.com/submit?url='+doc_url+'&title='+doc_title);
+</script>
+      </div>
+
+
+<div class="visible-md-block visible-lg-block">
+  <p>
+  <small>
+    <a href="https://oracle-base.com/articles/8i/articles-8i">8i</a> |
+    <a href="https://oracle-base.com/articles/9i/articles-9i">9i</a> |
+    <a href="https://oracle-base.com/articles/10g/articles-10g">10g</a> |
+    <a href="https://oracle-base.com/articles/11g/articles-11g">11g</a> |
+    <a href="https://oracle-base.com/articles/12c/articles-12c">12c</a> |
+    <a href="https://oracle-base.com/articles/13c/articles-13c">13c</a> |
+    <a href="https://oracle-base.com/articles/misc/articles-misc">Misc</a> |
+    <a href="https://oracle-base.com/articles/plsql/articles-plsql">PL/SQL</a> |
+    <a href="https://oracle-base.com/articles/sql/articles-sql">SQL</a> |
+    <a href="https://oracle-base.com/articles/rac/articles-rac">RAC</a> |
+    <a href="https://oracle-base.com/articles/web/articles-web">WebLogic</a> |
+    <a href="https://oracle-base.com/articles/linux/articles-linux">Linux</a>
+  </small>
+  </p>
+</div>
+
+ <small><a href="https://oracle-base.com/">Home</a> » <a href="https://oracle-base.com/articles">Articles</a> » <a href="https://oracle-base.com/articles/10g">10g</a> » Here</small><br>
+
+<a id="Top"></a>
+<h1>Scheduler (DBMS_SCHEDULER) in Oracle Database 10g</h1>
+
+<p>Oracle 10g includes a comprehensive scheduler (<code>DBMS_SCHEDULER</code>) to replace and extend the functionality provided by the <code>DBMS_JOB</code> package. Jobs form the core of the functionality, but there are several other components available.</p>
+
+<div class="bs-callout bs-callout-primary">
+<p><i class="fa fa-pencil-square-o bs-callout-primary-icon"></i> This is
+ a server-based scheduler, so everything is done in the context of the 
+database server. It is nothing to do with scheduling things to happen on
+ a client PC.</p>
+</div>
+
+<ul>
+  <li><a href="#simple">Simple Example</a></li>
+  <li><a href="#programs">Programs</a></li>
+  <li><a href="#schedules">Schedules</a></li>
+  <li><a href="#jobs">Jobs</a></li>
+  <li><a href="#job_classes">Job Classes</a></li>
+  <li><a href="#windows">Windows</a></li>
+  <li><a href="#window_groups">Windows Groups</a></li>
+  <li><a href="#enable_disable_and_attributes">Enable, Disable and Attributes</a></li>
+  <li><a href="#configuring_the_scheduler">Configuring The Scheduler</a></li>
+  <li><a href="#calendar_syntax_examples">Calendar Syntax Examples</a></li>
+  <li><a href="#ddl">Extracting DDL</a></li>
+  <li><a href="#views">Scheduler Views</a></li>
+  <li><a href="#time-zones">Time Zones</a></li>
+  <li><a href="#implicit-commit">Implicit Commit</a></li>
+</ul>
+
+<p>Related articles.</p>
+
+<ul>
+  <li><a href="https://oracle-base.com/articles/misc/articles-misc#scheduler">All Scheduler Articles</a></li>
+</ul>
+
+
+
+<a id="simple"></a><h2>Simple Example</h2>
+
+<p>Although the scheduler is capable of very complicated schedules, on 
+many occasions you just want to create a simple job with everything 
+defined inline. If that's all you want, the following example is for 
+you.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.create_job (
+    job_name        =&gt; 'test_full_job_definition',
+    job_type        =&gt; 'PLSQL_BLOCK',
+    job_action      =&gt; 'BEGIN my_job_procedure; END;',
+    start_date      =&gt; SYSTIMESTAMP,
+    repeat_interval =&gt; 'freq=hourly; byminute=0; bysecond=0;',
+    enabled         =&gt; TRUE);
+END;
+/</pre>
+
+
+<a id="programs"></a><h2>Programs</h2>
+
+<p>The scheduler allows you to optionally create programs which hold 
+metadata about a task, but no schedule information. A program may 
+related to a PL/SQL block, a stored procedure or an OS executable file. 
+Programs are created using the <code>CREATE_PROGRAM</code> procedure.</p>
+
+<pre>-- Create the test programs.
+BEGIN
+  -- PL/SQL Block.
+  DBMS_SCHEDULER.create_program (
+    program_name   =&gt; 'test_plsql_block_prog',
+    program_type   =&gt; 'PLSQL_BLOCK',
+    program_action =&gt; 'BEGIN DBMS_STATS.gather_schema_stats(''SCOTT''); END;',
+    enabled        =&gt; TRUE,
+    comments       =&gt; 'Program to gather SCOTT''s statistics using a PL/SQL block.');
+
+  -- Shell Script.
+  DBMS_SCHEDULER.create_program (
+    program_name        =&gt; 'test_executable_prog',
+    program_type        =&gt; 'EXECUTABLE',
+    program_action      =&gt; '/u01/app/oracle/dba/gather_scott_stats.sh',
+    number_of_arguments =&gt; 0,
+    enabled             =&gt; TRUE,
+    comments            =&gt; 'Program to gather SCOTT''s statistics us a shell script.');
+
+  -- Stored Procedure with Arguments.
+  DBMS_SCHEDULER.create_program (
+    program_name        =&gt; 'test_stored_procedure_prog',
+    program_type        =&gt; 'STORED_PROCEDURE',
+    program_action      =&gt; 'DBMS_STATS.gather_schema_stats',
+    number_of_arguments =&gt; 1,
+    enabled             =&gt; FALSE,
+    comments            =&gt; 'Program to gather SCOTT''s statistics using a stored procedure.');
+
+  DBMS_SCHEDULER.define_program_argument (
+    program_name      =&gt; 'test_stored_procedure_prog',
+    argument_name     =&gt; 'ownname',
+    argument_position =&gt; 1,
+    argument_type     =&gt; 'VARCHAR2',
+    default_value     =&gt; 'SCOTT');
+
+  DBMS_SCHEDULER.enable (name =&gt; 'test_stored_procedure_prog');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display the program details.
+SELECT owner, program_name, enabled FROM dba_scheduler_programs;
+
+OWNER                          PROGRAM_NAME                   ENABL
+------------------------------ ------------------------------ -----
+SYS                            PURGE_LOG_PROG                 TRUE
+SYS                            GATHER_STATS_PROG              TRUE
+SYS                            TEST_PLSQL_BLOCK_PROG          TRUE
+SYS                            TEST_EXECUTABLE_PROG           TRUE
+SYS                            TEST_STORED_PROCEDURE_PROG     TRUE
+
+5 rows selected.</pre>
+
+<p>Notice how programs that accept arguments must have the arguments defined before they can be enabled.</p>
+
+<p>Programs can be deleted using the <code>DROP_PROGRAM</code> procedure.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.drop_program (program_name =&gt; 'test_plsql_block_prog');
+  DBMS_SCHEDULER.drop_program (program_name =&gt; 'test_stored_procedure_prog');
+  DBMS_SCHEDULER.drop_program (program_name =&gt; 'test_executable_prog');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display the program details.
+SELECT owner, program_name, enabled FROM dba_scheduler_programs;
+
+OWNER                          PROGRAM_NAME                   ENABL
+------------------------------ ------------------------------ -----
+SYS                            PURGE_LOG_PROG                 TRUE
+SYS                            GATHER_STATS_PROG              TRUE
+
+2 rows selected.</pre>
+
+
+
+<a id="schedules"></a><h2>Schedules</h2>
+
+<p>Schedules optionally define the start time, end time and interval related to a job. Schedules are created using the <code>CREATE_SCHEDULE</code> procedure.</p>
+
+<pre>-- Create the schedule.
+BEGIN
+  DBMS_SCHEDULER.create_schedule (
+    schedule_name   =&gt; 'test_hourly_schedule',
+    start_date      =&gt; SYSTIMESTAMP,
+    repeat_interval =&gt; 'freq=hourly; byminute=0',
+    end_date        =&gt; NULL,
+    comments        =&gt; 'Repeats hourly, on the hour, for ever.');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display the schedule details.
+SELECT owner, schedule_name FROM dba_scheduler_schedules;
+
+OWNER                          SCHEDULE_NAME
+------------------------------ ------------------------------
+SYS                            DAILY_PURGE_SCHEDULE
+SYS                            TEST_HOURLY_SCHEDULE
+
+2 rows selected.</pre>
+
+<p>Notice how the interval is defined using the calendaring syntax. This is explained <a href="#calendar_syntax_examples">below</a>.</p>
+
+<p>A schedule can be dropped using the <code>DROP_SCHEDULE</code> procedure.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.drop_schedule (schedule_name =&gt; 'TEST_HOURLY_SCHEDULE');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display the schedule details.
+SELECT owner, schedule_name FROM dba_scheduler_schedules;
+
+OWNER                          SCHEDULE_NAME
+------------------------------ ------------------------------
+SYS                            DAILY_PURGE_SCHEDULE
+
+1 row selected.</pre>
+
+<p>Schedules don't have to be created as separate objects. They can be defined using the <code>REPEAT_INTERVAL</code> parameter of the <code>CREATE_JOB</code> procedure.</p>
+
+
+ 
+<a id="jobs"></a><h2>Jobs</h2>
+
+<p>Jobs are what the scheduler is all about. They can either be made up 
+of predefined parts (programs and schedules) or completely self 
+contained depending on which overload of the <code>CREATE_JOB</code> procedure is used to create them.</p>
+
+<pre>-- Create jobs.
+BEGIN
+  -- Job defined entirely by the CREATE JOB procedure.
+  DBMS_SCHEDULER.create_job (
+    job_name        =&gt; 'test_full_job_definition',
+    job_type        =&gt; 'PLSQL_BLOCK',
+    job_action      =&gt; 'BEGIN DBMS_STATS.gather_schema_stats(''SCOTT''); END;',
+    start_date      =&gt; SYSTIMESTAMP,
+    repeat_interval =&gt; 'freq=hourly; byminute=0',
+    end_date        =&gt; NULL,
+    enabled         =&gt; TRUE,
+    comments        =&gt; 'Job defined entirely by the CREATE JOB procedure.');
+
+  -- Job defined by an existing program and schedule.
+  DBMS_SCHEDULER.create_job (
+    job_name      =&gt; 'test_prog_sched_job_definition',
+    program_name  =&gt; 'test_plsql_block_prog',
+    schedule_name =&gt; 'test_hourly_schedule',
+    enabled       =&gt; TRUE,
+    comments      =&gt; 'Job defined by an existing program and schedule.');
+
+  -- Job defined by existing program and inline schedule.
+  DBMS_SCHEDULER.create_job (
+    job_name        =&gt; 'test_prog_job_definition',
+    program_name    =&gt; 'test_plsql_block_prog',
+    start_date      =&gt; SYSTIMESTAMP,
+    repeat_interval =&gt; 'freq=hourly; byminute=0',
+    end_date        =&gt; NULL,
+    enabled         =&gt; TRUE,
+    comments        =&gt; 'Job defined by existing program and inline schedule.');
+
+  -- Job defined by existing schedule and inline program.
+  DBMS_SCHEDULER.create_job (
+     job_name      =&gt; 'test_sched_job_definition',
+     schedule_name =&gt; 'test_hourly_schedule',
+     job_type      =&gt; 'PLSQL_BLOCK',
+     job_action    =&gt; 'BEGIN DBMS_STATS.gather_schema_stats(''SCOTT''); END;',
+     enabled       =&gt; TRUE,
+     comments      =&gt; 'Job defined by existing schedule and inline program.');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display job details.
+SELECT owner, job_name, enabled FROM dba_scheduler_jobs;
+
+OWNER                          JOB_NAME                       ENABL
+------------------------------ ------------------------------ -----
+SYS                            PURGE_LOG                      TRUE
+SYS                            GATHER_STATS_JOB               TRUE
+SYS                            TEST_FULL_JOB_DEFINITION       TRUE
+SYS                            TEST_PROG_SCHED_JOB_DEFINITION TRUE
+SYS                            TEST_PROG_JOB_DEFINITION       TRUE
+SYS                            TEST_SCHED_JOB_DEFINITION      TRUE
+
+6 rows selected.</pre>
+
+<p>Jobs are normally run asynchronously under the control of the job coordinator, but they can be controlled manually using the <code>RUN_JOB</code> and <code>STOP_JOB</code> procedures.</p>
+
+<pre>BEGIN
+  -- Run job synchronously.
+  DBMS_SCHEDULER.run_job (job_name            =&gt; 'test_full_job_definition',
+                          use_current_session =&gt; TRUE);
+
+  -- Stop jobs.
+  DBMS_SCHEDULER.stop_job (job_name =&gt; 'test_full_job_definition, test_prog_sched_job_definition');
+END;
+/</pre>
+
+<p>Jobs can be deleted using the <code>DROP_JOB</code> procedure.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.drop_job (job_name =&gt; 'test_full_job_definition');
+  DBMS_SCHEDULER.drop_job (job_name =&gt; 'test_prog_sched_job_definition');
+  DBMS_SCHEDULER.drop_job (job_name =&gt; 'test_prog_job_definition');
+  DBMS_SCHEDULER.drop_job (job_name =&gt; 'test_sched_job_definition');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display job details.
+SELECT owner, job_name, enabled FROM dba_scheduler_jobs;
+
+OWNER                          JOB_NAME                       ENABL
+------------------------------ ------------------------------ -----
+SYS                            PURGE_LOG                      TRUE
+SYS                            GATHER_STATS_JOB               TRUE
+
+2 rows selected.</pre>
+
+
+
+<a id="job_classes"></a><h2>Job Classes</h2>
+
+<p>Job classes allow grouping of jobs with similar characteristics and resource requierments which eases administration. If the <code>JOB_CLASS</code> parameter of the <code>CREATE_JOB</code> procedure is undefined the job is assigned to the <code>DEFAULT_JOB_CLASS</code>. A job class is created using the <code>CREATE_JOB_CLASS</code> procedure.</p>
+
+<pre>-- Display the current resource consumer groups.
+SELECT consumer_group FROM dba_rsrc_consumer_groups;
+
+CONSUMER_GROUP
+------------------------------
+OTHER_GROUPS
+DEFAULT_CONSUMER_GROUP
+SYS_GROUP
+LOW_GROUP
+AUTO_TASK_CONSUMER_GROUP
+
+5 rows selected.
+
+-- Create a job class.
+BEGIN
+  DBMS_SCHEDULER.create_job_class (
+    job_class_name          =&gt;  'test_job_class',
+    resource_consumer_group =&gt;  'low_group');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display job class details.
+SELECT job_class_name, resource_consumer_group FROM dba_scheduler_job_classes;
+
+JOB_CLASS_NAME                 RESOURCE_CONSUMER_GROUP
+------------------------------ ------------------------------
+DEFAULT_JOB_CLASS
+AUTO_TASKS_JOB_CLASS           AUTO_TASK_CONSUMER_GROUP
+TEST_JOB_CLASS                 LOW_GROUP
+
+3 rows selected.</pre>
+
+<p>Jobs can be assigned to a job class either during or after creation using the <code>SET_ATTRIBUTE</code> procedure.</p>
+
+<pre>BEGIN
+  -- Job defined by an existing program and schedule and assigned to a job class.
+  DBMS_SCHEDULER.create_job (
+    job_name      =&gt; 'test_prog_sched_class_job_def',
+    program_name  =&gt; 'test_plsql_block_prog',
+    schedule_name =&gt; 'test_hourly_schedule',
+    job_class     =&gt; 'test_job_class',
+    enabled       =&gt; TRUE,
+    comments      =&gt; 'Job defined by an existing program and schedule and assigned toa job class.');
+
+  DBMS_SCHEDULER.set_attribute (
+    name      =&gt; 'test_prog_sched_job_definition',
+    attribute =&gt; 'job_class',
+    value     =&gt; 'test_job_class');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display job details.
+SELECT owner, job_name, job_class, enabled FROM dba_scheduler_jobs;
+
+OWNER                          JOB_NAME                       JOB_CLASS                      ENABL
+------------------------------ ------------------------------ ------------------------------ -----
+SYS                            PURGE_LOG                      DEFAULT_JOB_CLASS              TRUE
+SYS                            GATHER_STATS_JOB               AUTO_TASKS_JOB_CLASS           TRUE
+SYS                            TEST_FULL_JOB_DEFINITION       DEFAULT_JOB_CLASS              TRUE
+SYS                            TEST_PROG_SCHED_JOB_DEFINITION TEST_JOB_CLASS                 TRUE
+SYS                            TEST_PROG_JOB_DEFINITION       DEFAULT_JOB_CLASS              TRUE
+SYS                            TEST_SCHED_JOB_DEFINITION      DEFAULT_JOB_CLASS              TRUE
+SYS                            TEST_PROG_SCHED_CLASS_JOB_DEF  TEST_JOB_CLASS                 TRUE
+
+7 rows selected.</pre>
+
+<p>Job classes can be dropped using <code>DROP_JOB_CLASS</code> procedure.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.drop_job_class (
+    job_class_name =&gt; 'test_job_class',
+    force          =&gt; TRUE);
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display job class details.
+SELECT job_class_name, resource_consumer_group FROM dba_scheduler_job_classes;
+
+JOB_CLASS_NAME                 RESOURCE_CONSUMER_GROUP
+------------------------------ ------------------------------
+DEFAULT_JOB_CLASS
+AUTO_TASKS_JOB_CLASS           AUTO_TASK_CONSUMER_GROUP
+
+2 rows selected.</pre>
+
+<p>The force option disables any dependent jobs and sets their job class
+ to the default value. If the job class has no dependents the force 
+option is not necessary.</p>
+
+<p>Jobs can be assigned a priority between 1 and 5, which 1 being the 
+highest, which the job queue coordinator can use to prioritise jobs 
+within their class. If no priority is assigned, a priority of 3 us used.</p>
+
+<pre>BEING
+  DBMS_SCHEDULER.set_attribute (
+    name      =&gt; 'my_job', 
+    attribute =&gt; 'job_priority',
+    value     =&gt; 1);
+END;
+/</pre>
+
+
+
+<a id="windows"></a><h2>Windows</h2>
+
+<p>Windows provide the link between the scheduler and the resource 
+manager, allowing different resource plans to be activated at different 
+times. Since job classes point to resource consumer groups, and 
+therefore resource plans, this mechanism allows control over the 
+resources allocated to job classes and their jobs during specific time 
+periods.</p>
+
+<p>Only one window can be active (open) at any time, with one resource 
+plan assigned to the window. The affect of resource plan switches is 
+instantly visible to running jobs which are assigned to job classes. The
+ interaction between the resource manager and the scheduler is beyond 
+the scope of this document.</p>
+
+<p>A window can be created using the <code>CREATE_WINDOW</code> procedure with a predefined or an inline schedule.</p>
+
+<pre>BEGIN
+  -- Window with a predefined schedule.
+  DBMS_SCHEDULER.create_window (
+    window_name     =&gt; 'test_window_1',
+    resource_plan   =&gt; NULL,
+    schedule_name   =&gt; 'test_hourly_schedule',
+    duration        =&gt; INTERVAL '60' MINUTE,
+    window_priority =&gt; 'LOW',
+    comments        =&gt; 'Window with a predefined schedule.');
+
+  -- Window with an inline schedule.
+  DBMS_SCHEDULER.create_window (
+    window_name     =&gt; 'test_window_2',
+    resource_plan   =&gt; NULL,
+    start_date      =&gt; SYSTIMESTAMP,
+    repeat_interval =&gt; 'freq=hourly; byminute=0',
+    end_date        =&gt; NULL,
+    duration        =&gt; INTERVAL '60' MINUTE,
+    window_priority =&gt; 'LOW',
+    comments        =&gt; 'Window with an inline schedule.');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display window group details.
+SELECT window_name, resource_plan, enabled, active
+FROM   dba_scheduler_windows;
+
+WINDOW_NAME                    RESOURCE_PLAN                  ENABL ACTIV
+------------------------------ ------------------------------ ----- -----
+WEEKNIGHT_WINDOW                                              TRUE  FALSE
+WEEKEND_WINDOW                                                TRUE  FALSE
+TEST_WINDOW_1                                                 TRUE  FALSE
+TEST_WINDOW_2                                                 TRUE  FALSE
+
+4 rows selected.</pre>
+
+<p>Windows can be opened and closed manually using the <code>OPEN_WINDOW</code> and <code>CLOSE_WINDOW</code> procedures.</p>
+
+<pre>BEGIN
+  -- Open window.
+  DBMS_SCHEDULER.open_window (
+   window_name =&gt; 'test_window_2',
+   duration    =&gt; INTERVAL '1' MINUTE,
+   force       =&gt; TRUE);
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display window group details.
+SELECT window_name, resource_plan, enabled, active
+FROM   dba_scheduler_windows;
+
+WINDOW_NAME                    RESOURCE_PLAN                  ENABL ACTIV
+------------------------------ ------------------------------ ----- -----
+WEEKNIGHT_WINDOW                                              TRUE  FALSE
+WEEKEND_WINDOW                                                TRUE  FALSE
+TEST_WINDOW_1                                                 TRUE  FALSE
+TEST_WINDOW_2                                                 TRUE  TRUE
+
+4 rows selected.
+
+BEGIN
+  -- Close window.
+  DBMS_SCHEDULER.close_window (
+   window_name =&gt; 'test_window_2');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display window group details.
+SELECT window_name, resource_plan, enabled, active
+FROM   dba_scheduler_windows;
+
+WINDOW_NAME                    RESOURCE_PLAN                  ENABL ACTIV
+------------------------------ ------------------------------ ----- -----
+WEEKNIGHT_WINDOW                                              TRUE  FALSE
+WEEKEND_WINDOW                                                TRUE  FALSE
+TEST_WINDOW_1                                                 TRUE  FALSE
+TEST_WINDOW_2                                                 TRUE  FALSE
+
+4 rows selected.</pre>
+
+<p>Windows can be dropped using the <code>DROP_WINDOW</code> procedure.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.drop_window (
+    window_name =&gt; 'test_window_1',
+    force       =&gt; TRUE);
+
+  DBMS_SCHEDULER.drop_window (
+    window_name =&gt; 'test_window_2',
+    force       =&gt; TRUE);
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display window group details.
+SELECT window_name, resource_plan, enabled, active
+FROM   dba_scheduler_windows;
+
+WINDOW_NAME                    RESOURCE_PLAN                  ENABL ACTIV
+------------------------------ ------------------------------ ----- -----
+WEEKNIGHT_WINDOW                                              TRUE  FALSE
+WEEKEND_WINDOW                                                TRUE  FALSE
+
+2 rows selected.</pre>
+
+
+
+<a id="window_groups"></a><h2>Windows Groups</h2>
+
+<p>A window group is a collection of related windows. It can be created with 0, 1 or many windows as group members using the <code>CREATE_WINDOW_GROUP</code> procedure.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.create_window_group (
+    group_name  =&gt; 'test_window_group',
+    window_list =&gt; 'test_window_1, test_window_2',
+    comments    =&gt; 'A test window group');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display window group details.
+SELECT window_group_name, enabled, number_of_windowS
+FROM   dba_scheduler_window_groups;
+
+WINDOW_GROUP_NAME              ENABL NUMBER_OF_WINDOWS
+------------------------------ ----- -----------------
+MAINTENANCE_WINDOW_GROUP       TRUE                  2
+TEST_WINDOW_GROUP              TRUE                  2
+
+2 rows selected.</pre>
+
+<p>Windows can be added and removed from a group using the <code>ADD_WINDOW_GROUP_MEMBER</code> and <code>REMOVE_WINDOW_GROUP_MEMBER</code> procedures.</p>
+
+<pre>BEGIN
+  -- Create a new window.
+  DBMS_SCHEDULER.create_window (
+    window_name     =&gt; 'test_window_3',
+    resource_plan   =&gt; NULL,
+    schedule_name   =&gt; 'test_hourly_schedule',
+    duration        =&gt; INTERVAL '60' MINUTE,
+    window_priority =&gt; 'LOW',
+    comments        =&gt; 'Window with a predefined schedule.');
+
+  DBMS_SCHEDULER.add_window_group_member (
+    group_name  =&gt; 'test_window_group',
+    window_list =&gt; 'test_window_3');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display window group members.
+SELECT window_group_name, window_name
+FROM   dba_scheduler_wingroup_members;
+
+WINDOW_GROUP_NAME              WINDOW_NAME
+------------------------------ ------------------------------
+MAINTENANCE_WINDOW_GROUP       WEEKNIGHT_WINDOW
+MAINTENANCE_WINDOW_GROUP       WEEKEND_WINDOW
+TEST_WINDOW_GROUP              TEST_WINDOW_1
+TEST_WINDOW_GROUP              TEST_WINDOW_2
+TEST_WINDOW_GROUP              TEST_WINDOW_3
+
+5 rows selected.
+
+BEGIN
+  DBMS_SCHEDULER.remove_window_group_member (
+    group_name  =&gt; 'test_window_group',
+    window_list =&gt; 'test_window_3');
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display window group members.
+SELECT window_group_name, window_name
+FROM   dba_scheduler_wingroup_members;
+
+WINDOW_GROUP_NAME              WINDOW_NAME
+------------------------------ ------------------------------
+MAINTENANCE_WINDOW_GROUP       WEEKNIGHT_WINDOW
+MAINTENANCE_WINDOW_GROUP       WEEKEND_WINDOW
+TEST_WINDOW_GROUP              TEST_WINDOW_1
+TEST_WINDOW_GROUP              TEST_WINDOW_2
+
+4 rows selected.</pre>
+
+<p>Window groups can be dropped using the <code>DROP_WINDOW_GROUP</code> procedure.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.drop_window_group (
+    group_name =&gt; 'test_window_group',
+    force      =&gt; TRUE);
+END;
+/
+
+PL/SQL procedure successfully completed.
+
+-- Display window group details.
+SELECT window_group_name, enabled, number_of_windowS
+FROM   dba_scheduler_window_groups;
+
+WINDOW_GROUP_NAME              ENABL NUMBER_OF_WINDOWS
+------------------------------ ----- -----------------
+MAINTENANCE_WINDOW_GROUP       TRUE                  2
+
+1 row selected.</pre>
+
+<p>The force option must be used if the window group currently has members.</p>
+
+
+
+<a id="enable_disable_and_attributes"></a><h2>Enable, Disable and Attributes</h2>
+
+<p>All applicable scheduler objects can be enabled and disabled using the overloaded <code>ENABLE</code> and <code>DISABLE</code> procedures.</p>
+
+<pre>BEGIN
+  -- Enable programs and jobs.
+  DBMS_SCHEDULER.enable (name =&gt; 'test_stored_procedure_prog');
+  DBMS_SCHEDULER.enable (name =&gt; 'test_full_job_definition');
+
+  -- Disable programs and jobs.
+  DBMS_SCHEDULER.disable (name =&gt; 'test_stored_procedure_prog');
+  DBMS_SCHEDULER.disable (name =&gt; 'test_full_job_definition');
+END;
+/</pre>
+
+<p>The values for individual attributes of all scheduler objects can be altered using one of the <code>SET_ATTRIBUTE</code> overloads.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.set_attribute (
+    name      =&gt; 'hourly_schedule',
+    attribute =&gt; 'repeat_interval',
+    value     =&gt; 'freq=hourly; byminute=30');
+END;
+/</pre>
+
+<p>The values can be set to NULL using the <code>SET_ATTRIBUTE_NULL</code> procedure.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.set_attribute_null (
+    name      =&gt; 'hourly_schedule',
+    attribute =&gt; 'repeat_interval');
+END;
+/</pre>
+
+
+
+<a id="configuring_the_scheduler"></a><h2>Configuring The Scheduler</h2>
+
+<p>The <code>SCHEDULER_ADMIN</code> role gives a user the ability to 
+control every aspect of the scheduler, as well as generating jobs to run
+ as any other user. For this reason you should avoid granting it to 
+anyone other than trusted DBAs.</p>
+
+<p>For the majority of users, the <code>CREATE JOB</code> privilege will be sufficient.</p>
+
+<p>For users requiring some level of scheduler administrative privileges, the <code>MANAGE SCHEDULER</code>
+ privilege allows them to create additional scheduler objects, as well 
+as allowing them to set and retrieve scheduler attributes using the <code>SET_SCHEDULER_ATTRIBUTE</code> and <code>GET_SCHEDULER_ATTRIBUTE</code> procedures.</p>
+
+
+
+<a id="calendar_syntax_examples"></a><h2>Calendar Syntax Examples</h2>
+
+
+<!-- Article Middle Desktop -->
+<div style="float:right">
+<ins class="adsbygoogle" style="display:inline-block;width:336px;height:280px" data-ad-client="ca-pub-9901106718381505" data-ad-slot="7517780277" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;width:336px;height:280px;" width="336" height="280" frameborder="0"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+
+
+<p>The basic calendaring syntax is shown below.</p>
+
+<pre>repeat_interval = frequency_clause
+  [; interval=?] [; bymonth=?] [; byweekno=?] 
+  [; byyearday=?] [; bymonthday=?] [; byday=?] 
+  [; byhour=?] [; byminute=?] [; bysecond=?]
+
+frequency_clause = "FREQ" "=" frequency
+   frequency = "YEARLY" | "MONTHLY" | "WEEKLY" | "DAILY" | 
+   "HOURLY" | "MINUTELY" | "SECONDLY"</pre>
+
+<p>For a full syntax breakdown, see <a href="http://docs.oracle.com/cd/B13789_01/appdev.101/b10802/d_sched.htm#1010077">this</a> and  <a href="http://docs.oracle.com/cd/B13789_01/server.101/b10739/scheduse.htm#i1023132">this</a>.</p>
+
+<p>The easiest way to get to grips with the calendaring syntax is by 
+example, so this section presents several examples of how the syntax is 
+used to schedule jobs at different intervals. The date and timestamp 
+intervals are also listed for the sake of comparison.</p>
+
+<p>The <a href="https://oracle-base.com/dba/script.php?category=10g&amp;file=test_calendar_string.sql">test_calendar_string.sql</a> script is quite useful for testing calendaring syntax strings.</p>
+
+<ul>
+  <li><a href="#every_day">Every day</a></li><a href="#every_day">
+  </a><li><a href="#every_day"></a><a href="#every_day_midnight">Every day, at midnight</a></li><a href="#every_day_midnight">
+  </a><li><a href="#every_day_midnight"></a><a href="#every_day_600">Every day, at 06:00</a></li><a href="#every_day_600">
+  </a><li><a href="#every_day_600"></a><a href="#every_hour">Every hour</a></li><a href="#every_hour">
+  </a><li><a href="#every_hour"></a><a href="#every_hour_exact">Every hour, on the hour</a></li><a href="#every_hour_exact">
+  </a><li><a href="#every_hour_exact"></a><a href="#every_minute">Every minute</a></li><a href="#every_minute">
+  </a><li><a href="#every_minute"></a><a href="#every_minute_exact">Every minute, on the minute</a></li><a href="#every_minute_exact">
+  </a><li><a href="#every_minute_exact"></a><a href="#every_5_minutes">Every 5 minutes</a></li><a href="#every_5_minutes">
+  </a><li><a href="#every_5_minutes"></a><a href="#every_monday_900">Every Monday at 09:00</a></li><a href="#every_monday_900">
+  </a><li><a href="#every_monday_900"></a><a href="#every_mon_wed_fri_600">Every Monday, Wednesday and Friday at 06:00</a></li><a href="#every_mon_wed_fri_600">
+  </a><li><a href="#every_mon_wed_fri_600"></a><a href="#first_mon_in_quarter">First Monday of each quarter</a></li>
+</ul>
+  
+
+
+<a id="every_day"></a><h3>Every day</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=daily;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'sysdate + 1'
+'systimestamp + 1'
+      
+'sysdate + interval ''1'' day'
+'systimestamp + interval ''1'' day'</pre>
+    
+
+
+<a id="every_day_midnight"></a><h3>Every day, at midnight</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=daily; byhour=0; byminute=0; bysecond=0;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'trunc(sysdate) + 1'
+'trunc(systimestamp) + 1'
+
+'trunc(sysdate) + interval ''1'' day'
+'trunc(systimestamp) + interval ''1'' day'</pre>
+
+
+
+<a id="every_day_600"></a><h3>Every day, at 06:00</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=daily; byhour=6; byminute=0; bysecond=0;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'trunc(sysdate) + 1 + 6/24'
+'trunc(systimestamp) + 1 + 6/24'
+      
+'trunc(sysdate) + interval ''1 6'' day to hour '
+'trunc(systimestamp) + interval ''1 6'' day to hour'</pre>
+
+
+
+<a id="every_hour"></a><h3>Every hour</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=hourly;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'sysdate + 1/24'
+'systimestamp + 1/24'
+      
+'sysdate + interval ''1'' hour'
+'systimestamp + interval ''1'' hour'</pre>
+
+
+
+<a id="every_hour_exact"></a><h3>Every hour, on the hour</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=hourly; byminute=0; bysecond=0;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'trunc(sysdate, ''HH24'') + 1/24'
+'trunc(systimestamp, ''HH24'') + 1/24'
+      
+'trunc(sysdate, ''HH24'') + interval ''1'' hour'
+'trunc(systimestamp, ''HH24'') + interval ''1'' hour'</pre>
+
+
+
+<a id="every_minute"></a><h3>Every minute</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=minutely;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'sysdate + 1/24/60'
+'systimestamp + 1/24/60'
+      
+'sysdate + interval ''1'' minute'
+'systimestamp + interval ''1'' minute'</pre>
+
+
+
+<a id="every_minute_exact"></a><h3>Every minute, on the minute</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=minutely; bysecond=0;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'trunc(sysdate, ''MI'') + 1/24/60'
+'trunc(systimestamp, ''MI'') + 1/24/60'
+      
+'trunc(sysdate, ''MI'') + interval ''1'' minute'
+'trunc(systimestamp, ''MI'') + interval ''1'' minute'</pre>
+
+
+
+<a id="every_5_minutes"></a><h3>Every 5 minutes</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=minutely; interval=5; bysecond=0;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'trunc(sysdate, ''MI'') + 5/24/60'
+'trunc(systimestamp, ''MI'') + 5/24/60'
+      
+'trunc(sysdate, ''MI'') + interval ''5'' minute'
+'trunc(systimestamp, ''MI'') + interval ''5'' minute'</pre>
+
+
+
+<a id="every_monday_900"></a><h3>Every Monday at 09:00</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=weekly; byday=mon; byhour=9; byminute=0; bysecond=0;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'trunc(next_day(sysdate, ''MONDAY'')) + 9/24'
+'trunc(next_day(systimestamp, ''MONDAY'')) + 9/24'
+      
+'trunc(next_day(sysdate, ''MONDAY'')) + interval ''9'' hour'
+'trunc(next_day(systimestamp, ''MONDAY'')) + interval ''9''hour'</pre>
+
+
+
+<a id="every_mon_wed_fri_600"></a><h3>Every Monday, Wednesday and Friday at 06:00</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=weekly; byday=mon,wed,fri; byhour=6; byminute=0; bysecond=0;'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'trunc(least(next_day(sysdate, ''monday''), next_day(sysdate, ''wednesday''), next_day(sysdate, ''friday''))) + (6/24)'
+      
+'trunc(least(next_day(systimestamp, ''monday''), next_day(systimestamp, ''wednesday''), next_day(systimestamp, ''friday''))) + (6/24)'
+      
+'trunc(least(next_day(sysdate,''monday''), next_day(sysdate, ''wednesday''), next_day(sysdate, ''friday''))) + interval ''6'' hour'
+
+'trunc(least(next_day(systimestamp, ''monday''), next_day(systimestamp, ''wednesday''), next_day(systimestamp, ''friday''))) + interval ''6'' hour'</pre>
+
+
+
+<a id="first_mon_in_quarter"></a><h3>First Monday of each quarter</h3>
+
+<p>Repeat interval using calendaring syntax.</p>
+
+<pre>'freq=monthly; bymonth=1,4,7,10; byday=1mon'</pre>
+
+<p>Repeat interval using dates and timestamps.</p>
+
+<pre>'next_day(add_months(trunc(sysdate, ''q''), 3), ''monday'')'
+'next_day(add_months(trunc(systimestamp, ''q''), 3), ''monday'')'</pre>
+
+
+
+<a id="ddl"></a><h2>Extracting DDL</h2>
+
+<p>The script used to create scheduler objects can be extracted using the <a href="https://oracle-base.com/articles/9i/dbms_metadata">DBMS_METADATA</a> package, as shown in the following example.</p>
+
+<pre>CONN test/test
+
+BEGIN
+  DBMS_SCHEDULER.CREATE_JOB (
+    job_name   =&gt; 'MY_TEST_JOB',
+    job_type   =&gt; 'PLSQL_BLOCK',
+    job_action =&gt; 'BEGIN NULL; END;',
+    start_date =&gt; TRUNC(SYSDATE), 
+    repeat_interval =&gt; 'FREQ=monthly;BYDAY=SUN;BYHOUR=22;BYMINUTE=0;BYSECOND=0');
+END;
+/
+
+SET LONG 100000
+SELECT DBMS_METADATA.get_ddl('PROCOBJ','MY_TEST_JOB', 'TEST') AS job_def FROM dual;
+JOB_DEF
+--------------------------------------------------------------------------------
+
+
+BEGIN
+dbms_scheduler.create_job('"MY_TEST_JOB"',
+job_type=&gt;'PLSQL_BLOCK', job_action=&gt;
+'BEGIN NULL; END;'
+, number_of_arguments=&gt;0,
+start_date=&gt;TO_TIMESTAMP_TZ('04-APR-2012 12.00.00.000000000 AM +01:00','DD-MON-R
+RRR HH.MI.SSXFF AM TZR','NLS_DATE_LANGUAGE=english'), repeat_interval=&gt;
+'FREQ=monthly;BYDAY=SUN;BYHOUR=22;BYMINUTE=0;BYSECOND=0'
+, end_date=&gt;NULL,
+
+JOB_DEF
+--------------------------------------------------------------------------------
+job_class=&gt;'"DEFAULT_JOB_CLASS"', enabled=&gt;FALSE, auto_drop=&gt;TRUE,comments=&gt;
+NULL
+);
+COMMIT;
+END;
+
+
+SQL&gt;</pre>
+
+<p>Clean up the test job using the floowing.</p>
+
+<pre>EXEC DBMS_SCHEDULER.drop_job('MY_TEST_JOB');</pre>
+
+
+
+<a id="views"></a><h2>Scheduler Views</h2>
+
+<p>A number of <code>DBA_SCHEDULER_%</code>, <code>ALL_SCHEDULER_%</code> and <code>USER_SCHEDULER_%</code> views are available to display information about scheduler objects. In Oracle 10g, the following views are present.</p>
+
+<ul>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2041.htm#i1586875">DBA_SCHEDULER_JOB_ARGS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2042.htm#i1586977">DBA_SCHEDULER_JOB_CLASSES</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2044.htm#i1587038">DBA_SCHEDULER_JOB_LOG</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2045.htm#i1587156">DBA_SCHEDULER_JOB_RUN_DETAILS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2046.htm#i1587306">DBA_SCHEDULER_JOBS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2048.htm#i1587654">DBA_SCHEDULER_PROGRAM_ARGS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2049.htm#i1587769">DBA_SCHEDULER_PROGRAMS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2053.htm#I1020387">DBA_SCHEDULER_RUNNING_JOBS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2054.htm#i1587874">DBA_SCHEDULER_SCHEDULES</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2055.htm#i1588021">DBA_SCHEDULER_WINDOW_DETAILS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2056.htm#i1587960">DBA_SCHEDULER_WINDOW_GROUPS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2057.htm#i1588122">DBA_SCHEDULER_WINDOW_LOG</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2058.htm#i1588223">DBA_SCHEDULER_WINDOWS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2059.htm#i1588366">DBA_SCHEDULER_WINGROUP_MEMBERS</a></li>
+</ul>
+
+<p>The <code>DBA_SCHEDULER_JOB_RUN_DETAILS</code> view is especially 
+interesting as it provides a history of the job runs, including the 
+status of the run and error messages associated with failed runs.</p>
+
+<p>Later database releases include additional views to support new functionality.</p>
+
+<ul>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2030.htm#I1020507">DBA_SCHEDULER_CHAIN_RULES</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2031.htm#I1020508">DBA_SCHEDULER_CHAIN_STEPS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2032.htm#I1020509">DBA_SCHEDULER_CHAINS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2033.htm#I1020580">DBA_SCHEDULER_CREDENTIALS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2034.htm#CCHDFGCJ">DBA_SCHEDULER_DB_DESTS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2035.htm#CCHGCJDJ">DBA_SCHEDULER_DESTS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2036.htm#CCHGJGBA">DBA_SCHEDULER_EXTERNAL_DESTS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2037.htm#I1020759">DBA_SCHEDULER_FILE_WATCHERS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2038.htm#I1020367">DBA_SCHEDULER_GLOBAL_ATTRIBUTE</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2039.htm#CCHIAJHB">DBA_SCHEDULER_GROUP_MEMBERS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2040.htm#CCHDJIDD">DBA_SCHEDULER_GROUPS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2043.htm#CCHIHHCA">DBA_SCHEDULER_JOB_DESTS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_4247.htm#I1023610">DBA_SCHEDULER_JOB_ROLES</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2047.htm#I1020763">DBA_SCHEDULER_NOTIFICATIONS</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2050.htm#I1020658">DBA_SCHEDULER_REMOTE_DATABASES</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2051.htm#I1020659">DBA_SCHEDULER_REMOTE_JOBSTATE</a></li>
+  <li><a href="http://docs.oracle.com/cd/E18283_01/server.112/e17110/statviews_2052.htm#I1020510">DBA_SCHEDULER_RUNNING_CHAINS</a></li>
+</ul>
+
+
+
+<a id="time-zones"></a><h2>Time Zones</h2>
+
+<p>The way the scheduler handles time zones can be a little confusing at first. If the scheduler <code>default_timezone</code> is not specified, it attempts to determine it from the OS. If that isn't possible it is set to NULL. You can check the current <code>default_timezone</code> using the following query.</p>
+
+<pre>SELECT DBMS_SCHEDULER.STIME FROM DUAL;
+
+STIME
+---------------------------------------------------------------------------
+04-APR-2012 16.11.59.441143000 EUROPE/LONDON
+
+1 row selected.
+
+SQL&gt;</pre>
+
+<p>Rather than leaving the <code>default_timezone</code> setting to chance, it can be explicitly set using the following command.</p>
+
+<pre>BEGIN
+  DBMS_SCHEDULER.set_scheduler_attribute(
+    attribute =&gt; 'default_timezone',
+    value     =&gt; 'EUROPE/LONDON');
+END;
+/</pre>
+
+<p>When you create a job, the time zone for the job is determined using time zone associated with the <code>start_date</code> parameter. If that is not supplied, the <code>default_timezone</code> is used. In the case of the <code>start_date</code> value, using <code>SYSTIMESTAMP</code>
+ will fix an offset, rather than honouring the daylight savings rules. A
+ more consistent result is produced from using a method such as this, 
+where the time zone is specified explicitly.</p>
+
+<pre>start_date =&gt; TO_TIMESTAMP_TZ(TO_CHAR(SYSTIMESTAMP, 'DDMMYYYY HH24:MI:SS')||' EUROPE/LONDON', 'DDMMYYYY HH24:MI:SS TZR')</pre>
+
+
+
+<a id="implicit-commit"></a><h2>Implicit Commit</h2>
+
+<p>As a cautionary note, calls to the <code>DBMS_SCHEDULER</code> package come with an implicit commit, so you can't make your job creation transactional, like you could with <code>DBMS_JOB</code>.
+ If you need to include the creation of a job as part of a larger 
+transaction, you will still need to use the old scheduler and <code>DBMS_JOB</code>,
+ until Oracle provide the option of controlling the commit processing in
+ the new scheduler. An example of the difference is shown below.</p>
+
+<p>Using the <code>DBMS_JOB</code> package, job creation is transactional and under your control.</p>
+
+<pre>-- Create job, but don't explicitly commit.
+SET SERVEROUTPUT ON
+DECLARE
+  l_job BINARY_INTEGER;
+BEGIN
+  DBMS_JOB.submit(
+    job       =&gt; l_job,
+    what      =&gt; 'BEGIN NULL; END;',
+    next_date =&gt; TRUNC(SYSDATE, 'HH24') + (1/24),
+    interval  =&gt; 'TRUNC(SYSDATE, ''HH24'') + (1/24)');
+    
+  DBMS_OUTPUT.put_line('Job=' || l_job);
+END;
+/
+Job=1
+
+PL/SQL procedure successfully completed.
+
+SQL&gt;
+
+-- Check it is there.
+COLUMN what FORMAT A50
+
+SELECT job,
+       next_date,
+       what
+FROM   user_jobs
+WHERE  job = 1;
+
+       JOB NEXT_DATE            WHAT
+---------- -------------------- --------------------------------------------------
+         1 05-JUN-2015 13:00:00 BEGIN NULL; END;
+
+1 row selected.
+
+SQL&gt;
+
+-- Rollback and check it has gone.
+ROLLBACK;
+
+SELECT job,
+       next_date,
+       what
+FROM   user_jobs
+WHERE  job = 1;
+
+no rows selected
+
+SQL&gt;</pre>
+
+<p>Using the <code>DBMS_SCHEDULER</code> package, job creation is not transactional, as job creation includes an implicit commit.</p>
+
+<pre>-- Create job, but don't explicitly commit.
+BEGIN
+  DBMS_SCHEDULER.create_job (
+    job_name        =&gt; 'TEST_FULL_JOB_DEFINITION',
+    job_type        =&gt; 'PLSQL_BLOCK',
+    job_action      =&gt; 'BEGIN NULL; END;',
+    start_date      =&gt; SYSTIMESTAMP,
+    repeat_interval =&gt; 'freq=hourly; byminute=0; bysecond=0;',
+    enabled         =&gt; TRUE);
+END;
+/
+
+-- Rollback and check if job is still there.
+ROLLBACK;
+
+SELECT job_name
+FROM   user_scheduler_jobs
+WHERE  job_name = 'TEST_FULL_JOB_DEFINITION';
+
+JOB_NAME
+------------------------------
+TEST_FULL_JOB_DEFINITION
+
+1 row selected.
+
+SQL&gt;</pre>
+
+
+<p>For more information see:</p>
+
+<ul>
+  <li><a href="http://docs.oracle.com/cd/B13789_01/server.101/b10739/schedover.htm#sthref3230">Overview of the Scheduler</a></li>
+  <li><a href="http://docs.oracle.com/cd/B13789_01/appdev.101/b10802/d_sched.htm#996728">DBMS_SCHEDULER</a></li>
+  <li><a href="https://oracle-base.com/articles/misc/articles-misc#scheduler">All Scheduler Articles</a></li>
+</ul>
+
+<p>Hope this helps. Regards Tim...</p>
+
+<p><a href="#Top">Back to the Top.</a></p>
+
+<!-- End of Content -->
+
+<!-- Start of PageFooterResponsive.php -->
+
+        <!-- Article Bottom Desktop -->
+        <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-9901106718381505" data-ad-slot="2346577727" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;width:728px;height:90px;" width="728" height="90" frameborder="0"></iframe></ins></ins></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+</div> <!-- content -->
+
+<p>&nbsp;</p>
+
+<div class="container-fluid" id="footer">
+
+  <p class="text-center"><a href="https://oracle-base.com/misc/comments?page_id=113">15 comments, read/add them...</a></p>    <div style="text-align:center;line-height:10px;">
+
+      <a id="twtButtonBottom" style="color:#4099FF" target="_blank" href="http://twitter.com/intent/tweet?status=ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g+https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs"><i class="fa fa-twitter-square fa-3x" aria-hidden="true"></i></a>
+
+      <a id="fbButtonBottom" style="color:#3b5998" target="_blank" href="http://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs&amp;title=ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g"><i class="fa fa-facebook-square fa-3x" aria-hidden="true"></i></a>
+
+      <a id="gplusButtonBottom" style="color:#dd4b39" target="_blank" href="https://plus.google.com/share?url=https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs"><i class="fa fa-google-plus-square fa-3x" aria-hidden="true"></i></a>
+
+      <a id="liButtonBottom" style="color:#0077B5" target="_blank" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs&amp;title=ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g&amp;source=oracle-base.com"><i class="fa fa-linkedin-square fa-3x" aria-hidden="true"></i></a>
+
+      <a id="redditButtonBottom" style="color:#FF5700" target="_blank" href="http://www.reddit.com/submit?url=https%3A%2F%2Foracle-base.com%2Farticles%2F10g%2Fscheduler-10g%23programs&amp;title=ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g"><i class="fa fa-reddit-square fa-3x" aria-hidden="true"></i></a>
+
+   </div>
+
+<script type="text/javascript">
+var doc_title = encodeURIComponent(document.title);
+var doc_url   = encodeURIComponent(window.location.href);
+
+document.getElementById('twtButtonBottom').setAttribute('href', 'http://twitter.com/intent/tweet?status='+doc_title+'+'+doc_url);
+document.getElementById('fbButtonBottom').setAttribute('href', 'http://www.facebook.com/sharer/sharer.php?u='+doc_url+'&title='+doc_title);
+document.getElementById('gplusButtonBottom').setAttribute('href', 'https://plus.google.com/share?url='+doc_url);
+document.getElementById('liButtonBottom').setAttribute('href', 'http://www.linkedin.com/shareArticle?mini=true&url='+doc_url+'&title='+doc_title+'&source=oracle-base.com');
+document.getElementById('redditButtonBottom').setAttribute('href', 'http://www.reddit.com/submit?url='+doc_url+'&title='+doc_title);
+</script>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  window.___gcfg = {lang: 'en-GB'};
+
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+
+    <p class="text-center">
+      <a href="https://oracle-base.com/">Home</a> |
+      <a href="https://oracle-base.com/articles/articles">Articles</a> |
+      <a href="https://oracle-base.com/dba/scripts">Scripts</a> |
+      <a href="https://oracle-base.com/blog/">Blog</a> |
+      <a href="https://oracle-base.com/misc/ocp-certification">Certification</a> |
+      <a href="https://oracle-base.com/misc/miscellaneous">Misc</a> |
+      <a href="https://oracle-base.com/misc/site-info">About</a>
+    </p>
+
+    <p class="text-center">
+      <a href="https://oracle-base.com/misc/site-info#biog">About Tim Hall</a><br>
+      <a href="https://oracle-base.com/misc/site-info#copyright">Copyright &amp; Disclaimer</a><br>
+      <!--a href="http://validator.w3.org/check?uri=https://oracle-base.com/articles/10g/scheduler-10g.php" rel="nofollow">HTML</a-->
+      <!--a href="http://jigsaw.w3.org/css-validator/validator?uri=https://oracle-base.com/articles/10g/scheduler-10g.php" rel="nofollow">CSS</a-->
+    </p>
+
+<script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    floatPosition: google.translate.TranslateElement.FloatPosition.BOTTOM_RIGHT
+  });
+}
+</script><script src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/element.js"></script>
+
+<script async="" src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/adsbygoogle.js"></script>
+
+</div> <!-- footer -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/jquery-1.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/bootstrap.js"></script>
+
+<script type="text/javascript">
+// Set og:title and og:description to page title and description
+$("meta[property='og\\:title']").attr("content", document.title);
+$("meta[property='og\\:description']").attr("content", $("meta[name='description'").attr("content"));
+</script>
+
+
+<!-- End of PageFooterResponsive.php --><!-- Start of HtmlFooter.php --><div id="goog-gt-tt" class="skiptranslate" dir="ltr"><div style="padding: 8px;"><div><div class="logo"><img src="ORACLE-BASE%20-%20Scheduler%20%28DBMS_SCHEDULER%29%20in%20Oracle%20Database%2010g_arquivos/translate_24dp.png" alt="Google Translate" width="20" height="20"></div></div></div><div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Original text</h1></div><div class="middle" style="padding: 8px;"><div class="original-text"></div></div><div class="bottom" style="padding: 8px;"><div class="activity-links"><span class="activity-link">Contribute a better translation</span><span class="activity-link"></span></div><div class="started-activity-container"><hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;"><div class="activity-root"></div></div></div><div class="status-message" style="display: none;"></div></div>
+
+<div class="goog-te-spinner-pos"><div class="goog-te-spinner-animation"><svg xmlns="http://www.w3.org/2000/svg" class="goog-te-spinner" width="96px" height="96px" viewBox="0 0 66 66"><circle class="goog-te-spinner-path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle></svg></div></div><div style="box-sizing: content-box; width: 91px; height: 24px;" id=":0.floatContainer" class=" goog-te-ftab-float"><iframe id=":0.container" src="javascript:''" class="goog-te-ftab-frame skiptranslate" style="visibility: visible; box-sizing: content-box; width: 91px; height: 24px;" frameborder="0"></iframe></div></body></html>

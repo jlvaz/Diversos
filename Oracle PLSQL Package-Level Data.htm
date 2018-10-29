@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html class="  page-11 app-ORA_DEV_GYM js flexboxlegacy no-touch" lang="en"><head>
+  <meta http-equiv="x-ua-compatible" content="IE=edge">
+  <meta charset="utf-8"> 
+  <title>Quiz Results</title>
+  <link rel="stylesheet" href="Oracle%20PLSQL%20Package-Level%20Data_arquivos/Core.css" type="text/css">
+<link rel="stylesheet" href="Oracle%20PLSQL%20Package-Level%20Data_arquivos/Theme-Standard.css" type="text/css">
+<link rel="stylesheet" href="Oracle%20PLSQL%20Package-Level%20Data_arquivos/jquery-ui.css" type="text/css">
+
+  <link rel="stylesheet" href="Oracle%20PLSQL%20Package-Level%20Data_arquivos/font-apex.css" type="text/css">
+<link rel="stylesheet" href="Oracle%20PLSQL%20Package-Level%20Data_arquivos/Core_002.css" type="text/css">
+
+  
+  <link rel="stylesheet" href="Oracle%20PLSQL%20Package-Level%20Data_arquivos/124503073683549258.css" type="text/css">
+
+  
+  <style type="text/css">
+.t-Cards--float .t-Cards-item {
+    float: none;
+}
+
+.green-Color {color: green !important;
+}
+
+.red-Color {color: red !important;
+}
+
+.grey-Color {
+      background-color: #A0A0A0 !important;
+}
+
+.t-Card-info { 
+white-space: normal; 
+}
+/*
+span.gotitright {
+color: green;
+}
+
+span.gotitwrong {
+color: red;
+}
+
+
+i.fa.fa-check.choiceright {
+    
+    color: green;
+}
+
+i.fa.fa-times.choicewrong {
+ 
+    color: red;
+    padding-left: 3px;
+}
+
+
+ no indent now
+li.t-Comments-item.disc_child {
+padding-left: 3.5em;
+}
+
+*/
+
+.devgym-logo {
+background-image: url("plch/r/10001/files/static/v54/images/dev-gym-white-transparent-41x41.png");
+background-position: 11px 13px;
+background-repeat: no-repeat;
+}
+
+
+.question-data {
+    font-size: 12px;
+}
+
+/*Choices styling*/
+
+.correctness {
+    padding: 15px;
+    padding-top: 15px;
+    padding-left: 0px;
+    border-top: 1px dotted lightgray;
+    margin-top: 1em;
+    font-size: 10pt;
+}
+
+.rightness {
+font-size: 10pt;
+       margin-bottom: 1.5em;
+}
+
+.t-Card-titleWrap {
+    text-align: center;
+}
+h3.t-Card-title {
+    font-size: 1.7rem !important;
+}
+
+span.norec {
+    color: purple;
+}
+
+span.yesrec {
+    color: blue;
+}
+
+.fa-smile-o {
+   color: #44DB5E !important;
+    background-color: white !important;
+font-size: 31px;
+}
+
+.fa-frown-o {
+background-color: white !important;
+font-size: 31px;
+color: red !important;
+}
+
+h3.t-Card-title {
+padding-bottom: .4em;
+}
+
+span.is-Correct {
+color: dodgerblue;
+}
+
+span.fa.fa-thumbs-up {
+color: dodgerblue;
+}
+
+span.fa.fa-thumbs-down {
+color: purple;
+}
+
+span.rec-Text {
+font-size: 10pt;
+color: rgb(96, 96, 96);
+}
+/* button spacing */
+.t-HeroRegion-buttons {
+padding-right: 3em;
+}
+
+/* Sidebar */
+div#qdetails-Sidebar {
+    padding-top: 32px;
+    padding-left: 8px;
+}
+
+.explore-Head {
+    text-align: center;
+}
+
+/* question info styling */
+
+.question-Info-wrap {
+padding-right: 2em;
+}
+
+
+.question-Info-blocks {
+    float: left;
+   
+background-color: white;
+padding: 1em;
+border-radius: 12px;
+}
+
+span.question-Info-text {
+    font-weight: bold;
+    font-size: 15pt;
+}
+
+.question-Info-header {
+    font-size: 11pt;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Center the info boxes */
+.question-Info-container {
+        display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Second icon styling */
+
+.correct-Icon, .choice-Icon, .percent-Icon, .recommend-Icon {
+     display:inline !important;
+    position: relative !important;
+    
+    margin-left: 1em;
+    float:left;
+    top: 5px;
+}
+
+span.t-Icon.text-Box {
+    padding: 5.5px;
+}
+/*
+span.t-Icon.fa-smile-o {
+    font-size: 21pt !important;
+}
+
+span.t-Icon.fa-frown-o {
+    font-size: 21pt !important;
+}
+
+span.t-Icon.fa-thumbs-o-up {
+    background-color: blue !important;
+}
+
+span.t-Icon.fa-thumbs-o-down {
+    background-color: purple !important;
+}
+
+span.t-Icon.fa-times{
+    font-size: 24px;
+}
+
+span.t-Icon.fa-cross {
+    font-size: 24px;
+}
+
+span.t-Icon.fa-thumbs-o-up, span.t-Icon.fa-thumbs-o-down {
+    font-size: 21px;
+}
+*/
+.t-Cards--compact .t-Card .t-Card-icon .t-Icon {
+
+line-height: 28px !important;
+}
+/*Rating positioning */
+
+span#P11_RATING_HISTORY_DISPLAY {
+    position: relative;
+    bottom: 32px;
+    left: 237px;
+}
+
+.t-Form-labelContainer.col-null {
+width: 10%;
+}
+
+label#P11_RATING_LABEL {
+    top: -4px;
+    position: relative;
+}
+
+/* Black Text */
+
+.t-Card-info {
+color: black;
+}
+
+.t-Card-desc {
+color: black !important;
+}
+
+.t-Region-body {
+color: black;
+}
+
+/* Collapsible Choice styling */
+
+span.choice-Icon {
+width:32px;
+height: 32px;
+line-height: 32px;
+text-align: center;
+background-color: rgb(214, 214, 214);
+border-bottom-left-radius: 100%;
+border-bottom-right-radius: 100%;
+border-top-left-radius: 100%;
+border-top-right-radius: 100%;
+box-shadow: rgba(0, 0, 0, 0.247059) 0px 2px 3px 0px inset;
+box-sizing: border-box;
+color: rgb(255, 255, 255);
+cursor: auto;
+margin-right: 12px;
+font-weight: bold;
+}
+
+span.choice-Icon.fa-check{
+    
+font-size: 23px;
+}
+
+span.choice-Icon.fa-square-o{
+    
+font-size: 20px;
+}
+.qzlab-correct .choice-Icon{
+   background-color: #44DB5E !important;
+}
+
+span.nochoice-Icon {
+width:32px;
+height: 32px;
+line-height: 32px;
+text-align: center;
+background-color: rgb(214, 214, 214);
+border-bottom-left-radius: 100%;
+border-bottom-right-radius: 100%;
+border-top-left-radius: 100%;
+border-top-right-radius: 100%;
+box-shadow: rgba(0, 0, 0, 0.247059) 0px 2px 3px 0px inset;
+box-sizing: border-box;
+color: rgb(255, 255, 255);
+cursor: auto;
+margin-right: 12px;
+}
+
+.qzlab-correct .nochoice-Icon{
+   background-color: #44DB5E !important;
+}
+#collapse-Choices-reg .qzlab-correct {
+box-shadow: 0px 1px 2px #44DB5E;
+    background-color: #e6fff2;
+}
+
+#nochoice-Collapse-reg .qzlab-correct {
+box-shadow: 0px 1px 2px #44DB5E;
+    background-color: #e6fff2;
+}
+
+.t-Region-headerItems--title {
+padding: 1.2rem 1.2rem !important;
+}
+
+/* card height */
+.t-Cards--desc-3ln.t-Cards--compact .t-Card-desc {
+height: auto;
+}
+
+i.fa {
+top: 7px;
+}
+
+#your-Response .t-Region-header{
+    background-color: white;
+    
+}
+
+#your-Response .t-Region-body{
+    background-color: white;
+    
+}
+
+/* New Info bar */
+
+.info-Simple {
+    
+    background: white none repeat scroll 0% 0%;
+padding: 12px;
+    border: 1px solid rgba(0,0,0,.1);
+box-shadow: 0 2px 4px -2px rgba(0,0,0,.075);
+    margin-bottom: 12px;
+}
+.main-Text {
+        font-size: 21px;
+    font-weight: 600;
+}
+
+.first-Div {
+    padding-bottom: 14px;
+}
+
+#similar-Q {
+    padding-bottom: 20px;
+}
+
+.true-False-card {
+    margin: 0px auto;
+    width: 100%;
+}
+</style>
+
+  <link rel="shortcut icon" sizes="50x50" href="https://plsqlchallenge.oracle.com/pls/apex/plch/r/10001/files/static/v54/images/dev-gym-partial-32x32.png" "="">
+  
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="-1"><meta http-equiv="Cache-Control" content="no-cache">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>.cke{visibility:hidden;}</style><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/config.js"></script><link rel="stylesheet" type="text/css" href="Oracle%20PLSQL%20Package-Level%20Data_arquivos/editor_gecko.css"><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/en_003.js"></script><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/styles.js"></script><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/plugin_003.js"></script><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/plugin.js"></script><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/plugin_002.js"></script><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/en.js"></script><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/en_002.js"></script></head>
+<body class="t-PageBody t-PageBody--hideLeft   apex-top-nav apex-icons-fontapex t-PageBody--topNav js-rightExpanded js-HeaderExpanded" id="t_PageBody">
+<form action="wwv_flow.accept" method="post" name="wwv_flow" id="wwvFlowForm" novalidate="">
+<input name="p_flow_id" value="10001" id="pFlowId" type="hidden"><input name="p_flow_step_id" value="11" id="pFlowStepId" type="hidden"><input name="p_instance" value="8563099210963" id="pInstance" type="hidden"><input name="p_page_submission_id" value="242766290759201505344734438230991390862" id="pPageSubmissionId" type="hidden"><input name="p_request" value="" id="pRequest" type="hidden"><input name="p_reload_on_submit" value="A" id="pReloadOnSubmit" type="hidden"><input value="242766290759201505344734438230991390862" id="pSalt" type="hidden">
+<header class="t-Header" id="t_Header">
+  
+  <div class="t-Header-branding">
+    <div class="t-Header-controls">
+      <button class="t-Button t-Button--icon t-Button--header t-Button--headerTree" title="Expand / Collapse Navigation" id="t_Button_navControl" type="button"><span class="t-Icon fa fa-bars" aria-hidden="true"></span></button>
+    </div>
+    <div class="t-Header-logo">
+      <a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:200:8563099210963:::::" class="t-Header-logo-link"><span><img src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/oracle-logo.png" alt="Link to Home Page"> Dev Gym</span></a>
+    </div>
+    <div class="t-Header-navBar">
+      <ul class="t-NavigationBar " id="120387278915234144"><li class="t-NavigationBar-item ">
+  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:110:8563099210963::NO:RP,110::" role="button">
+    <span class="t-Icon fa fa-paint-brush"></span><span class="t-Button-label">Blog</span><span class="t-Button-badge" style="display:"></span>
+  </a>
+</li><li class="t-NavigationBar-item navigate">
+  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:85:8563099210963::NO:RP,85::" role="button">
+    <span class="t-Icon fa fa-question-circle"></span><span class="t-Button-label">Help</span><span class="t-Button-badge" style="display:"></span>
+  </a>
+</li><li class="t-NavigationBar-item ">
+  <a class="t-Button t-Button--icon t-Button--header t-Button--navBar" href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:20:8563099210963::NO:20::&amp;cs=3nkXGA99-iO5WpXfZOc2DS4E79Cj2SQDT2u_fDMFtlXvcW061Hth14RG4cSjQL2KNas-avheioWu-L1HZRUSm6Q" role="button">
+    <span class="t-Icon fa fa-comment-o"></span><span class="t-Button-label">Feedback</span><span class="t-Button-badge" style="display:"></span>
+  </a>
+</li><li class="t-NavigationBar-item messages">
+  <button class="t-Button t-Button--icon t-Button t-Button--header t-Button--navBar js-menuButton" type="button" id="L129224814404470184" data-menu="menu_L129224814404470184" aria-haspopup="true" aria-expanded="false">
+      <span class="t-Icon fa fa-user"></span><span class="t-Button-label">jota_lvaz (5890) </span><span class="t-Button-badge" style="display:"></span><span class="a-Icon icon-down-arrow"></span>
+  </button></li></ul>
+    </div>
+  </div>
+  <div class="t-Header-nav">
+    <div class="t-Header-nav-list js-tabLike js-tabLike js-slide a-MenuBar a-MenuBar--overflow a-MenuBar--tabs" id="11_menubar" tabindex="-1" role="menubar"><ul><li id="11_menubar_0" class="a-MenuBar-item" style=""><a role="menuitem" class="a-MenuBar-label" id="11_menubar_0i" href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:200:8563099210963::NO:200::">Quizzes</a></li><li id="11_menubar_1" class="a-MenuBar-item"><a role="menuitem" class="a-MenuBar-label" id="11_menubar_1i" href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:201:8563099210963::NO:201::" tabindex="-1">Tournaments</a></li><li id="11_menubar_2" class="a-MenuBar-item"><a role="menuitem" class="a-MenuBar-label" id="11_menubar_2i" href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:13:8563099210963::NO:13::&amp;cs=3EInha4fEqdcKW30un8Je3pMK-WWQi76Fg9elHW3uiEU6k-1uPe32hyCWSQF-slHbT8oQCEYqrPiqjx-d942TPg" tabindex="-1">Workouts</a></li><li id="11_menubar_3" class="a-MenuBar-item"><a role="menuitem" class="a-MenuBar-label" id="11_menubar_3i" href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:60:8563099210963::NO:60::&amp;cs=3_hGMbbAncnWbUyttayJVFA_eOAdjpa5Uix1tRO-dAbuND8QHWzfP1abNUlDRsa2YAs3rlKng8e2KnuB6IvDVeQ" tabindex="-1">Classes</a></li><li id="11_menubar_4" class="a-MenuBar-item"><a role="menuitem" class="a-MenuBar-label" id="11_menubar_4i" href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:7:8563099210963::NO:7::&amp;cs=39t9FZRSD3qgNqraA3fnvkvEWyMthNsFUrlSC_ps3By0xyK8a6udmf3qalFk_AkphQXzdkuFzqn0UQbx0i7kN_w" tabindex="-1">Leaderboard</a></li></ul></div>
+    
+  </div>
+</header><div class="t-Body">
+
+  <div class="t-Body-main" style="margin-top: 0px;">
+    <div class="t-Body-title" id="t_Body_title" style="top: 88px;">
+      <div class="t-HeroRegion " id="R133105277486184901">
+  <div class="t-HeroRegion-wrap">
+    <div class="t-HeroRegion-col t-HeroRegion-col--left"><span class="t-HeroRegion-icon t-Icon fa fa-list-ol  exercise-Color  "></span></div>
+    <div class="t-HeroRegion-col t-HeroRegion-col--content">
+      <h1 class="t-HeroRegion-title">Oracle PL/SQL: Package-Level Data  </h1>
+      <div class="question-data">
+Written by <a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:PROFILE:8563099210963::NO::P26_USER_ID:5&amp;cs=1mpQkwOiVJpkqDhjG2RZSK-Uw13IF-G9c7MvRjZRkOWVPMhvud_rfbOlKj_x_Ia4w3cUNiz5IpBjfZGd2CW91hw">Steven Feuerstein</a>- Minimum Version: <strong>Oracle Database 10g Release 2</strong> - Plays: 274
+</div>
+<input id="P11_CLASS_ID" name="P11_CLASS_ID" value="" type="hidden"><input data-for="P11_CLASS_ID" value="LwG4AIUmB4_UAjQa9_g-Qnz1VL3IIYwp1BmpmKXIpG1ugLWz9D99uuGNb6zXZU7AYnLUq82VIxoakXej9xTcYA" type="hidden"><input id="P11_WORKOUT_ID" name="P11_WORKOUT_ID" value="" type="hidden"><input data-for="P11_WORKOUT_ID" value="ZdhQ0NTyzBWSzdzJKo16WsONYfKOhmBUakoksBaUz1WfL0fj4fUEYb4RoSd-SoE53XWaXTEx3Bu2KhHvnT81Lg" type="hidden"><input id="P11_AUTHOR_NAME" name="P11_AUTHOR_NAME" value="&lt;a   href=&quot;https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:PROFILE:8563099210963::NO::P26_USER_ID:5&amp;cs=1mpQkwOiVJpkqDhjG2RZSK-Uw13IF-G9c7MvRjZRkOWVPMhvud_rfbOlKj_x_Ia4w3cUNiz5IpBjfZGd2CW91hw&quot;&gt;Steven Feuerstein&lt;/a&gt;" type="hidden"><input data-for="P11_AUTHOR_NAME" value="glnX2J8LHdMVFyDBfXV32lwiA3Cf89ij8uutxP13bSmbdQUYWeosMPW7BBbWyJdGAnWTJJA_8Px1sIjVTwcyow" type="hidden"><input id="P11_PCT_CORRECT_STRING" name="P11_PCT_CORRECT_STRING" value="- Score: &lt;strong&gt;80%&lt;/strong&gt;" type="hidden"><input data-for="P11_PCT_CORRECT_STRING" value="0zAj3hZvyBqFbAziisqIC2-Sfw1tf4JnvMvLu2kF_E91Y0Zfs5JO1micRlg3hKoKm3w1nmPfa5CzZPQGRh3ItQ" type="hidden"><input id="P11_TIME_STRING" name="P11_TIME_STRING" value="- Time: &lt;strong&gt;01 m 41 s&lt;/strong&gt;" type="hidden"><input data-for="P11_TIME_STRING" value="a7LTt6nUsowRbbziGbLZpFG4y5Z-fBhg7T9USHrhyhLB3MS8H8E2H9RAJ_vmZTymUeJTn34vlvLNPorKL3EcLA" type="hidden"><input id="P11_BREADCRUMB_ICON" name="P11_BREADCRUMB_ICON" value="fa-list-ol" type="hidden"><input data-for="P11_BREADCRUMB_ICON" value="PcfMaOJMFOxpe5gHkWBTNU09-SPlEVA-BQbYh1r8j0_ZwSwRKQdFTNcHmEUOz_3nE4TWU_-ZBH9g3zN_WuKOYw" type="hidden"><input id="P11_BREADCRUMB_COLOR" name="P11_BREADCRUMB_COLOR" value="exercise-Color" type="hidden"><input data-for="P11_BREADCRUMB_COLOR" value="d4OABKrSuBpbEJDIYgYk8TgH_ozePwJJqn4zlyLS9BU80r2Br6SdAYVLM7ZlNQhK4Ni-M3sFO52JomMhoyVi_A" type="hidden"><input id="P11_PREVIEW_ONLY" name="P11_PREVIEW_ONLY" value="" type="hidden"><input data-for="P11_PREVIEW_ONLY" value="2A3vR6Z5t3LYFo49AwyosfxXkLiJnmhrkuZiSpymDzYDvT27BaPnGxKqOrasgiU-ds6-2nnZCR7BIrP02dT_-Q" type="hidden">
+    </div>
+    <div class="t-HeroRegion-col t-HeroRegion-col--right"><div class="t-HeroRegion-form"></div><div class="t-HeroRegion-buttons"><button class="t-Button t-Button--icon cta-button  t-Button--large t-Button--iconRight t-Button--hot" onclick="apex.navigation.redirect('f?p=10001:200:8563099210963::NO:RP,200::');" type="button" id="B147114893892863363"><span class="t-Icon t-Icon--left fa fa-chevron-right" aria-hidden="true"></span><span class="t-Button-label">Take Another Quiz</span><span class="t-Icon t-Icon--right fa fa-chevron-right" aria-hidden="true"></span></button></div></div>
+  </div>
+</div><div id="rds_region" class="js-apex-region"> 
+<div class="apex-rds-container"><div class="apex-rds-slider"><div class="apex-rds-hover left" style="display: none;"><a> <span class="a-Icon icon-left-chevron"></span> </a></div><div class="apex-rds-hover right" style="display: none;"><a> <span class="a-Icon icon-right-chevron"></span> </a></div></div><ul id="129084629498332706_RDS" class="apex-rds a-Tabs" role="tablist" style="white-space: nowrap; overflow-x: hidden;"><li class="apex-rds-item apex-rds-first apex-rds-selected" aria-controls="SHOW_ALL" role="tab" id="SHOW_ALL_tab"><a href="#SHOW_ALL" role="presentation"><span>Show All</span></a></li><li class="apex-rds-item apex-rds-item--hint" aria-controls="R129084751756332707" role="tab" id="R129084751756332707_tab"><a href="#R129084751756332707" role="presentation"><span>Question</span></a></li><li class="apex-rds-item" aria-controls="R133108064745184929" role="tab" id="R133108064745184929_tab"><a href="#R133108064745184929" role="presentation"><span>Discussions  (0)</span></a></li><li class="apex-rds-item" aria-controls="similar-Q" role="tab" id="similar-Q_tab"><a href="#similar-Q" role="presentation"><span>Similar Quizzes</span></a></li><li class="apex-rds-item apex-rds-last" aria-controls="R129084933257332709" role="tab" id="R129084933257332709_tab"><a href="#R129084933257332709" role="presentation"><span>Further Study</span></a></li></ul></div>
+</div>
+    </div>
+    <div class="t-Body-content" id="t_Body_content"><div id="t_Body_content_offset" style="height: 225px;"></div>
+      <span id="APEX_SUCCESS_MESSAGE" data-template-id="120349446831234047_S" class="apex-page-success u-hidden"></span><span id="APEX_ERROR_MESSAGE" data-template-id="120349446831234047_E" class="apex-page-error u-hidden"></span>
+      <div class="t-Body-contentInner">
+        <div id="R129084751756332707" class="a-Tabs-panel" role="tabpanel" aria-labelledby="R129084751756332707_tab"> 
+<input id="P11_AVG_ANSWER_TIME" name="P11_AVG_ANSWER_TIME" value="08 m 27 s" type="hidden"><input data-for="P11_AVG_ANSWER_TIME" value="qIiPaJ9trSmXxrsefXubLqH1tW-WbdRC8D1M6AeF9DFRtAVXt4zY3T0wIGJI829l1hmAe62dlYB8N-UnofSOAA" type="hidden"><input id="P11_AVG_PCT_CORRECT" name="P11_AVG_PCT_CORRECT" value="70" type="hidden"><input data-for="P11_AVG_PCT_CORRECT" value="XvyRUJmy5RpJ7-hm46iKqVhbNu_oG8-06utkSFKPvEURSIIY5PB0Bi3UnVMZ2-kazuOYi8AUOuf0Cudwc1VDoQ" type="hidden"><input id="P11_SHOW_ANSWERS" name="P11_SHOW_ANSWERS" value="Y" type="hidden"><input data-for="P11_SHOW_ANSWERS" value="1ErB4n8q8Fcqkx4KvmPcITNwEaz_cGnS1VqKvdQjLPjeSmYupsoDU3C39LTm2x5Hl2AAq2wDhdjLZ0c8zJr5Fg" type="hidden"><input id="P11_IS_COMPETITIVE" name="P11_IS_COMPETITIVE" value="N" type="hidden"><input data-for="P11_IS_COMPETITIVE" value="nu1mr6N3Ngi3X44hDeGId4e53OASgdiNnFJU0NpH-FboyGPCJT1FCQ9J3kot-Dn_TW94_rzaxMJqhv9H6XjXcQ" type="hidden"><input id="P11_PAGE_TITLE" name="P11_PAGE_TITLE" value="Oracle PL/SQL: Package-Level Data" type="hidden"><input data-for="P11_PAGE_TITLE" value="Ob744zCZ_ldv-NlXu5nu2TmBjDIRRmNk3oA_13wxGgrOe5Y89BCoGetFpS36RsK855Z9snUf3klN8XBbfpglqQ" type="hidden"><input id="P11_END_DAY" name="P11_END_DAY" value="8 June" type="hidden"><input data-for="P11_END_DAY" value="rx8cbv3TcQOke0mXIUh0grsy8uk_wLn3mQU1sZWWRopfKy5hOxajgVoZUrv4NIGrizi3MlZKTmQ39KaHmcxOYg" type="hidden"><input id="P11_PLAYER_COUNT" name="P11_PLAYER_COUNT" value="274 players" type="hidden"><input data-for="P11_PLAYER_COUNT" value="UyMaVcQfbSOrQHr3rXYArq5tEAIJDfjIwiZih54BG-uWt0qJ2a4KRDHrR9ZF2EsnEXSg7iuTEz16P1vZ_uOgNQ" type="hidden"><input id="P11_PLAYER_COUNT_NUM_ONLY" name="P11_PLAYER_COUNT_NUM_ONLY" value="274" type="hidden"><input data-for="P11_PLAYER_COUNT_NUM_ONLY" value="EJYgsnGYj1L0hx82VDrtgsnCpvjFRRgFDY4CrgFzW6VetXdCbLThx9DZ2d-fCxcy-jbmZnVv-uQwumReOylsew" type="hidden"><input id="P11_ONE_QUIZ_CE" name="P11_ONE_QUIZ_CE" value="Y" type="hidden"><input data-for="P11_ONE_QUIZ_CE" value="nz3UMzggeKXQHiCkH9_HyptWN3X3O659qtXHnQTYiOFTW9CNJjE7s8z5UwBLmYmrhYqyD50unRdcq6OIlHmfCw" type="hidden"><input id="P11_YOUR_RANK" name="P11_YOUR_RANK" value="[Unranked]" type="hidden"><input data-for="P11_YOUR_RANK" value="gBEcBDuATcY-U9PtL0VLW5Ra7rOC8cp-co9hjpu1edjtjuc0K9goiQQB7JH2iOQ-sXk3XW-GrQpaTvIaeCYThw" type="hidden"><input id="P11_RESET_RDS" name="P11_RESET_RDS" value="Y" type="hidden"><input data-for="P11_RESET_RDS" value="F1uTW4H_Gz064k-G-9CVPSMiDBIZpBr9ronsP-VnkadFwk8uSD6ztZCB0Pw0WtfTMy30wtPQ45lUvCH4WjgP5A" type="hidden"><input id="P11_NUM_OF_QUESTIONS" name="P11_NUM_OF_QUESTIONS" value="1" type="hidden"><input data-for="P11_NUM_OF_QUESTIONS" value="N4TjP8swZXeyv7XiQE6k6seQv53pn_H3Qf_Dau6fjtY8-CUM_P022MSCuf8GxDjQgYkfOG5rXxHQnO5Y0R45Og" type="hidden"><input id="P11_THREAD_NUM" name="P11_THREAD_NUM" value="0" type="hidden"><input data-for="P11_THREAD_NUM" value="qw4H52gjCtY2QYS-JMD8fEDf9HlmLyIqYRLcmsiYmnKIQjfkdVyAe_5YqiwNWyJzPgOtO4IqZy25k15baP3P8A" type="hidden"><input id="P11_MINIMUM_VERSION" name="P11_MINIMUM_VERSION" value="Oracle Database 10g Release 2" type="hidden"><input data-for="P11_MINIMUM_VERSION" value="IAFUQKdPGOxuFYMZWzZtp1jU2KCTr_PTfNVHQG-IOoQPVjlnILxcgyO7fVF1trvHvZWa63MPNdba11qN_QGBRg" type="hidden"><input id="P11_IS_CHALLENGE_QUIZ" name="P11_IS_CHALLENGE_QUIZ" value="N" type="hidden"><input data-for="P11_IS_CHALLENGE_QUIZ" value="OBmCZSkkhuaSfkZZr8nqF0QtVQQtdJSB8N1sxE4zkNPGrfOy9rDT3wSnHcIu1gF4wmHlkx3d53EWJsHuZceQEg" type="hidden"><input id="P11_OVERVIEW_TITLE" name="P11_OVERVIEW_TITLE" value="" type="hidden"><input data-for="P11_OVERVIEW_TITLE" value="GDJJD_mBgw7J9aavivFE-7BUvQicQHTEAfrDSGZ1Ubj4XAnRGd87LS4reemtKhO4idaDS94n8UUkfitzaHKPrw" type="hidden"><input id="P11_NEXT_COMP_EVENT_ID" name="P11_NEXT_COMP_EVENT_ID" value="" type="hidden"><input id="P11_CLASS_COMP_EVENT_ID" name="P11_CLASS_COMP_EVENT_ID" value="" type="hidden"><input id="P11_NEXT_QUESTION_ID" name="P11_NEXT_QUESTION_ID" value="" type="hidden"><input id="P11_REVIEWING_CLASS" name="P11_REVIEWING_CLASS" value="" type="hidden"><input data-for="P11_REVIEWING_CLASS" value="3vjTAgEtmN2wJTjTpeQWLXa25M_8PXJ02EKChUSOc86Evrj7QVh46NQuOoGEUPsl1VQg1lwx-XwH5MehHJr14w" type="hidden"><input id="P11_EMAIL_PREF_SETTING" name="P11_EMAIL_PREF_SETTING" value="Y" type="hidden"><input data-for="P11_EMAIL_PREF_SETTING" value="oRL9RIp2crLkfkOiiO-c50h_9ADcvQuazthhD7vRnkHWsi5x-5jjxpdvtBkCoPm0hYMNQDtAcoampTNlmAEpkQ" type="hidden"><input id="P11_MORE_QUIZZES_TEXT" name="P11_MORE_QUIZZES_TEXT" value="Take Another Quiz" type="hidden"><input data-for="P11_MORE_QUIZZES_TEXT" value="4InYplff_EiaSqQCKIRGbBhfUdKZKmPSgDwvJHBActr7vQest6k-ieeedGIH_J7_ILlsSIxLpQJ_eCpNtpmXsg" type="hidden"><input id="P11_MORE_QUIZZES_PAGE" name="P11_MORE_QUIZZES_PAGE" value="200" type="hidden"><input data-for="P11_MORE_QUIZZES_PAGE" value="I6A7HlsqdMFkMVdctzyt-nesIy1UnPExkcQdFiENibNGTjr1r2LjXrbGHBdmz3t-Vq1CXXlpkMS_4f9Hk9uAKw" type="hidden"><input id="P11_CLASS_COMPLETED" name="P11_CLASS_COMPLETED" value="N" type="hidden"><input data-for="P11_CLASS_COMPLETED" value="2EF4wEAH5UEQJ2e4VPT48u3swGwgA3psAiOFL7t2Tjpl0jucFDT07KqXpngqQbiX4_KDcaK5VaQeBXIMD4JOww" type="hidden"><input id="P11_CLASS_END_DATE" name="P11_CLASS_END_DATE" value="N" type="hidden"><input data-for="P11_CLASS_END_DATE" value="xUhUTuKjoolFq9tFy8JpqxEZNpKP1uXiCMKNCkqpwD3_gI5zg1UXZcOpuecmvav1ZW65rMWqdFZ7bQk25nfmsw" type="hidden"><input id="P11_CLASS_GRADE" name="P11_CLASS_GRADE" value="N" type="hidden"><input data-for="P11_CLASS_GRADE" value="e-Bry3dVIL1Vj_TdUPrqHHsUyPkzRFqseN0Qr5vFQcrjhhZvVqig7QysHUTIzIyf8cbkVbmlGHjUfwtkKnssVA" type="hidden"><input id="P11_CLASS_NAME" name="P11_CLASS_NAME" value="N" type="hidden"><input data-for="P11_CLASS_NAME" value="DdUJopzrkNVLxKj8piG6syjlY2rvK3g7GVCK2inCg72kcgrHndO5iFYLZ7Sv6M_pe_pn0WWIxfhb9ZkXzPNioQ" type="hidden"><input id="P11_SHOW_CLASS_CONGRATS" name="P11_SHOW_CLASS_CONGRATS" value="N" type="hidden"><input data-for="P11_SHOW_CLASS_CONGRATS" value="LxGITCciQQ68w4OicR9rT0GSWyEC4q8uRLMuYvQBIcDQFyG1tiQREvmjDhxdeVeGyJzyDQvYa8Ikd8tF3Aolxw" type="hidden">
+<div id="R41962545660892350" class="info-Simple"> 
+<div class="info-Div first-Div"><span class="main-Text">Score: 80%</span>&nbsp;&nbsp;&nbsp;average score: 70% for 274 answers</div>
+
+<div class="info-Div sec-Div"><span class="main-Text">Time: 01 m 41 s</span>&nbsp;&nbsp;&nbsp;average time: 08 m 27 s</div>
+</div>
+
+<div id="R138146647384148348" class=""> 
+<input id="P11_OVERALL_RATING" name="P11_OVERALL_RATING" value="3.99" type="hidden"><input data-for="P11_OVERALL_RATING" value="18HDGestigandlUtyTTeuE3cGK6ekb71vaHVGuWQwzZmTb7xHPPwADFSbLIXxZhp9wMTBgna1lodnDdy3_rWtA" type="hidden"><div class="t-Form-fieldContainer t-Form-fieldContainer--stacked " id="P11_RATING_CONTAINER"><div class="t-Form-labelContainer">
+<label for="P11_RATING" id="P11_RATING_LABEL" class="t-Form-label"> Rated 3.99 out of 5 by 127 players</label>
+</div><div class="t-Form-inputContainer"><div class="t-Form-itemWrapper"><fieldset id="P11_RATING">
+<span class="star-rating-control"><div class="rating-cancel"><a title="Clear Rating"></a></div><div class="star-rating rater-0 star-rating-applied star-rating-live" id="P11_RATING_1"><a title="1">1</a></div><div class="star-rating rater-0 star-rating-applied star-rating-live" id="P11_RATING_2"><a title="2">2</a></div><div class="star-rating rater-0 star-rating-applied star-rating-live" id="P11_RATING_3"><a title="3">3</a></div><div class="star-rating rater-0 star-rating-applied star-rating-live" id="P11_RATING_4"><a title="4">4</a></div><div class="star-rating rater-0 star-rating-applied star-rating-live" id="P11_RATING_5"><a title="5">5</a></div></span><input id="P11_RATING_1" value="1" title="1" name="P11_RATING" class="star-rating-applied" style="display: none;" type="radio">
+<input id="P11_RATING_2" value="2" title="2" name="P11_RATING" class="star-rating-applied" style="display: none;" type="radio">
+<input id="P11_RATING_3" value="3" title="3" name="P11_RATING" class="star-rating-applied" style="display: none;" type="radio">
+<input id="P11_RATING_4" value="4" title="4" name="P11_RATING" class="star-rating-applied" style="display: none;" type="radio">
+<input id="P11_RATING_5" value="5" title="5" name="P11_RATING" class="star-rating-applied" style="display: none;" type="radio">
+</fieldset>
+</div><span id="P11_RATING_error_placeholder" class="a-Form-error" data-template-id="120381742130234091_ET"></span></div></div><input id="P11_RATING_HISTORY" name="P11_RATING_HISTORY" value="Rated 3.99 out of 5 by 127 players" type="hidden"><input data-for="P11_RATING_HISTORY" value="_guKjFklpPogevj7HbfTlJPCi7FhqS6exYwl9JV3WTzivNROUMJ-P3qtrF7QEwQYyKdLr4P3h0dpPwFNRNKzrA" type="hidden"><input id="P11_SURVEYS_TAKEN" name="P11_SURVEYS_TAKEN" value="127" type="hidden"><input data-for="P11_SURVEYS_TAKEN" value="jPyX5xVtlQvjQVULBMw7JtubaJNE5ynkX4H6m5cCB8wmKUTMrz61Ml2G1qRexXXMb0Km-k2i1PT8i5R6AOPrMA" type="hidden">
+</div>
+
+<div class="t-Region the-Question  t-Region--removeHeader t-Region--scrollBody" id="R132226449568595023">
+ <div class="t-Region-header">
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title" id="R132226449568595023_heading">Question</h2>
+  </div>
+  <div class="t-Region-headerItems t-Region-headerItems--buttons"><span class="js-maximizeButtonContainer"></span></div>
+ </div>
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-buttons t-Region-buttons--top">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+   <div class="t-Region-body">
+     <input id="P11_COMP_EVENT_ID" name="P11_COMP_EVENT_ID" value="1698743" type="hidden"><input data-for="P11_COMP_EVENT_ID" value="Wuc_7OzQCjo8lRy1MUc6Vnlf8JqbY08Q0GuqmYgmS7pTfNAEtPWS_6wBcXnCMLqPlZ-j7z7MnJgLBeRo6cmLLQ" type="hidden"><input id="P11_QUIZ_ID" name="P11_QUIZ_ID" value="2424179" type="hidden"><input data-for="P11_QUIZ_ID" value="tlRQcAsyWumK6Mn68r_vS6zLAomk_xUbKn9aP_Jbm6xfu9ricNXjEASEmjrXmBSLHguST4H_O4sZPtrUNvK_SA" type="hidden"><input id="P11_DOMAIN_ID" name="P11_DOMAIN_ID" value="1" type="hidden"><input data-for="P11_DOMAIN_ID" value="mrwKdwTrs4RkCjHarEy7yQCV8fL1uKNAMTAd8z7wubnSDIaBMGfw44wi7kk1HwvSULtB-cAriPArc4Z4CyMRYA" type="hidden"><input id="P11_QUIZ_USES_CODE" name="P11_QUIZ_USES_CODE" value="Y" type="hidden"><input data-for="P11_QUIZ_USES_CODE" value="hOajnB2jpdMIEsGUusuT04n8QzmO46lcf7nURwdggcj2Tt-zO9wW2d_hkKnAZvxVXQH0zkJ5uEP_NiNj9uge_w" type="hidden"><input id="P11_TOPIC_ID" name="P11_TOPIC_ID" value="89" type="hidden"><input data-for="P11_TOPIC_ID" value="IAgSaM4Gt_0zSCsbGougKsuKY2n2vBVt70T6_SIPdcKbjbZZVQ1Mwa0YpmQAH2dk3IHMEt7MGy4wNyzxbgBesw" type="hidden"><input id="P11_PARENT_TOPIC_ID" name="P11_PARENT_TOPIC_ID" value="47" type="hidden"><input data-for="P11_PARENT_TOPIC_ID" value="prlBNe-p3Uu0Rmy0VNFd5bWhvvmYRdax-zTP_1sOjUKhj5F7ebzRTutCLmn7VElblBe9qCUlA-0fW9D5Dv0C2A" type="hidden"><input id="P11_TOPIC_TITLE" name="P11_TOPIC_TITLE" value="Package-Level Data" type="hidden"><input data-for="P11_TOPIC_TITLE" value="Gux_thGR-QdkncCOyCpZQNNYI_46X4pRGysosCEaczOA6HGfUbk3AqBVM4zZXN78VGXX_vD2JtD4n125X6d__Q" type="hidden"><input id="P11_PARENT_TOPIC_TITLE" name="P11_PARENT_TOPIC_TITLE" value="Packages" type="hidden"><input data-for="P11_PARENT_TOPIC_TITLE" value="Q9Cu8VxX6XR7bh5rt38ueBZSsD06kg2xaeS7oDStE5bed47Q3xZKB9w3Qe-H0s2TWXYnfi1_oM7_ASaT_gNqPA" type="hidden"><input id="P11_PCT_CORRECT_ANSWERS" name="P11_PCT_CORRECT_ANSWERS" value="80" type="hidden"><input data-for="P11_PCT_CORRECT_ANSWERS" value="j0uambE6PJkxLppeLyzxx_OcHOCXrmAzyzuvH7jkfP5JkU42opEVPnO6Sb5bT8wseoblttKGSZQ8IrAU4qZrjQ" type="hidden"><input id="P11_ANSWER_TIME" name="P11_ANSWER_TIME" value="01 m 41 s" type="hidden"><input data-for="P11_ANSWER_TIME" value="aIjB6N35gkVeA4FNt1C_YLNgRZ6T54bAUE2f0N7XDWaXYxlot_1hiOfE9KkHNwON9DMoamhlt2EnqUv1atQaxw" type="hidden"><input id="P11_DOMAIN_NAME" name="P11_DOMAIN_NAME" value="Oracle PL/SQL" type="hidden"><input data-for="P11_DOMAIN_NAME" value="e4HNzIJ_R7NyUZFVoWuR68tHWwpAfZjxQGjRbtjw6W7VzkZxklTKRwCUTecNE3G6rTlTCopndkBaJYJUKqpl1A" type="hidden"><input id="P11_IS_TRUE_FALSE" name="P11_IS_TRUE_FALSE" value="N" type="hidden"><input data-for="P11_IS_TRUE_FALSE" value="iXjJ2GLu7eGufmxt2GqwKBhlm-bEGGZA4lDdPa1qcOPjPsAyFHcT5WtAiAQnwHvxeBIeinZg0CvnCcoLgf68kA" type="hidden"><div>
+<p>
+I execute this statement:</p>
+<pre>CREATE OR REPLACE PACKAGE plch_pkg
+IS
+   my_resolution VARCHAR2(30) := 'Turn off the TV';
+END;
+/</pre>
+<p>
+Which of the choices display "Turn off the TV" after execution?</p>
+
+</div>
+
+     
+   </div>
+   <div class="t-Region-buttons t-Region-buttons--bottom">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+ </div>
+</div>
+
+
+<div id="R129626412425013535" class="" aria-live="polite"> 
+<div id="report_129626412425013535_catch"><div class="">
+
+<div class="t-Region t-Region--hideShow is-expanded a-Collapsible">
+ <div class="t-Region-header choice-Header #CHOICE_MODIFIERS#">
+      <div class="t-Region-headerItems t-Region-headerItems--buttons choice-Icon-div"><span class="choice-Icon fa fa-smile-o"></span>
+  
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title a-Collapsible-heading" id="a_Collapsible1_undefined_heading"><b>Choice 1</b> is correct.<span class="green-Color"> You and 73% others got it right!</span></h2>
+  </div>
+ <div class="t-Region-headerItems  t-Region-headerItems--controls">
+      
+    <button class="t-Button t-Button--icon t-Button--hideShow" type="button" aria-labelledby="a_Collapsible1_undefined_heading" aria-controls="a_Collapsible1_undefined_content" aria-expanded="true"><span class="a-Icon a-Collapsible-icon" aria-hidden="true"></span></button>
+  </div>
+  </div>
+ </div>
+   
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-body a-Collapsible-content" id="a_Collapsible1_undefined_content" aria-hidden="false">
+     <pre class="brush: sql">BEGIN
+   EXECUTE IMMEDIATE
+      'begin dbms_output.put_line (plch_pkg.my_resolution); end;';
+END;
+/
+</pre>
+       <div class="t-Card-info"><div class="correctness"><p>
+Sure, this works just fine. I execute a dynamic PL/SQL block and inside that block reference the package variable.</p>
+</div></div>
+   </div>
+
+        
+ </div>
+    
+</div>
+<div class="t-Region t-Region--hideShow is-expanded a-Collapsible">
+ <div class="t-Region-header choice-Header #CHOICE_MODIFIERS#">
+      <div class="t-Region-headerItems t-Region-headerItems--buttons choice-Icon-div"><span class="choice-Icon fa fa-smile-o"></span>
+  
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title a-Collapsible-heading" id="a_Collapsible2_undefined_heading"><b>Choice 2</b> is correct.<span class="green-Color"> You and 88% others got it right!</span></h2>
+  </div>
+ <div class="t-Region-headerItems  t-Region-headerItems--controls">
+      
+    <button class="t-Button t-Button--icon t-Button--hideShow" type="button" aria-labelledby="a_Collapsible2_undefined_heading" aria-controls="a_Collapsible2_undefined_content" aria-expanded="true"><span class="a-Icon a-Collapsible-icon" aria-hidden="true"></span></button>
+  </div>
+  </div>
+ </div>
+   
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-body a-Collapsible-content" id="a_Collapsible2_undefined_content" aria-hidden="false">
+     <pre class="brush: sql">BEGIN
+   DBMS_OUTPUT.put_line (plch_pkg.my_resolution);
+END;
+/
+</pre>
+       <div class="t-Card-info"><div class="correctness"><p>
+Eh, yup. That definitely does the trick, too!</p>
+</div></div>
+   </div>
+
+        
+ </div>
+    
+</div>
+<div class="t-Region t-Region--hideShow is-expanded a-Collapsible">
+ <div class="t-Region-header choice-Header #CHOICE_MODIFIERS#">
+      <div class="t-Region-headerItems t-Region-headerItems--buttons choice-Icon-div"><span class="choice-Icon fa fa-frown-o"></span>
+  
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title a-Collapsible-heading" id="a_Collapsible3_undefined_heading"><b>Choice 3</b> is not correct.<span class="red-Color"> You got it wrong, while 63% got it right.</span></h2>
+  </div>
+ <div class="t-Region-headerItems  t-Region-headerItems--controls">
+      
+    <button class="t-Button t-Button--icon t-Button--hideShow" type="button" aria-labelledby="a_Collapsible3_undefined_heading" aria-controls="a_Collapsible3_undefined_content" aria-expanded="true"><span class="a-Icon a-Collapsible-icon" aria-hidden="true"></span></button>
+  </div>
+  </div>
+ </div>
+   
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-body a-Collapsible-content" id="a_Collapsible3_undefined_content" aria-hidden="false">
+     <pre class="brush: sql">SELECT plch_pkg.my_resolution FROM DUAL
+/
+</pre>
+
+       <div class="t-Card-info"><div class="correctness"><p>
+Fails with</p>
+<pre class="brush: sql">ORA-06553: PLS-221: 'MY_RESOLUTION' is not a procedure or is undefined
+</pre>
+<p>
+because you cannot directly reference a package variable inside a SQL 
+statement - at least, one that executes outside of a PL/SQL block.</p>
+</div></div>
+   </div>
+
+        
+ </div>
+    
+</div>
+<div class="t-Region t-Region--hideShow is-expanded a-Collapsible">
+ <div class="t-Region-header choice-Header #CHOICE_MODIFIERS#">
+      <div class="t-Region-headerItems t-Region-headerItems--buttons choice-Icon-div"><span class="choice-Icon fa fa-smile-o"></span>
+  
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title a-Collapsible-heading" id="a_Collapsible4_undefined_heading"><b>Choice 4</b> is not correct.<span class="green-Color"> You and 61% others got it right!</span></h2>
+  </div>
+ <div class="t-Region-headerItems  t-Region-headerItems--controls">
+      
+    <button class="t-Button t-Button--icon t-Button--hideShow" type="button" aria-labelledby="a_Collapsible4_undefined_heading" aria-controls="a_Collapsible4_undefined_content" aria-expanded="true"><span class="a-Icon a-Collapsible-icon" aria-hidden="true"></span></button>
+  </div>
+  </div>
+ </div>
+   
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-body a-Collapsible-content" id="a_Collapsible4_undefined_content" aria-hidden="false">
+     <pre class="brush: sql">DECLARE
+   l_resolution   plch_pkg.my_resolution%TYPE;
+BEGIN
+   EXECUTE IMMEDIATE 'select plch_pkg.my_resolution from dual'
+      INTO l_resolution;
+
+   DBMS_OUTPUT.put_line (l_resolution);
+END;
+/
+</pre>
+       <div class="t-Card-info"><div class="correctness"><p>
+Fails with</p>
+<pre class="brush: sql">ORA-06553: PLS-221: 'MY_RESOLUTION' is not a procedure or is undefined
+</pre>
+<p>
+because you cannot directly reference a package variable inside a SQL 
+statement - at least, one that executes outside of a PL/SQL block.</p>
+<p>
+"But, wait!" you say, "that IS executed inside a PL/SQL block!"</p>
+<p>
+Yes and no. The dynamic SQL statement is passed to the SQL engine from 
+the PL/SQL block, but the statement itself is a stand-alone SQL 
+statement.</p>
+<p>
+It executes outside of the PL/SQL block context.</p>
+</div></div>
+   </div>
+
+        
+ </div>
+    
+</div>
+<div class="t-Region t-Region--hideShow is-expanded a-Collapsible">
+ <div class="t-Region-header choice-Header #CHOICE_MODIFIERS#">
+      <div class="t-Region-headerItems t-Region-headerItems--buttons choice-Icon-div"><span class="choice-Icon fa fa-smile-o"></span>
+  
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title a-Collapsible-heading" id="a_Collapsible5_undefined_heading"><b>Choice 5</b> is correct.<span class="green-Color"> You and 67% others got it right!</span></h2>
+  </div>
+ <div class="t-Region-headerItems  t-Region-headerItems--controls">
+      
+    <button class="t-Button t-Button--icon t-Button--hideShow" type="button" aria-labelledby="a_Collapsible5_undefined_heading" aria-controls="a_Collapsible5_undefined_content" aria-expanded="true"><span class="a-Icon a-Collapsible-icon" aria-hidden="true"></span></button>
+  </div>
+  </div>
+ </div>
+   
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-body a-Collapsible-content" id="a_Collapsible5_undefined_content" aria-hidden="false">
+     <pre class="brush: sql">DECLARE
+   l_resolution   plch_pkg.my_resolution%TYPE;
+BEGIN
+   SELECT plch_pkg.my_resolution INTO l_resolution FROM DUAL;
+
+   DBMS_OUTPUT.put_line (l_resolution);
+END;
+/
+</pre>
+       <div class="t-Card-info"><div class="correctness"><p>
+Now the SQL statement executes from within a block and so there is no problem referencing the package variable.</p>
+</div></div>
+   </div>
+
+        
+ </div>
+    
+</div>
+<table class="t-Report-pagination" role="presentation"></table>
+</div></div>
+</div>
+
+<div class="t-Region t-Region--removeHeader t-Region--scrollBody" id="R129867304770537409">
+ <div class="t-Region-header">
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title" id="R129867304770537409_heading">Explanation</h2>
+  </div>
+  <div class="t-Region-headerItems t-Region-headerItems--buttons"><span class="js-maximizeButtonContainer"></span></div>
+ </div>
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-buttons t-Region-buttons--top">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+   <div class="t-Region-body">
+     
+     
+<div id="R155085872521056042" class=""> 
+<div><h2>
+Summary
+</h2></div>
+<div>
+<p>
+	Variables and constants declared in the package specification cannot be
+ directly referenced inside a SQL statement that is executed outside of a
+ PL/SQL block.</p>
+
+</div>
+<br>
+
+</div>
+
+<div id="R155085995437056043" class=""> 
+<div><h2>
+Background
+</h2></div>
+<div>
+<p>
+	Oracle PL/SQL allows you to construct applications based on program 
+units of various types including the basic block (both anonymous and 
+nested), functions, procedures, packages, triggers and object types.</p>
+<hr size="3" noshade="noshade" align="left"><p>
+	A <span class="bold">package</span> is a PL/SQL program unit, defined 
+in the database, that groups together logically related PL/SQL types, 
+variables, constants, subprograms (procedures and/or functions), 
+cursors, and exceptions.</p>
+<p>
+	A package always has a <em><span class="bold">specification</span></em>, which declares the <span class="bold">items</span> that can be referenced from <em>outside </em>of
+ the package. If the public items include cursors that do not include 
+their SELECT statement (only a RETURN clause) or subprograms, then the 
+package must also have a <span class="bold">body</span>.</p>
+<p>
+	Packages are the fundamental building blocks of PL/SQL-based applications.</p>
+<hr size="3" noshade="noshade" align="left"><p>
+	When you declare a variable or constant in a package <em>outside of</em>
+ any of the package's subprograms, that is called package-level data. 
+Here's a package that has a variable declared in the package body and a 
+constant in the package specification:</p>
+<pre>CREATE OR REPLACE PACKAGE plch_pkg
+IS
+   c_max_varchar2   CONSTANT PLS_INTEGER := 32767;
+
+   PROCEDURE set_private_variable (number_in IN NUMBER);
+END;
+/
+
+CREATE OR REPLACE PACKAGE BODY plch_pkg
+IS
+   g_number   NUMBER;
+
+   PROCEDURE set_private_variable (number_in IN NUMBER)
+   IS
+   BEGIN
+      g_number := number_in;
+   END;
+END;
+/</pre>
+<p>
+	Notice that g_number is inside the package body. As a result, a session
+ can only change the value of that variable by calling the 
+set_private_variable procedure.</p>
+<p>
+	Some key things to remember about package-level data:</p>
+<ul>
+	<li>
+		Memory for local variables is automatically released when the block in
+ which they are declared terminates, but memory for package-level data 
+is not released until you disconnect, recompile the package or take some
+ other action to cause the package to be reinitialized.</li>
+	<li>
+		As a consequence, package-level data is persistent between server 
+calls to the package. If in one block you assign a value to a 
+package-level variable, when another block executes in the same session,
+ that variable will still have that value.</li>
+	<li>
+		Memory for package-level data is stored in the UGA (user global area),
+ which is a per-session memory area. You should therefore be very 
+careful about declaring potentially "large" structures like collections 
+at the package level. You could consume lots of memory without realizing
+ it.</li>
+</ul>
+<hr size="3" noshade="noshade" align="left">
+</div>
+
+</div>
+
+   </div>
+   <div class="t-Region-buttons t-Region-buttons--bottom">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+ </div>
+</div>
+
+
+</div><div id="R133108064745184929" class="a-Tabs-panel" role="tabpanel" aria-labelledby="R133108064745184929_tab"> 
+<h3>Discussions</h3><input id="P11_ALL_COMMENTS" name="P11_ALL_COMMENTS" value="" type="hidden"><input data-for="P11_ALL_COMMENTS" value="lo1cKl_gkDw86LhWt3eW1Du1Y6ddZBBYBZWHa033omlVbbQq2_RPIdPxk7-ucwQKT8Ov1t9SgwA4xqM0JagIWQ" type="hidden"><input id="P11_CURRENT_SUBJECT" name="P11_CURRENT_SUBJECT" value="" type="hidden"><input data-for="P11_CURRENT_SUBJECT" value="dsoheJQI5l5TgoDEozN9o-JSbHNpl5xuVPGEcyi9IHrj3UeX6PAHaLJ-pt93jO6oW3lChVFqW_KRBcAGcaZtRA" type="hidden"><input id="P11_DISCUSSION_COUNT" name="P11_DISCUSSION_COUNT" value=" (0)" type="hidden"><input data-for="P11_DISCUSSION_COUNT" value="f1GJ_egdy3loTCnGVJJl6d7lPXYzCO6jkU4GwKFnAOE04Mn2VcTmtLKDUnQDymUTA2JqneJv0-cgIXG0cfmUWQ" type="hidden">
+<div class="t-Region t-Region--scrollBody" id="R138144944739148331">
+ <div class="t-Region-header">
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title" id="R138144944739148331_heading">New Discussion</h2>
+  </div>
+  <div class="t-Region-headerItems t-Region-headerItems--buttons"><span class="js-maximizeButtonContainer"></span></div>
+ </div>
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-buttons t-Region-buttons--top">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+   <div class="t-Region-body">
+     <div class="t-Form-fieldContainer t-Form-fieldContainer--stacked " id="P11_NEW_SUBJECT_CONTAINER"><div class="t-Form-labelContainer">
+  <label for="P11_NEW_SUBJECT" id="P11_NEW_SUBJECT_LABEL" class="t-Form-label">Subject <span class="u-VisuallyHidden">(Value Required)</span></label><span class="t-Form-required"><span class="a-Icon icon-asterisk"></span></span> 
+</div><div class="t-Form-inputContainer"><div class="t-Form-itemWrapper"><input id="P11_NEW_SUBJECT" name="P11_NEW_SUBJECT" class="text_field apex-item-text" size="95" maxlength="75" type="text"></div><span id="P11_NEW_SUBJECT_error_placeholder" class="a-Form-error" data-template-id="120381973836234091_ET"></span></div></div><div class="t-Form-fieldContainer t-Form-fieldContainer--stacked " id="P11_NEW_THREAD_CONTAINER"><div class="t-Form-labelContainer">
+  <label for="P11_NEW_THREAD" id="P11_NEW_THREAD_LABEL" class="t-Form-label">Body <span class="u-VisuallyHidden">(Value Required)</span></label><span class="t-Form-required"><span class="a-Icon icon-asterisk"></span></span> 
+</div><div class="t-Form-inputContainer"><div class="t-Form-itemWrapper"><div id="P11_NEW_THREAD_DISPLAY"><textarea name="P11_NEW_THREAD" rows="5" cols="80" id="P11_NEW_THREAD" class="rich_text_editor apex-item-textarea" style="visibility: hidden; display: none;" wrap="virtual"></textarea><div id="cke_P11_NEW_THREAD" class="cke_1 cke cke_reset cke_chrome cke_editor_P11_NEW_THREAD cke_ltr cke_browser_gecko" dir="ltr" role="application" aria-labelledby="cke_P11_NEW_THREAD_arialbl" style="width: 760px;" lang="en"><span id="cke_P11_NEW_THREAD_arialbl" class="cke_voice_label">Body, rich text editor</span><div class="cke_inner cke_reset" role="presentation"><span id="cke_1_top" class="cke_top cke_reset_all" role="presentation" style="height: auto; -moz-user-select: none;"><span id="cke_8" class="cke_voice_label">Editor toolbars</span><span id="cke_1_toolbox" class="cke_toolbox" role="group" aria-labelledby="cke_8" onmousedown="return false;"><span class="cke_toolbox_main" style="display:none"><span id="cke_13" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_14" class="cke_button cke_button__cut cke_button_disabled " title="Cut" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_14_label" aria-haspopup="false" aria-disabled="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(2,event);" onfocus="return CKEDITOR.tools.callFunction(3,event);" onclick="CKEDITOR.tools.callFunction(4,this);return false;"><span class="cke_button_icon cke_button__cut_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -312px;background-size:auto;">&nbsp;</span><span id="cke_14_label" class="cke_button_label cke_button__cut_label" aria-hidden="false">Cut</span></a><a id="cke_15" class="cke_button cke_button__copy cke_button_disabled " title="Copy" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_15_label" aria-haspopup="false" aria-disabled="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(5,event);" onfocus="return CKEDITOR.tools.callFunction(6,event);" onclick="CKEDITOR.tools.callFunction(7,this);return false;"><span class="cke_button_icon cke_button__copy_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -264px;background-size:auto;">&nbsp;</span><span id="cke_15_label" class="cke_button_label cke_button__copy_label" aria-hidden="false">Copy</span></a><a id="cke_16" class="cke_button cke_button__paste cke_button_off" title="Paste" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_16_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(8,event);" onfocus="return CKEDITOR.tools.callFunction(9,event);" onclick="CKEDITOR.tools.callFunction(10,this);return false;"><span class="cke_button_icon cke_button__paste_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -360px;background-size:auto;">&nbsp;</span><span id="cke_16_label" class="cke_button_label cke_button__paste_label" aria-hidden="false">Paste</span></a><a id="cke_17" class="cke_button cke_button__pastetext cke_button_off" title="Paste as plain text" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_17_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(11,event);" onfocus="return CKEDITOR.tools.callFunction(12,event);" onclick="CKEDITOR.tools.callFunction(13,this);return false;"><span class="cke_button_icon cke_button__pastetext_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1536px;background-size:auto;">&nbsp;</span><span id="cke_17_label" class="cke_button_label cke_button__pastetext_label" aria-hidden="false">Paste as plain text</span></a><a id="cke_18" class="cke_button cke_button__pastefromword cke_button_off" title="Paste from Word" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_18_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(14,event);" onfocus="return CKEDITOR.tools.callFunction(15,event);" onclick="CKEDITOR.tools.callFunction(16,this);return false;"><span class="cke_button_icon cke_button__pastefromword_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1584px;background-size:auto;">&nbsp;</span><span id="cke_18_label" class="cke_button_label cke_button__pastefromword_label" aria-hidden="false">Paste from Word</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_19" class="cke_button cke_button__print cke_button_off" title="Print" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_19_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(17,event);" onfocus="return CKEDITOR.tools.callFunction(18,event);" onclick="CKEDITOR.tools.callFunction(19,this);return false;"><span class="cke_button_icon cke_button__print_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1656px;background-size:auto;">&nbsp;</span><span id="cke_19_label" class="cke_button_label cke_button__print_label" aria-hidden="false">Print</span></a><a id="cke_20" class="cke_button cke_button__preview cke_button_off" title="Preview" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_20_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(20,event);" onfocus="return CKEDITOR.tools.callFunction(21,event);" onclick="CKEDITOR.tools.callFunction(22,this);return false;"><span class="cke_button_icon cke_button__preview_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1632px;background-size:auto;">&nbsp;</span><span id="cke_20_label" class="cke_button_label cke_button__preview_label" aria-hidden="false">Preview</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_21" class="cke_button cke_button__undo cke_button_disabled " title="Undo" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_21_label" aria-haspopup="false" aria-disabled="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(23,event);" onfocus="return CKEDITOR.tools.callFunction(24,event);" onclick="CKEDITOR.tools.callFunction(25,this);return false;"><span class="cke_button_icon cke_button__undo_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1992px;background-size:auto;">&nbsp;</span><span id="cke_21_label" class="cke_button_label cke_button__undo_label" aria-hidden="false">Undo</span></a><a id="cke_22" class="cke_button cke_button__redo cke_button_disabled " title="Redo" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_22_label" aria-haspopup="false" aria-disabled="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(26,event);" onfocus="return CKEDITOR.tools.callFunction(27,event);" onclick="CKEDITOR.tools.callFunction(28,this);return false;"><span class="cke_button_icon cke_button__redo_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1944px;background-size:auto;">&nbsp;</span><span id="cke_22_label" class="cke_button_label cke_button__redo_label" aria-hidden="false">Redo</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_23" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_24" class="cke_button cke_button__templates cke_button_off" title="Templates" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_24_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(29,event);" onfocus="return CKEDITOR.tools.callFunction(30,event);" onclick="CKEDITOR.tools.callFunction(31,this);return false;"><span class="cke_button_icon cke_button__templates_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -456px;background-size:auto;">&nbsp;</span><span id="cke_24_label" class="cke_button_label cke_button__templates_label" aria-hidden="false">Templates</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_25" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_26" class="cke_button cke_button__link cke_button_off" title="Link" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_26_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(32,event);" onfocus="return CKEDITOR.tools.callFunction(33,event);" onclick="CKEDITOR.tools.callFunction(34,this);return false;"><span class="cke_button_icon cke_button__link_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1248px;background-size:auto;">&nbsp;</span><span id="cke_26_label" class="cke_button_label cke_button__link_label" aria-hidden="false">Link</span></a><a id="cke_27" class="cke_button cke_button__unlink cke_button_disabled " title="Unlink" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_27_label" aria-haspopup="false" aria-disabled="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(35,event);" onfocus="return CKEDITOR.tools.callFunction(36,event);" onclick="CKEDITOR.tools.callFunction(37,this);return false;"><span class="cke_button_icon cke_button__unlink_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1272px;background-size:auto;">&nbsp;</span><span id="cke_27_label" class="cke_button_label cke_button__unlink_label" aria-hidden="false">Unlink</span></a><a id="cke_28" class="cke_button cke_button__anchor cke_button_off" title="Anchor" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_28_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(38,event);" onfocus="return CKEDITOR.tools.callFunction(39,event);" onclick="CKEDITOR.tools.callFunction(40,this);return false;"><span class="cke_button_icon cke_button__anchor_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1224px;background-size:auto;">&nbsp;</span><span id="cke_28_label" class="cke_button_label cke_button__anchor_label" aria-hidden="false">Anchor</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_29" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_30" class="cke_button cke_button__image cke_button_off" title="Image" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_30_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(41,event);" onfocus="return CKEDITOR.tools.callFunction(42,event);" onclick="CKEDITOR.tools.callFunction(43,this);return false;"><span class="cke_button_icon cke_button__image_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -936px;background-size:auto;">&nbsp;</span><span id="cke_30_label" class="cke_button_label cke_button__image_label" aria-hidden="false">Image</span></a><a id="cke_31" class="cke_button cke_button__table cke_button_off" title="Table" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_31_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(44,event);" onfocus="return CKEDITOR.tools.callFunction(45,event);" onclick="CKEDITOR.tools.callFunction(46,this);return false;"><span class="cke_button_icon cke_button__table_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1896px;background-size:auto;">&nbsp;</span><span id="cke_31_label" class="cke_button_label cke_button__table_label" aria-hidden="false">Table</span></a><a id="cke_32" class="cke_button cke_button__horizontalrule cke_button_off" title="Insert Horizontal Line" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_32_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(47,event);" onfocus="return CKEDITOR.tools.callFunction(48,event);" onclick="CKEDITOR.tools.callFunction(49,this);return false;"><span class="cke_button_icon cke_button__horizontalrule_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -888px;background-size:auto;">&nbsp;</span><span id="cke_32_label" class="cke_button_label cke_button__horizontalrule_label" aria-hidden="false">Insert Horizontal Line</span></a><a id="cke_33" class="cke_button cke_button__smiley cke_button_off" title="Smiley" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_33_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(50,event);" onfocus="return CKEDITOR.tools.callFunction(51,event);" onclick="CKEDITOR.tools.callFunction(52,this);return false;"><span class="cke_button_icon cke_button__smiley_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1056px;background-size:auto;">&nbsp;</span><span id="cke_33_label" class="cke_button_label cke_button__smiley_label" aria-hidden="false">Smiley</span></a><a id="cke_34" class="cke_button cke_button__specialchar cke_button_off" title="Insert Special Character" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_34_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(53,event);" onfocus="return CKEDITOR.tools.callFunction(54,event);" onclick="CKEDITOR.tools.callFunction(55,this);return false;"><span class="cke_button_icon cke_button__specialchar_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1848px;background-size:auto;">&nbsp;</span><span id="cke_34_label" class="cke_button_label cke_button__specialchar_label" aria-hidden="false">Insert Special Character</span></a><a id="cke_35" class="cke_button cke_button__pagebreak cke_button_off" title="Insert Page Break for Printing" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_35_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(56,event);" onfocus="return CKEDITOR.tools.callFunction(57,event);" onclick="CKEDITOR.tools.callFunction(58,this);return false;"><span class="cke_button_icon cke_button__pagebreak_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1488px;background-size:auto;">&nbsp;</span><span id="cke_35_label" class="cke_button_label cke_button__pagebreak_label" aria-hidden="false">Insert Page Break for Printing</span></a></span><span class="cke_toolbar_end"></span></span><span class="cke_toolbar_break"></span><span id="cke_36" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_37" class="cke_button cke_button__bold cke_button_off" title="Bold" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_37_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(59,event);" onfocus="return CKEDITOR.tools.callFunction(60,event);" onclick="CKEDITOR.tools.callFunction(61,this);return false;"><span class="cke_button_icon cke_button__bold_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -24px;background-size:auto;">&nbsp;</span><span id="cke_37_label" class="cke_button_label cke_button__bold_label" aria-hidden="false">Bold</span></a><a id="cke_38" class="cke_button cke_button__italic cke_button_off" title="Italic" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_38_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(62,event);" onfocus="return CKEDITOR.tools.callFunction(63,event);" onclick="CKEDITOR.tools.callFunction(64,this);return false;"><span class="cke_button_icon cke_button__italic_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -48px;background-size:auto;">&nbsp;</span><span id="cke_38_label" class="cke_button_label cke_button__italic_label" aria-hidden="false">Italic</span></a><a id="cke_39" class="cke_button cke_button__underline cke_button_off" title="Underline" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_39_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(65,event);" onfocus="return CKEDITOR.tools.callFunction(66,event);" onclick="CKEDITOR.tools.callFunction(67,this);return false;"><span class="cke_button_icon cke_button__underline_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -144px;background-size:auto;">&nbsp;</span><span id="cke_39_label" class="cke_button_label cke_button__underline_label" aria-hidden="false">Underline</span></a><a id="cke_40" class="cke_button cke_button__strike cke_button_off" title="Strikethrough" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_40_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(68,event);" onfocus="return CKEDITOR.tools.callFunction(69,event);" onclick="CKEDITOR.tools.callFunction(70,this);return false;"><span class="cke_button_icon cke_button__strike_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -72px;background-size:auto;">&nbsp;</span><span id="cke_40_label" class="cke_button_label cke_button__strike_label" aria-hidden="false">Strikethrough</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_41" class="cke_button cke_button__subscript cke_button_off" title="Subscript" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_41_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(71,event);" onfocus="return CKEDITOR.tools.callFunction(72,event);" onclick="CKEDITOR.tools.callFunction(73,this);return false;"><span class="cke_button_icon cke_button__subscript_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -96px;background-size:auto;">&nbsp;</span><span id="cke_41_label" class="cke_button_label cke_button__subscript_label" aria-hidden="false">Subscript</span></a><a id="cke_42" class="cke_button cke_button__superscript cke_button_off" title="Superscript" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_42_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(74,event);" onfocus="return CKEDITOR.tools.callFunction(75,event);" onclick="CKEDITOR.tools.callFunction(76,this);return false;"><span class="cke_button_icon cke_button__superscript_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -120px;background-size:auto;">&nbsp;</span><span id="cke_42_label" class="cke_button_label cke_button__superscript_label" aria-hidden="false">Superscript</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_43" class="cke_button cke_button__removeformat cke_button_off" title="Remove Format" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_43_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(77,event);" onfocus="return CKEDITOR.tools.callFunction(78,event);" onclick="CKEDITOR.tools.callFunction(79,this);return false;"><span class="cke_button_icon cke_button__removeformat_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1680px;background-size:auto;">&nbsp;</span><span id="cke_43_label" class="cke_button_label cke_button__removeformat_label" aria-hidden="false">Remove Format</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_44" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_45" class="cke_button cke_button__numberedlist cke_button_off" title="Insert/Remove Numbered List" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_45_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(80,event);" onfocus="return CKEDITOR.tools.callFunction(81,event);" onclick="CKEDITOR.tools.callFunction(82,this);return false;"><span class="cke_button_icon cke_button__numberedlist_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1368px;background-size:auto;">&nbsp;</span><span id="cke_45_label" class="cke_button_label cke_button__numberedlist_label" aria-hidden="false">Insert/Remove Numbered List</span></a><a id="cke_46" class="cke_button cke_button__bulletedlist cke_button_off" title="Insert/Remove Bulleted List" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_46_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(83,event);" onfocus="return CKEDITOR.tools.callFunction(84,event);" onclick="CKEDITOR.tools.callFunction(85,this);return false;"><span class="cke_button_icon cke_button__bulletedlist_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1320px;background-size:auto;">&nbsp;</span><span id="cke_46_label" class="cke_button_label cke_button__bulletedlist_label" aria-hidden="false">Insert/Remove Bulleted List</span></a><span class="cke_toolbar_separator" role="separator"></span><a id="cke_47" class="cke_button cke_button__outdent cke_button_disabled " title="Decrease Indent" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_47_label" aria-haspopup="false" aria-disabled="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(86,event);" onfocus="return CKEDITOR.tools.callFunction(87,event);" onclick="CKEDITOR.tools.callFunction(88,this);return false;"><span class="cke_button_icon cke_button__outdent_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1032px;background-size:auto;">&nbsp;</span><span id="cke_47_label" class="cke_button_label cke_button__outdent_label" aria-hidden="false">Decrease Indent</span></a><a id="cke_48" class="cke_button cke_button__indent cke_button_off" title="Increase Indent" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_48_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(89,event);" onfocus="return CKEDITOR.tools.callFunction(90,event);" onclick="CKEDITOR.tools.callFunction(91,this);return false;"><span class="cke_button_icon cke_button__indent_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -984px;background-size:auto;">&nbsp;</span><span id="cke_48_label" class="cke_button_label cke_button__indent_label" aria-hidden="false">Increase Indent</span></a><a id="cke_49" class="cke_button cke_button__blockquote cke_button_off" title="Block Quote" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_49_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(92,event);" onfocus="return CKEDITOR.tools.callFunction(93,event);" onclick="CKEDITOR.tools.callFunction(94,this);return false;"><span class="cke_button_icon cke_button__blockquote_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -216px;background-size:auto;">&nbsp;</span><span id="cke_49_label" class="cke_button_label cke_button__blockquote_label" aria-hidden="false">Block Quote</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_50" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_51" class="cke_button cke_button__justifyleft cke_button_off" title="Align Left" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_51_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(95,event);" onfocus="return CKEDITOR.tools.callFunction(96,event);" onclick="CKEDITOR.tools.callFunction(97,this);return false;"><span class="cke_button_icon cke_button__justifyleft_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1128px;background-size:auto;">&nbsp;</span><span id="cke_51_label" class="cke_button_label cke_button__justifyleft_label" aria-hidden="false">Align Left</span></a><a id="cke_52" class="cke_button cke_button__justifycenter cke_button_off" title="Center" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_52_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(98,event);" onfocus="return CKEDITOR.tools.callFunction(99,event);" onclick="CKEDITOR.tools.callFunction(100,this);return false;"><span class="cke_button_icon cke_button__justifycenter_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1104px;background-size:auto;">&nbsp;</span><span id="cke_52_label" class="cke_button_label cke_button__justifycenter_label" aria-hidden="false">Center</span></a><a id="cke_53" class="cke_button cke_button__justifyright cke_button_off" title="Align Right" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_53_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(101,event);" onfocus="return CKEDITOR.tools.callFunction(102,event);" onclick="CKEDITOR.tools.callFunction(103,this);return false;"><span class="cke_button_icon cke_button__justifyright_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1152px;background-size:auto;">&nbsp;</span><span id="cke_53_label" class="cke_button_label cke_button__justifyright_label" aria-hidden="false">Align Right</span></a><a id="cke_54" class="cke_button cke_button__justifyblock cke_button_off" title="Justify" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_54_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(104,event);" onfocus="return CKEDITOR.tools.callFunction(105,event);" onclick="CKEDITOR.tools.callFunction(106,this);return false;"><span class="cke_button_icon cke_button__justifyblock_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1080px;background-size:auto;">&nbsp;</span><span id="cke_54_label" class="cke_button_label cke_button__justifyblock_label" aria-hidden="false">Justify</span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_55" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_56" class="cke_button cke_button__textcolor cke_button_off" title="Text Color" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_56_label" aria-haspopup="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(107,event);" onfocus="return CKEDITOR.tools.callFunction(108,event);" onclick="CKEDITOR.tools.callFunction(109,this);return false;"><span class="cke_button_icon cke_button__textcolor_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -408px;background-size:auto;">&nbsp;</span><span id="cke_56_label" class="cke_button_label cke_button__textcolor_label" aria-hidden="false">Text Color</span><span class="cke_button_arrow"></span></a><a id="cke_57" class="cke_button cke_button__bgcolor cke_button_off" title="Background Color" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_57_label" aria-haspopup="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(110,event);" onfocus="return CKEDITOR.tools.callFunction(111,event);" onclick="CKEDITOR.tools.callFunction(112,this);return false;"><span class="cke_button_icon cke_button__bgcolor_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -384px;background-size:auto;">&nbsp;</span><span id="cke_57_label" class="cke_button_label cke_button__bgcolor_label" aria-hidden="false">Background Color</span><span class="cke_button_arrow"></span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_58" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_59" class="cke_button cke_button__showblocks cke_button_off" title="Show Blocks" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_59_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(113,event);" onfocus="return CKEDITOR.tools.callFunction(114,event);" onclick="CKEDITOR.tools.callFunction(115,this);return false;"><span class="cke_button_icon cke_button__showblocks_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1776px;background-size:auto;">&nbsp;</span><span id="cke_59_label" class="cke_button_label cke_button__showblocks_label" aria-hidden="false">Show Blocks</span></a></span><span class="cke_toolbar_end"></span></span><span class="cke_toolbar_break"></span><span id="cke_60" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span id="cke_9" class="cke_combo cke_combo__styles cke_combo_off" role="presentation"><span id="cke_9_label" class="cke_combo_label">Styles</span><a class="cke_combo_button" title="Formatting Styles" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_9_label" aria-haspopup="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(117,event,this);" onfocus="return CKEDITOR.tools.callFunction(118,event);" onclick="CKEDITOR.tools.callFunction(116,this);return false;"><span id="cke_9_text" class="cke_combo_text cke_combo_inlinelabel">Styles</span><span class="cke_combo_open"><span class="cke_combo_arrow"></span></span></a></span><span id="cke_10" class="cke_combo cke_combo__format cke_combo_off" role="presentation"><span id="cke_10_label" class="cke_combo_label">Format</span><a class="cke_combo_button" title="Paragraph Format" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_10_label" aria-haspopup="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(120,event,this);" onfocus="return CKEDITOR.tools.callFunction(121,event);" onclick="CKEDITOR.tools.callFunction(119,this);return false;"><span id="cke_10_text" class="cke_combo_text cke_combo_inlinelabel">Format</span><span class="cke_combo_open"><span class="cke_combo_arrow"></span></span></a></span><span id="cke_11" class="cke_combo cke_combo__font cke_combo_off" role="presentation"><span id="cke_11_label" class="cke_combo_label">Font</span><a class="cke_combo_button" title="Font Name" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_11_label" aria-haspopup="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(123,event,this);" onfocus="return CKEDITOR.tools.callFunction(124,event);" onclick="CKEDITOR.tools.callFunction(122,this);return false;"><span id="cke_11_text" class="cke_combo_text cke_combo_inlinelabel">Font</span><span class="cke_combo_open"><span class="cke_combo_arrow"></span></span></a></span><span id="cke_12" class="cke_combo cke_combo__fontsize cke_combo_off" role="presentation"><span id="cke_12_label" class="cke_combo_label">Size</span><a class="cke_combo_button" title="Font Size" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_12_label" aria-haspopup="true" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(126,event,this);" onfocus="return CKEDITOR.tools.callFunction(127,event);" onclick="CKEDITOR.tools.callFunction(125,this);return false;"><span id="cke_12_text" class="cke_combo_text cke_combo_inlinelabel">Size</span><span class="cke_combo_open"><span class="cke_combo_arrow"></span></span></a></span><span class="cke_toolbar_end"></span></span><span id="cke_61" class="cke_toolbar" role="toolbar"><span class="cke_toolbar_start"></span><span class="cke_toolgroup" role="presentation"><a id="cke_62" class="cke_button cke_button__source cke_button_off" title="Source" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_62_label" aria-haspopup="false" onblur="this.style.cssText = this.style.cssText;" onkeydown="return CKEDITOR.tools.callFunction(128,event);" onfocus="return CKEDITOR.tools.callFunction(129,event);" onclick="CKEDITOR.tools.callFunction(130,this);return false;"><span class="cke_button_icon cke_button__source_icon" style="background-image:url('https://plsqlchallenge.oracle.com/i/libraries/ckeditor/4.5.11/plugins/icons.png?t=G87E');background-position:0 -1824px;background-size:auto;">&nbsp;</span><span id="cke_62_label" class="cke_button_label cke_button__source_label" aria-hidden="false">Source</span></a></span><span class="cke_toolbar_end"></span></span></span><a title="Expand Toolbar" id="cke_1_toolbar_collapser" tabindex="-1" class="cke_toolbox_collapser cke_toolbox_collapser_min" onclick="CKEDITOR.tools.callFunction(131)"><span class="cke_arrow">▲</span></a></span></span><div id="cke_1_contents" class="cke_contents cke_reset" role="presentation" style="height: 95px;"><span id="cke_67" class="cke_voice_label">Press ALT 0 for help</span><iframe src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/f.htm" style="width: 100%; height: 100%;" class="cke_wysiwyg_frame cke_reset" title="Body, rich text editor" aria-describedby="cke_67" tabindex="0" allowtransparency="true" frameborder="0"></iframe></div><span id="cke_1_bottom" class="cke_bottom cke_reset_all" role="presentation" style="-moz-user-select: none;"><span id="cke_1_resizer" class="cke_resizer cke_resizer_ltr" title="Resize" onmousedown="CKEDITOR.tools.callFunction(0, event)">◢</span></span></div></div></div></div><span id="P11_NEW_THREAD_error_placeholder" class="a-Form-error" data-template-id="120381973836234091_ET"></span></div></div><div class="t-Form-fieldContainer rel-col " id="P11_IS_OBJECTION_CONTAINER"><div class="t-Form-labelContainer col col-null">
+<label for="P11_IS_OBJECTION" id="P11_IS_OBJECTION_LABEL" class="t-Form-label">Reporting an error in the quiz?</label>
+</div>
+<div class="t-Form-inputContainer col col-null"><div class="t-Form-itemWrapper"><fieldset tabindex="-1" id="P11_IS_OBJECTION" class="apex-button-group apex-item-yes-no apex-item-select">
+<legend class="u-VisuallyHidden">Reporting an error in the quiz?</legend>
+<input id="P11_IS_OBJECTION_Y" name="P11_IS_OBJECTION" value="Y" required="" aria-required="true" type="radio"><label for="P11_IS_OBJECTION_Y" class="a-Button">Yes</label><input id="P11_IS_OBJECTION_N" name="P11_IS_OBJECTION" value="N" checked="checked" type="radio"><label for="P11_IS_OBJECTION_N" class="a-Button">No</label></fieldset>
+<button class="t-Button t-Button--noUI t-Button--helpButton js-itemHelp" data-itemhelp="166873074628777339" title="Help Text: Reporting an error in the quiz?" aria-label="Help Text: Reporting an error in the quiz?" tabindex="-1" type="button"><span class="a-Icon icon-help" aria-hidden="true"></span></button></div><span id="P11_IS_OBJECTION_error_placeholder" class="a-Form-error" data-template-id="120381686084234091_ET"></span></div></div><table summary="" width="100%" cellspacing="0" cellpadding="0" border="0"><tbody><tr><td align="right"><button onclick="apex.submit({request:'START_DISCUSSION'});" class="t-Button t-Button--hot " type="button" id="B129085932699332719"><span class="t-Button-label">Submit</span></button></td></tr></tbody></table>
+     
+   </div>
+   <div class="t-Region-buttons t-Region-buttons--bottom">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+ </div>
+</div>
+
+
+</div><div id="similar-Q" class="a-Tabs-panel" role="tabpanel" aria-labelledby="similar-Q_tab" aria-live="polite"> 
+<h3>Other Quizzes on Package-Level Data</h3><input id="P11_NEW_QUESTION_ID" name="P11_NEW_QUESTION_ID" value="" type="hidden"><input id="P11_NEW_COMP_EVENT_ID" name="P11_NEW_COMP_EVENT_ID" value="" type="hidden"><div id="report_135542887549753498_catch"><span class="nodatafound">No other quizzes for this topic. </span>
+</div>
+<div id="R29738399980126046" class=""> 
+<br><button onclick="apex.navigation.redirect('f?p=10001:3:8563099210963::NO:RP:P3_DOMAIN_ID,P3_TOPIC_ID:1,47\u0026cs=1BxWRD0Qg_luo9j3RRXADoF4X-9o-dBIYazrg7IrA90g81Q8rok6BEe0EhASzI3EkqK6hYNyG7suuZ-8Map9BDw');" class="t-Button t-Button--large t-Button--success" type="button" id="B137185412409024631"><span class="t-Button-label">More Quizzes on Packages</span></button>
+</div>
+
+</div><div id="R129084933257332709" class="a-Tabs-panel" role="tabpanel" aria-labelledby="R129084933257332709_tab"> 
+<h3>Resources for Package-Level Data</h3>
+<div class="t-Region t-Region--removeHeader t-Region--noUI t-Region--hiddenOverflow" id="R130520130312116024" aria-live="polite">
+ <div class="t-Region-header">
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title" id="R130520130312116024_heading">Topic Resources</h2>
+  </div>
+  <div class="t-Region-headerItems t-Region-headerItems--buttons"><span class="js-maximizeButtonContainer"></span></div>
+ </div>
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-buttons t-Region-buttons--top">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+   <div class="t-Region-body">
+     <input id="P11_SETFAVE_ID" name="P11_SETFAVE_ID" value="" type="hidden"><input data-for="P11_SETFAVE_ID" value="0CDK_XTQ260YBk3RsyGx3-uffw82tshE7fso7i9CPuETliDvwCbj1bkMP_xDAMztj99jVHizEqQxJ9EvZH4DcA" type="hidden"><input id="P11_FAVE_TYPE" name="P11_FAVE_TYPE" value="" type="hidden"><input data-for="P11_FAVE_TYPE" value="CxMh_qmXKbgNQZEYi_yu5f_gkpNUz5uCmvHlFbbXJb9MyLK3UZBR7oBfjXexOaBvyJVwf5h4qfX09pGl3MADMg" type="hidden"><div id="report_130520130312116024_catch"><div class="t-Report t-Report--staticRowColors t-Report--rowHighlight t-Report--horizontalBorders" id="report_R130520130312116024">
+  <div class="t-Report-wrap">
+    <table class="t-Report-pagination" role="presentation"><tbody><tr><td></td></tr></tbody></table>
+    <div class="t-Report-tableWrap">
+    <table class="t-Report-report" summary="Topic Resources">
+<thead><tr><th class="t-Report-colHead" id="CARD_ICON" align="center"></th><th class="t-Report-colHead" id="CARD_LINK" align="center">Resource</th><th class="t-Report-colHead" id="CARD_TEXT" align="center">Source</th></tr></thead>
+<tbody>
+<tr><td class="t-Report-cell" headers="CARD_ICON"><span class=" fa fa-book"></span></td><td class="t-Report-cell" headers="CARD_LINK"><a href="http://www.oracle.com/pls/topic/lookup?ctx=db112&amp;id=LNPLS" target="_blank">Oracle® Database PL/SQL Language Reference</a></td><td class="t-Report-cell" headers="CARD_TEXT">From: Oracle Database 11g Release 2 Documentation Library</td></tr>
+<tr><td class="t-Report-cell" headers="CARD_ICON"><span class=" fa fa-book"></span></td><td class="t-Report-cell" headers="CARD_LINK"><a href="http://www.oracle.com/pls/topic/lookup?ctx=db112&amp;id=LNPLS008" target="_blank">Subprograms</a></td><td class="t-Report-cell" headers="CARD_TEXT">From: Oracle Database 11g Release 2 Documentation Library</td></tr>
+<tr><td class="t-Report-cell" headers="CARD_ICON"><span class=" fa fa-book"></span></td><td class="t-Report-cell" headers="CARD_LINK"><a href="http://www.oracle.com/pls/topic/lookup?ctx=db112&amp;id=LNPLS009" target="_blank">Packages</a></td><td class="t-Report-cell" headers="CARD_TEXT">From: Oracle Database 11g Release 2 Documentation Library</td></tr>
+<tr><td class="t-Report-cell" headers="CARD_ICON"><span class=" fa fa-book"></span></td><td class="t-Report-cell" headers="CARD_LINK"><a href="http://www.oracle.com/pls/topic/lookup?ctx=db112&amp;id=LNPLS804" target="_blank">Package State</a></td><td class="t-Report-cell" headers="CARD_TEXT">From: Oracle Database 11g Release 2 Documentation Library</td></tr>
+<tr><td class="t-Report-cell" headers="CARD_ICON"><span class=" fa fa-book"></span></td><td class="t-Report-cell" headers="CARD_LINK"><a href="http://www.oracle.com/pls/topic/lookup?ctx=db121&amp;id=LNPLS" target="_blank">Oracle® Database PL/SQL Language Reference 12.1</a></td><td class="t-Report-cell" headers="CARD_TEXT">From: Oracle Database 12c Release 1 Documentation Library </td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="t-Report-links"></div>
+    <table class="t-Report-pagination t-Report-pagination--bottom" role="presentation"></table>
+  </div>
+</div></div>
+     
+   </div>
+   <div class="t-Region-buttons t-Region-buttons--bottom">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+ </div>
+</div>
+
+
+<div class="t-Region t-Region--removeHeader t-Region--noUI t-Region--hiddenOverflow" id="R130137186900198347" aria-live="polite">
+ <div class="t-Region-header">
+  <div class="t-Region-headerItems t-Region-headerItems--title">
+    <h2 class="t-Region-title" id="R130137186900198347_heading">Question Resources</h2>
+  </div>
+  <div class="t-Region-headerItems t-Region-headerItems--buttons"><span class="js-maximizeButtonContainer"></span></div>
+ </div>
+ <div class="t-Region-bodyWrap">
+   <div class="t-Region-buttons t-Region-buttons--top">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+   <div class="t-Region-body">
+     <div id="report_130137186900198347_catch"><span class="nodatafound"></span>
+</div>
+     
+   </div>
+   <div class="t-Region-buttons t-Region-buttons--bottom">
+    <div class="t-Region-buttons-left"></div>
+    <div class="t-Region-buttons-right"></div>
+   </div>
+ </div>
+</div>
+
+
+</div>
+      </div>
+      <footer class="t-Footer">
+        <div class="t-Footer-body">
+          <div class="t-Footer-content"><div id="R132418693095106820" class=""> 
+<br>
+<div class="ate-Footer-tagline">
+  <span class="oracle-tagline" style="background-image:url(plch/r/10001/files/static/v54/images/oracle-footer.png);"><span class="u-VisuallyHidden">Integrated Cloud Applications and Platform Services</span></span>
+</div>
+<div class="ate-Footer-body">
+
+  <ul class="ate-Footer-links">
+    <li><a href="http://www.oracle.com/us/corporate/index.html" target="_blank">About Oracle</a></li>
+    <li><a href="http://www.oracle.com/us/corporate/contact/index.html" target="_blank">Contact Us</a></li>
+    <li><a href="http://www.oracle.com/us/legal/privacy/overview/index.html" target="_blank">Legal Notices</a></li>
+    <li><a href="http://www.oracle.com/us/legal/terms/index.html" target="_blank">Terms of Use</a></li>
+    <li><a href="http://www.oracle.com/us/legal/privacy/overview/index.html" target="_blank">Your Privacy Rights</a></li>
+  </ul>
+  <p>All information and materials provided here are provided "as-is"; 
+Oracle disclaims all express and implied warranties, including, the 
+implied warranties of merchantability or fitness for a particular use. 
+Oracle shall not be liable for any damages, including, direct, indirect,
+ incidental, special or consequential damages for loss of profits, 
+revenue, data or data use, incurred by you or any third party in 
+connection with the use of this information or these materials.</p>
+  <p>Copyright © 2017 Oracle and/or its affiliates. All rights reserved. Dev Gym version 1.6.1.</p>
+  <p>Built with <span class="fa fa-heart"><span class="u-VisuallyHidden">love</span></span> using <a href="http://apex.oracle.com/" target="_blank">Oracle Application Express 5.1</a>.</p>
+</div>
+<div class="ate-Footer-social">
+  <ul class="ate-Footer-links">
+    <li><a href="http://twitter.com/Oracle" target="_blank" title="Twitter"><span class="fa fa-twitter"></span></a></li>
+  </ul>
+</div>
+</div><div id="R150466943375817641" class=""> 
+<!-- Start SiteCatalyst code -->
+ <script type="text/javascript" async="" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/elqCfg.js"></script><script async="" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/bk-coretag.js"></script><script language="javascript">
+ var  s_pageName="oradevgym:en-us:";
+ if (typeof(document.title)!= "undefined") {var s_pageName = s_pageName + document.title.trim()};
+ </script>
+ <script language="JavaScript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/ora_otn.js">
+ </script><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/ora_code_otn.js"></script><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/ora_code.js"></script><img src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/ca.htm" style="display:none" alt="Rocket Fuel" width="0" height="0">
+ <!-- End SiteCatalyst code -->
+</div></div>
+          <div class="t-Footer-apex">
+            <div class="t-Footer-version"> </div>  
+            <div class="t-Footer-customize"><a href='javascript:apex.theme.openCustomizeDialog(%20"Customize","en");'>Customize</a></div>
+            <div class="t-Footer-srMode"><a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:11:8563099210963:SET_SESSION_SCREEN_READER_ON::::&amp;cs=38NOMS90xEJzQhaWK7e9afRZc_vVUhRqIhbXUnnZ8Z4IfHANM5Joq9ta7lmIJNySTiCgGJ9TNYwVyQ6k2JubqlQ">Set Screen Reader Mode On</a></div>
+          </div>
+        </div>
+        <div class="t-Footer-top">
+          <a href="#top" class="t-Footer-topButton" id="t_Footer_topButton" title="Start of page"><span class="a-Icon icon-up-chevron"></span></a>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <div class="t-Body-actions" id="t_Body_actions" style="display: block; top: 88px;">
+    <button class="t-Button t-Button--icon t-Button--header t-Button--headerRight is-active" title="Expand / Collapse Side Column" id="t_Button_rightControlButton" type="button" aria-expanded="true"><span class="t-Icon fa fa-bars" aria-hidden="true"></span></button>
+    <div class="t-Body-actionsContent" style="visibility: inherit;" aria-hidden="false">
+    <div class="t-ButtonRegion t-Form--floatLeft " id="R43777001776214104">
+  <div class="t-ButtonRegion-wrap">
+    <div class="t-ButtonRegion-col t-ButtonRegion-col--left"><div class="t-ButtonRegion-buttons"></div></div>
+    <div class="t-ButtonRegion-col t-ButtonRegion-col--content">
+      <h2 class="t-ButtonRegion-title" id="R43777001776214104_heading">Actions</h2>
+      <ul class="t-LinksList t-LinksList--actions t-LinksList--showIcons" id="43193654739742836"><li class="t-LinksList-item "><a href="javascript:apex.navigation.dialog('f?p=10001:14:8563099210963::NO::P14_COMP_EVENT_ID,P14_PAGE_STATE,P14_CLASS_COMP_EVENT_ID:1698743,ASSUMPTIONS,\u0026cs=1BSxkMGAtoXaAw0FttKPLhT197iqxQ25ZZnM2w0cyxD1Z9XqU11V0rApTjH7EyaMJoRzeYQe2UCVYCk8G_5vwgQ\u0026p_dialog_cs=YlDjAOx1yp95rFWBw9WO6FlexBzpQx1ewPIbea09Wp4aJJs9x6NtfRpKjErruzFH_qliufl1_nH7-RhXh3jf8g',{title:'',height:'800',width:'1000',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard%20'+'',apex.jQuery('#R43777001776214104'));" class="t-LinksList-link"><span class="t-LinksList-icon"><span class="t-Icon fa fa-list"></span></span><span class="t-LinksList-label">Assumptions</span><span class="t-LinksList-badge"></span></a></li><li class="t-LinksList-item "><a href="javascript:apex.submit('SEND_RESULTS');" class="t-LinksList-link"><span class="t-LinksList-icon"><span class="t-Icon fa fa-envelope-o"></span></span><span class="t-LinksList-label">Send Results</span><span class="t-LinksList-badge"></span></a></li><li class="t-LinksList-item "><a href="javascript:apex.navigation.dialog('f?p=10001:14:8563099210963::NO::P14_QUESTION_ID,P14_PAGE_STATE:10402,VCODE\u0026cs=1-G-bcdJv-JtRyeRivdyhsF0S70I73_3l3h5k5M0XSBh9LEMOfzAP11n-_20v-J8j1qu6b1RxuByvT4BMCXz6YA\u0026p_dialog_cs=YlDjAOx1yp95rFWBw9WO6FlexBzpQx1ewPIbea09Wp4aJJs9x6NtfRpKjErruzFH_qliufl1_nH7-RhXh3jf8g',{title:'',height:'800',width:'1000',maxWidth:'960',modal:true,dialog:null},'t-Dialog-page--standard%20'+'',apex.jQuery('#R43777001776214104'));" class="t-LinksList-link"><span class="t-LinksList-icon"><span class="t-Icon fa fa-code"></span></span><span class="t-LinksList-label">Code</span><span class="t-LinksList-badge"></span></a></li></ul>
+      <div class="t-ButtonRegion-buttons"></div>
+    </div>
+    <div class="t-ButtonRegion-col t-ButtonRegion-col--right"><div class="t-ButtonRegion-buttons"></div></div>
+  </div>
+</div><div id="qdetails-Sidebar" class=""> 
+<b><h5 class="explore-Head">Explore</h5></b>
+We offer lots of information to help you deepen your knowledge on this topic:
+<br>
+<br>
+<a id="similarq-A" href="javascript:void(0);">Similar Quizzes</a><br>Quick access to other quizzes on the same or similar topic
+<br>
+<br>
+<a id="resource-A" href="javascript:void(0);">Further Study</a><br>Links to documentation and other content relevant to this topic
+<br>
+<br>
+<a id="discussion-A" href="javascript:void(0);">Discussions</a><br>Have a question? Think there is a problem with the quiz? Start or join a discussion.
+</div>
+    </div>
+  </div>
+</div>
+<div class="t-Body-inlineDialogs">
+  
+</div><input id="pPageItemsRowVersion" value="" type="hidden"><input id="pPageItemsProtected" value="NHFlUHcOLfsP8ToZSBf00pqByNuR7dTXxdsn-78Aq_EXZRHQI-KVHEWtMqc3TPjVijJ4dSBjUDmfHw7zR_M3kBSdSB6899m7W_lak_wP3NSVCZfTzmMRXWKiZWqW2vBawaNx3mwMYto4GsTtumKV9iiqpzFi8LFYhSL8jSKkL6nO0OJFfZhICRrD-LSL2xPr_UkNgUJwtHOOa7oMhROtf2YJ_pfFUh5unWFoq-Dx1jy9oa4HXx84dyN_m0Wjjt-bcKsmVAX5i0eRnspkwvz8mMV-cMDGDqJO2bOZ1sJO02TMbaip0EYQiv4ObyNNEt0t69bL2ZGoJllvokb6Cu935fYHr8Di5PiLwTHo041pDl1FmH-NFYZwQGPscsrWZiPwakbr9Ig5CRfx_AlpwChlfj8ZkXBSnSK52pgstaY4F8tNKeigpPxmwNLvRCAPVTo880zzyVPie1-qIFffmGPhl1CldaHBj75W9YeQPBB7oY6a61mqdMO2Utj5xiLLldsicF3WoTryuVn-nBMxJ3Q-g01v9rWkqC2NlaiZl8E_r9QvaYLrZuqeMq8fW-10lVKeAzSvvNcywcySAGYkR379wJfdz-aOAwJSaptBehoL0hP0z2a8C4U3VLLRKJvzUh6wmfK3mmX_L_cZ6dBoZrotYUCmAMC_5zpQnuTAPshivvdd2I8_8DzLBcxT6hxw2g1T0XoC7qIIs2C6pcxz7rkOMAysezaJ7x4ULHh6rAK3CN7TPYZYjH09lhvYzJWTZhXET4sZFVxlriU7uDOk1Auz8c6z8cXmjaAgN7RELPpejUCe4YHSJSFJgS6lynmJZzPLFrIu9zksuoYWcDQgPu515TAmaI_aEI204CXIXhYkwo_9N52BRaS7iyckpSItSgY9m9TPZnkixelE0mGkb-foZiaVQolNdcUZQkdHYnIDrH-usOEHpBPmIV3x6YYAsUxwLmbWoaR6vdKV87GoUVGZ8ebVsgR9L8ryV-ZB_IZeplDIm73w9EialgM2oPJ2SvMmfpUNGZybHYpOCkhdyj2NV7NtMyKguJANg7u23GJXiOaS_rwKBvAm-yDl09SOEowebUJ36Fpj9NNo_UYyAyPGHv_UjfjpC9Ig__CsmJhjikROcrF1KD30Q9-s1taZacXNNRyx2_bv0Po0z1vwbzMgSfDR4ou_MquihZm8ocmsW62CoIQXqLjD3N0Pqfbl8FlNQumSTGv3eYNq-UIx5rAvbUCwiSUw6NE6jiOh3Fy6hVF2NV_aD_hOfHv-5ngIfw9MucYEbLiNlUootZVYKzGdqg" type="hidden"></form><iframe name="__bkframe" id="__bkframe" title="bk" style="border: 0px none; width: 0px; height: 0px; display: none; position: absolute; clip: rect(0px, 0px, 0px, 0px);" src="about:blank"></iframe>
+
+
+<script type="text/javascript">
+var apex_img_dir = "/i/", htmldb_Img_Dir = apex_img_dir;
+</script>
+<!--[if lt IE 9]><script type="text/javascript" src="/i/libraries/jquery/1.12.3/jquery-1.12.3.min.js?v=5.1.1.00.08"></script><![endif]-->
+<!--[if gte IE 9]><!--><script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/jquery-2.js"></script><!--<![endif]-->
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/desktop.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/wwv_flow.js_messages"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/legacy.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/jquery-migrate-1.js"></script>
+
+<script type="text/javascript">
+apex.da.initDaEventList = function(){
+apex.da.gEventList = [
+{"triggeringElementType":"JQUERY_SELECTOR","triggeringElement":"li.apex-rds-item a","bindType":"bind","bindEventType":"click","anyActionsFireOnInit":true,actionList:[{"eventResult":true,"executeOnPageInit":true,"stopExecutionOnError":true,javascriptFunction:function (){ apex.jQuery(window).trigger('apexwindowresized');
+},"action":"NATIVE_JAVASCRIPT_CODE"}]},
+{"triggeringElementType":"JQUERY_SELECTOR","triggeringElement":"li.apex-rds-item a","bindType":"bind","bindEventType":"click","anyActionsFireOnInit":true,actionList:[{"eventResult":true,"executeOnPageInit":true,"stopExecutionOnError":true,javascriptFunction:function (){ apex.jQuery(window).trigger('apexwindowresized');
+},"action":"NATIVE_JAVASCRIPT_CODE"}]},
+{"triggeringElementType":"JQUERY_SELECTOR","triggeringElement":".star-rating","bindType":"bind","bindEventType":"click","anyActionsFireOnInit":false,actionList:[{"eventResult":true,"executeOnPageInit":false,"stopExecutionOnError":true,javascriptFunction:apex.da.submitPage,"attribute01":"RATING","attribute02":"Y","action":"NATIVE_SUBMIT_PAGE"}]},
+{"triggeringElementType":"JQUERY_SELECTOR","triggeringElement":"#discussion-A","bindType":"live","bindEventType":"click","anyActionsFireOnInit":false,actionList:[{"eventResult":true,"executeOnPageInit":false,"stopExecutionOnError":true,javascriptFunction:function (){ 
+      $("span:contains('Discussions')").parent().click();
+
+},"action":"NATIVE_JAVASCRIPT_CODE"}]},
+{"triggeringElementType":"JQUERY_SELECTOR","triggeringElement":"#vcode-A","bindType":"live","bindEventType":"click","anyActionsFireOnInit":false,actionList:[{"eventResult":true,"executeOnPageInit":false,"stopExecutionOnError":true,javascriptFunction:function (){       $("span:contains('Verification Code')").parent().click();
+
+},"action":"NATIVE_JAVASCRIPT_CODE"}]},
+{"triggeringElementType":"JQUERY_SELECTOR","triggeringElement":"#similarq-A","bindType":"live","bindEventType":"click","anyActionsFireOnInit":false,actionList:[{"eventResult":true,"executeOnPageInit":false,"stopExecutionOnError":true,javascriptFunction:function (){       $("span:contains('Similar Quizzes')").parent().click();
+
+},"action":"NATIVE_JAVASCRIPT_CODE"}]},
+{"triggeringElementType":"JQUERY_SELECTOR","triggeringElement":"#resource-A","bindType":"live","bindEventType":"click","anyActionsFireOnInit":false,actionList:[{"eventResult":true,"executeOnPageInit":false,"stopExecutionOnError":true,javascriptFunction:function (){       $("span:contains('Further Study')").parent().click();
+
+},"action":"NATIVE_JAVASCRIPT_CODE"}]}];
+}
+</script>
+<link rel="stylesheet" href="Oracle%20PLSQL%20Package-Level%20Data_arquivos/apex.css" type="text/css">
+
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/hammer-2.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/widget_003.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/widget_002.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/modernizr-custom.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/theme42.js"></script>
+
+
+
+<script type="text/javascript">
+(function() {
+  var resetRds = $v('P11_RESET_RDS') === 'Y';
+  var regId;
+    
+  if (resetRds) {
+    regId = $('#rds_region').find('.apex-rds').attr('id').split('_')[0];
+    sessionStorage.removeItem('.10001.11.'+ regId +'.activeTab');
+  }    
+})()
+
+function submitMetoo(p_eventId, p_questionId)
+{
+ // alert('Submitting the page with values: ' + p_eventId + ' and ' + p_questionId);
+  apex.submit({ request:"CHANGE_QUIZ", set:{"P11_NEXT_COMP_EVENT_ID": p_eventId, "P11_NEXT_QUESTION_ID": p_questionId }});
+}
+
+
+function confirmAndRemove(p_id) {
+    if (confirm("Are you sure you wish to remove this comment?") == true) {
+        apex.submit({request:"REMOVE_COMMENT",  set:{"P11_REMOVE_THREAD_ID": p_id  }});
+    } 
+    
+}
+</script>  
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/widget_004.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/apex.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/com_oracle_apex_star_rating.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/widget.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/ckeditor.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/jquery.js"></script>
+<script type="text/javascript" src="Oracle%20PLSQL%20Package-Level%20Data_arquivos/widget_005.js"></script>
+<script type="text/javascript">
+apex.jQuery( document ).ready( function() {
+(function(){var e = apex.jQuery("#11_menubar", apex.gPageContext$);
+if (e.hasClass("js-addActions")) {
+  if ( apex.actions ) {
+    apex.actions.addFromMarkup( e );
+  } else {
+    apex.debug.warn("Include actions.js to support menu shortcuts");
+  }
+}
+e.menu({
+  behaveLikeTabs: e.hasClass("js-tabLike"),
+  menubarShowSubMenuIcon: e.hasClass("js-showSubMenuIcons") || null,
+  slide: e.hasClass("js-slide"),
+  menubar: true,
+  menubarOverflow: true
+});})();
+(function(){apex.widget.regionDisplaySelector("129084629498332706",{"useSessionStorage":false,"useSlider":true,"mode":"standard"});})();
+(function(){com_oracle_apex_star_rating("P11_RATING", {"cancel":"Clear Rating"});})();
+(function(){apex.widget.report.init("R129626412425013535",{"styleChecked":"#dddddd","internalRegionId":"129626412425013535"});})();
+(function(){apex.widget.ckeditor4("#P11_NEW_THREAD",{"language":"en","label":"Body","toolbar":"Full","toolbarStartupExpanded":false,"toolbarLocation":"top","skin":"moono","contentsLangDirection":"ltr"});})();
+(function(){apex.widget.yesNo("P11_IS_OBJECTION");})();
+(function(){apex.widget.report.init("similar-Q",{"styleChecked":"#dddddd","internalRegionId":"135542887549753498"});})();
+(function(){apex.widget.report.init("R130520130312116024",{"styleChecked":"#dddddd","internalRegionId":"130520130312116024"});})();
+(function(){apex.widget.report.init("R130137186900198347",{"styleChecked":"#dddddd","internalRegionId":"130137186900198347"});})();
+(function(){apex.da.initDaEventList();})();
+(function(){apex.da.init();})();
+apex.theme42.initializePage.rightSideCol();
+$('.apex-rds').data('onRegionChange', function(mode, activeTab) {
+  console.log(activeTab.href);
+});
+
+
+});</script>
+
+
+<div class="t-NavigationBar-menu a-Menu" style="display: none" id="menu_L129224814404470184" tabindex="-1" role="menu"><ul><li data-current="false" data-icon="fa fa-list"><a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:18:8563099210963::NO:::">Messages<span class="t-Button-badge"> -  Unread</span></a></li><li data-current="false" data-icon="fa fa-question-circle"><a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:8:8563099210963::NO:8::">Resources<span class="t-Button-badge"></span></a></li><li data-current="false" data-icon="fa fa-trophy"><a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:50:8563099210963::NO:::">Badges<span class="t-Button-badge"></span></a></li><li data-current="false" data-icon="fa fa-eye"><a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:73:8563099210963::NO:73::&amp;cs=3RZkexrHW5z3vC8aUrCaTbIUK3_DXgwePYg7__n-Hp27K_2MCnIH_WEr11zvLc7dyRXtfmTtc39NmHvwomdwk0Q">Gym History<span class="t-Button-badge"></span></a></li><li data-current="false" data-icon="fa fa-gear"><a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:10:8563099210963::NO:10:P10_PAGE_STATE:BIO&amp;cs=1OYkBVXqiJlezFydAXoC4MKSOd0dFiCZrqKStz5ihgJoPfL9wkXt6UOJfM-wOPU8DBiIQQdZDxJZjqbvmFWOFmg">Settings<span class="t-Button-badge"></span></a></li><li data-current="false" data-icon=""><a href="https://plsqlchallenge.oracle.com/pls/apex/separator">---<span class="t-Button-badge"></span></a></li><li data-current="false" data-icon="fa fa-arrow-circle-o-right"><a href="https://plsqlchallenge.oracle.com/pls/apex/f?p=10001:52:8563099210963::NO:52::&amp;cs=3d15lvB6__-QEdGj-PMlOhpjIRuZrkLCKKnc9NUUv947HsVIkmoCBukeAM0XGlPcEBG_AQmeAnlQ1knmJeIw5JA">Submit Quiz<span class="t-Button-badge"></span></a></li><li data-current="false" data-icon=""><a href="https://plsqlchallenge.oracle.com/pls/apex/separator">---<span class="t-Button-badge"></span></a></li><li data-current="false" data-icon="fa fa-sign-out"><a href="https://plsqlchallenge.oracle.com/pls/apex/apex_authentication.logout?p_app_id=10001&amp;p_session_id=8563099210963">Sign Out<span class="t-Button-badge"></span></a></li></ul></div><div id="pushModal" style="width: 100%; display:none; height: 100%;" class="u-DisplayNone u-Overlay--glass"></div></body></html>
