@@ -1,0 +1,981 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if IE 7]>
+<html id="ie7" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<![endif]-->
+<!--[if (gt IE 7) | (!IE)]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!--<![endif]-->
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Script to find the blocking SQLs during the deadlock situations | Its All About Oracle</title>
+<link rel="pingback" href="https://oracle2amar.wordpress.com/xmlrpc.php" />
+<link rel='dns-prefetch' href='//s2.wp.com' />
+<link rel='dns-prefetch' href='//s1.wp.com' />
+<link rel='dns-prefetch' href='//s0.wp.com' />
+<link rel="alternate" type="application/rss+xml" title="Its All About Oracle &raquo; Feed" href="https://oracle2amar.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Its All About Oracle &raquo; Comments Feed" href="https://oracle2amar.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Its All About Oracle &raquo; Script to find the blocking SQLs during the deadlock&nbsp;situations Comments Feed" href="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/feed/" />
+	<script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1473172720h&ver=4.6.1-RC1-38499"}};
+			!function(a,b,c){function d(a){var c,d,e,f,g,h=b.createElement("canvas"),i=h.getContext&&h.getContext("2d"),j=String.fromCharCode;if(!i||!i.fillText)return!1;switch(i.textBaseline="top",i.font="600 32px Arial",a){case"flag":return i.fillText(j(55356,56806,55356,56826),0,0),!(h.toDataURL().length<3e3)&&(i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,65039,8205,55356,57096),0,0),c=h.toDataURL(),i.clearRect(0,0,h.width,h.height),i.fillText(j(55356,57331,55356,57096),0,0),d=h.toDataURL(),c!==d);case"diversity":return i.fillText(j(55356,57221),0,0),e=i.getImageData(16,16,1,1).data,f=e[0]+","+e[1]+","+e[2]+","+e[3],i.fillText(j(55356,57221,55356,57343),0,0),e=i.getImageData(16,16,1,1).data,g=e[0]+","+e[1]+","+e[2]+","+e[3],f!==g;case"simple":return i.fillText(j(55357,56835),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode8":return i.fillText(j(55356,57135),0,0),0!==i.getImageData(16,16,1,1).data[0];case"unicode9":return i.fillText(j(55358,56631),0,0),0!==i.getImageData(16,16,1,1).data[0]}return!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i;for(i=Array("simple","flag","unicode8","diversity","unicode9"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='all-css-0-1' href='https://s2.wp.com/_static/??-eJyNkdlOAzEMRX+IEBVGBR4Q35LFnbp14ij2UM3fk2nL0hYiXiJf6x4vsT0UEzgrZLVpMoWmEbPYQwmcjCQkmK/UfRC5s79jhHsQuwMtLuzNUd3YPfH43YdrdFHsSOwd/c9bIbLzBK2+gnl/6A1UgZxCNIVFr1QPw7zBjDpb3UJqG5XJX7btwYErtHwqThdHgogOqNXJ2sNSWX9SS7htP9id8XQU70sFEdPehFMyp4FvuL/2sKIznbdBm1mxEfIV9PqPwIY4OEXOF8JsyGHtX2U5bAtH21w/5AK9pdfV8Pz0uF4NL8PuA75V/Jo=' type='text/css' media='all' />
+<link rel='stylesheet' id='print-css-1-1' href='https://s0.wp.com/wp-content/mu-plugins/global-print/global-print.css?m=1465851035h' type='text/css' media='print' />
+<link rel='stylesheet' id='all-css-2-1' href='https://s0.wp.com/_static/??/wp-content/mu-plugins/actionbar/actionbar.css,/wp-content/themes/h4/global.css?m=1485538130j' type='text/css' media='all' />
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJyFj9EKwjAMRX/IrE4m7kX8ltnFktqmtWkd+vV2oA/qUAiE3JxcbtQUgVi7MqIoW+tSMN2erbGyUr8A8GTSkLHxxC9YB87IeWZ9OJJDKIJpMFWrRqewwMUg2aNIhRa275GIr4TTX8xijoM+Q0Kh+5erLxBdMcSiErr6wAhzho+pXh38vu363aZvt93aPgArrnBz'></script>
+<link rel='stylesheet' id='all-css-0-2' href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621h' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='https://s1.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563h&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://oracle2amar.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Script to rebuild indexes in&nbsp;oracle' href='https://oracle2amar.wordpress.com/2010/11/23/script-to-rebuild-indexes-in-oracle/' />
+<link rel='next' title='10.2.0.5 patch application and database upgrade from 10.2.0.4-Windows server' href='https://oracle2amar.wordpress.com/2010/12/02/10-2-0-5-patch-application-and-database-upgrade-from-10-2-0-4/' />
+<meta name="generator" content="WordPress.com" />
+<link rel="canonical" href="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/" />
+<link rel='shortlink' href='http://wp.me/pRbo1-2G' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Foracle2amar.wordpress.com%2F2010%2F11%2F29%2Fscript-to-find-the-blocking-sqls-during-the-deadlock-situations%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Foracle2amar.wordpress.com%2F2010%2F11%2F29%2Fscript-to-find-the-blocking-sqls-during-the-deadlock-situations%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Script to find the blocking SQLs during the deadlock situations" />
+<meta property="og:url" content="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/" />
+<meta property="og:description" content="select distinct a.sid &#8220;waiting sid&#8221;, d.sql_text &#8220;waiting SQL&#8221;, a.ROW_WAIT_OBJ# &#8220;locked object&#8221;, a.BLOCKING_SESSION &#8220;blocking sid&#8221;, c.sql_text &#8220;…" />
+<meta property="article:published_time" content="2010-11-29T12:13:09+00:00" />
+<meta property="article:modified_time" content="2010-12-10T08:33:48+00:00" />
+<meta property="og:site_name" content="Its All About Oracle" />
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:card" content="summary" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png" />
+<link rel='openid.server' href='https://oracle2amar.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='https://oracle2amar.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="https://oracle2amar.wordpress.com/osd.xml" title="Its All About Oracle" />
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com" />
+		<style id="wpcom-hotfix-masterbar-style">
+			@media screen and (min-width: 783px) {
+				#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+					margin-top: 5px;
+				}
+			}
+		</style>
+		<meta name="application-name" content="Its All About Oracle" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="My Scratch Pad" /><meta name="msapplication-task" content="name=Subscribe;action-uri=https://oracle2amar.wordpress.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico" /><meta name="title" content="Script to find the blocking SQLs during the deadlock&nbsp;situations | Its All About Oracle on WordPress.com" />
+<meta name="description" content="select distinct a.sid &quot;waiting sid&quot;, d.sql_text &quot;waiting SQL&quot;, a.ROW_WAIT_OBJ# &quot;locked object&quot;, a.BLOCKING_SESSION &quot;blocking sid&quot;, c.sql_text &quot;SQL from blocking session&quot; from v$session a, v$active_session_history b, v$sql c, v$sql d where a.sql_id=d.sql_id and a.blocking_session=b.session_id and c.sql_id=b.sql_id and b.CURRENT_OBJ#=a.ROW_WAIT_OBJ# and b.CURRENT_FILE#= a.ROW_WAIT_FILE# and b.CURRENT_BLOCK#= a.ROW_WAIT_BLOCK# Output would like as shown below: waiting sid ----------- waiting SQL -------------------------------------------------------------------------------- locked&hellip;" />
+<style type="text/css">
+#header_content {
+	background:#900 url() center repeat-y;
+}
+#header_content h1 a, #header_content h1 a:hover {
+	color: #ffffff;
+}
+</style>
+		<script type="text/javascript" src="//c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+		<script type="text/javascript">
+		try { amznads.getAds("3033"); } catch(e) { /* ignore */ }
+		</script>
+		<script type="text/javascript">
+		try {
+			var a9_p = amznads.getKeys(),
+			_ipw_custom = {
+				wordAds: '0',
+				adSafe: '0',
+				domain: 'oracle2amar.wordpress.com',
+				pageURL: 'https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/'
+			};
+			if("undefined"!=typeof a9_p&&""!=a9_p&&null!==a9_p&&"[object Array]"===Object.prototype.toString.call(a9_p)){var a="",b=0,c=a9_p.length;a9_p.sort();for(var d=0;d<c;d++){a9_p[d-b]=a9_p[d-b].replace(/a1x6p/,"a160x600p");var e=a9_p[d-b].split("p");e[0]==a&&(a9_p.splice(d-b,1),b++);a=e[0]}_ipw_custom.amznPay=a9_p};document.close();
+		} catch(e) {}
+		</script>
+		<script type="text/javascript" src="https://static.criteo.net/js/ld/publishertag.js"></script>
+ 		<script type="text/javascript" src="//s.pubmine.com/head.js"></script><link rel="amphtml" href="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/amp/" /><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+	
+
+
+<body class="wordpress k2 y2017 m02 d23 h01 single s-y2010 s-m11 s-d29 s-h11 s-category-oracle-scripts s-author-amarr02 mp6 customizer-styles-applied highlander-enabled highlander-dark" >
+
+	<div id="header">
+		<div class="top">
+
+			<div id="header_content" onclick="document.location='https://oracle2amar.wordpress.com';" style="cursor: pointer;">
+				<div id="title" class="title">
+					<h1><a href="https://oracle2amar.wordpress.com/" title="Back to the front page">Its All About Oracle</a></h1>
+				</div>
+
+				<div id="rightcolumnheader">
+								</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+		<div class="navigation-menu">
+		<ul id="alt_menu">
+	<li class="page_item page-item-2"><a href="https://oracle2amar.wordpress.com/about/">About Me</a></li>
+</ul>
+	</div>
+	
+<div id="page">
+	<hr />
+<div class="content">
+
+	<div id="middlecolumn">
+		<div id="primary">
+			
+				<div id="primarycontent" class="hfeed">
+
+					
+	
+	
+	
+
+	
+	<!--  Added to display wp-recent-links plugin -->
+	<!-- end add for wp-recent-links plugin -->
+
+			<div id="post-166" class="p publish author-amarr02 y2010 m11 d29 h11 post-166 post type-post status-publish format-standard hentry category-oracle-scripts  ">
+			<div class="entry-head">
+				<div class="published_sm" title="2010-11-29T17:43:09+0000"><div class="day">29</div><div class="month">Nov</div><div class="year">10</div></div>
+
+				<h3 class="entry-title"><a href="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/" rel="bookmark">Script to find the blocking SQLs during the deadlock&nbsp;situations</a></h3>
+				
+				<div class="entry-meta">
+
+					<div class="meta-row">
+						<span class="authordata">By <span class="vcard author"><a href="https://oracle2amar.wordpress.com/author/amarr02/" class="url fn">Amar</a></span></span>
+						<a href="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/#respond" class="commentslink" >Leave a&nbsp;<span>Comment</span></a>					</div>
+
+					<div class="meta-row">
+						<span class="entry-category">Categories: <a href="https://oracle2amar.wordpress.com/category/oracle-scripts/" title="View all posts in Oracle-Scripts">Oracle-Scripts</a></span>
+					<br />
+					
+					</div>
+				</div> <!-- .entry-meta -->
+			</div> <!-- .entry-head -->
+
+			<div class="entry-content">
+				<!-- or (function_exists('is_tag') and is_tag()) -->
+				<p>select distinct a.sid &#8220;waiting sid&#8221;,<br />
+d.sql_text &#8220;waiting SQL&#8221;,<br />
+a.ROW_WAIT_OBJ# &#8220;locked object&#8221;,<br />
+a.BLOCKING_SESSION &#8220;blocking sid&#8221;,<br />
+c.sql_text &#8220;SQL from blocking session&#8221;<br />
+from v$session a, v$active_session_history b, v$sql c, v$sql d<br />
+where<br />
+a.sql_id=d.sql_id<br />
+and a.blocking_session=b.session_id<br />
+and c.sql_id=b.sql_id<br />
+and b.CURRENT_OBJ#=a.ROW_WAIT_OBJ#<br />
+and b.CURRENT_FILE#= a.ROW_WAIT_FILE#<br />
+and b.CURRENT_BLOCK#= a.ROW_WAIT_BLOCK#</p>
+<p>Output would like as shown below:</p>
+<p>waiting sid<br />
+&#8212;&#8212;&#8212;&#8211;<br />
+waiting SQL<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+<p>locked object blocking sid<br />
+&#8212;&#8212;&#8212;&#8212;- &#8212;&#8212;&#8212;&#8212;<br />
+SQL from blocking session<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+<p>143<br />
+update SCOTT.TEST set txt=&#8217;ses1&#8242; where num=4<br />
+52776          144<br />
+update SCOTT.TEST set txt=&#8217;ses2&#8242; where num=3</p>
+<p>To find the object name from dba_objects:<br />
+SQL&gt; select object_name from dba_objects where object_id=52776;</p>
+<p>OBJECT_NAME<br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;</p>
+<p>TEST</p>
+<p><strong><span style="text-decoration:underline;">Query II</span></strong></p>
+<h4 id="title-ID0E62DI">Finding the Responsible SQL</h4>
+<p><a name="us to"></a>The wait interface enables  us to measure the overall magnitude of lock contention and to identify  which specific locks are most associated with contention. However, to  identify the probable causes and solutions for our locking issues—at  least for application locking issues—we want to identify the parts of  the application most responsible for lock waits.</p>
+<p><a name="If you"></a>If you are licensed for the  Oracle Diagnostic pack, you can examine Active Session History (ASH)  and Active Workload Repository (AWR) tables to identify the SQLs  concerned or use the appropriate parts of Oracle Enterprise Manager. For  instance, in <a>Figure 15-2</a><a name="hyperlink in"></a> clicking on the hyperlink in the SQL ID column of the Top SQL table can  identify the SQLs most associated with the row level locks during the  period selected.</p>
+<p><a name="a license"></a>You can also, providing  you have a license for the diagnostic pack, query the ASH or AWR tables  directly. The following query shows the SQLs and objects contributing to  lock waits in the Active Session History (typically including  information for the last hour or so):</p>
+<div>
+<div>Code View:               <a>Scroll</a> /                 Show All</div>
+<pre>SQL&gt; WITH ash_query AS (
+  2       SELECT substr(event,6,2) lock_type,program,
+  3              h.module, h.action,   object_name,
+  4              SUM(time_waited)/1000 time_ms, COUNT( * ) waits,
+  5              username, sql_text,
+  6              RANK() OVER (ORDER BY SUM(time_waited) DESC)
+                     AS time_rank,
+  7              ROUND(SUM(time_waited) * 100 / SUM(SUM(time_waited))
+  8                  OVER (), 2)             pct_of_time
+  9        FROM  v$active_session_history h
+ 10        JOIN  dba_users u  USING (user_id)
+ 11        LEFT OUTER JOIN dba_objects o
+ 12             ON (o.object_id = h.current_obj#)
+ 13        LEFT OUTER JOIN v$sql s USING (sql_id)
+ 14       WHERE event LIKE 'enq: %'
+ 15       GROUP BY substr(event,6,2) ,program, h.module, h.action,
+ 16           object_name,  sql_text, username)
+ 17  SELECT lock_type,module, username,  object_name, time_ms,
+ 18          pct_of_time, sql_text
+ 19  FROM ash_query
+ 20  WHERE time_rank &lt; 11
+ 21  ORDER BY time_rank;
+LOCK MODULE       USERNAME OBJECT_NAME        TIME_MS PCT_OF_TIME
+---- ------------ -------- ----------- ------------- -----------
+SQL_TEXT
+---------------------------------------------------------------------
+TX   SQL*Plus     OPSG     CUSTOMERS          16,961        48.97
+UPDATE CUSTOMERS SET CUST_VALID = 'I' WHERE CUST_ID = :B1
+KO   SQL*Plus     OPSG                        12,370        35.71
+SELECT /*+ full(s) parallel(s) */ DISTINCT CUST_ID FROM SALES S WHERE
+AMOUNT_SOLD &gt; 10
+KO   SQL*Plus     OPSG     CUSTOMERS           5,306        15.32
+SELECT /*+ full(s) parallel(s) */ DISTINCT CUST_ID FROM SALES S WHERE
+AMOUNT_SOLD &gt; 10
+
+<strong><span style="text-decoration:underline;">Query III</span></strong>		  
+
+If you are not licensed for the diagnostic pack,  these views are officially off limits, but you can still get a good idea  about the source of lock waits from other views. V$SQL includes a  column APPLICATION_WAIT_TIME, which records the amount of time spent  waiting for events in the Application wait class. This wait class  includes TX, TM, and other locks resulting from normal application DML,  and it’s a good bet that you can find your culprit SQLs by using this  column.
+<a name="the top"></a>For instance, the  following query retrieves the top 10 SQLs in terms of  APPLICATION_WAIT_TIME. We can see that the first SQL (a FOR UPDATE  statement), accounts for 57 percent of the application wait time of all  the SQLs currently cached. This statement spends virtually all (99.99  percent) of its elapsed time in application waits, probably waiting for  the requested row lock to become available.
+<div>
+<div>Code View:               <a>Scroll</a> /                 Show All</div>
+<pre>SQL&gt; WITH sql_app_waits AS
+  2      (SELECT sql_id, SUBSTR(sql_text, 1, 80) sql_text,
+  3              application_wait_time/1000 app_time_ms,
+  4              elapsed_time,
+  5              ROUND(application_wait_time * 100 /
+  6                  elapsed_time, 2) app_time_pct,
+  7              ROUND(application_wait_time * 100 /
+  8                  SUM(application_wait_time) OVER (), 2)
+                        pct_of_app_time,
+  9              RANK() OVER (ORDER BY application_wait_Time DESC)
+                        ranking
+ 10         FROM v$sql
+ 11        WHERE elapsed_time &gt; 0 AND application_wait_time&gt;0)
+ 12  SELECT sql_text, app_time_ms, app_time_pct,
+ 13         pct_of_app_time
+ 14  FROM sql_app_waits
+ 15  WHERE ranking &lt;= 10
+ 16  ORDER BY ranking  ;
+                                                     SQL App    % Tot
+SQL Text                                 AppTime(ms)   Time% App Time
+---------------------------------------- ----------- ------- --------
+SELECT CUST_ID FROM CUSTOMERS WHERE CUST  16,028,591   99.99    57.40
+_ID = :B1 FOR UPDATE
+UPDATE CUSTOMERS SET CUST_VALID = 'I'      3,856,750   99.79    13.81
+WHERE CUST_ID = :B1
+lock table customers in exclusive mode     1,953,773  100.00     7.00
+UPDATE sales    SET channel_id = 2         1,821,471   99.92     6.52
+WHERE cust_id = 100667
+
+<span style="text-decoration:underline;"><strong>Query IV</strong></span></pre>
+<p>Another view of lock waits can be obtained by  examining the V$SESSION view. V$SESSION includes the current wait state  of the session, and can identify how long the session has waited and the  identity of any row level locks being sought. The following shows two  sessions waiting on row level locks, both are blocked by session #133:</p></div>
+<p>Code View:               <a>Scroll</a> /                 Show All</p>
+<div>
+<pre>SQL&gt; SELECT sid, event, wait_time_micro / 1000 time_ms,
+            blocking_session,
+  2         object_type || ': ' || object_name object, sql_text
+  3    FROM v$session s
+  4    LEFT OUTER JOIN v$sql
+  5         USING (sql_id)
+  6    LEFT OUTER JOIN dba_objects
+  7         ON (object_id = row_wait_obj#)
+  8  WHERE event LIKE 'enq: %';
+Blocked                                              MS Blocking
+    SID Wait event                               Waited      SID
+------- ----------------------------------- ----------- --------
+Object Type: name
+----------------------------------------
+SQL Text
+----------------------------------------------------------------
+    126 enq: TX - row lock contention        142,486.60      133
+TABLE: SALES
+UPDATE sales    SET channel_id = 2  WHERE cust_id = 100667
+    125 enq: TX - row lock contention          1,316.48      133
+TABLE: SALES
+SELECT * FROM SALES WHERE CUST_ID = 100667 FOR UPDATE
+
+<span style="text-decoration:underline;"><strong>Query V</strong></span>
+
+When long-held locks start to create long queues of waiting processes, it can sometimes be useful to build up a lock tree<a name="complex relationships"></a> showing the sometimes complex relationships between waiting sessions.  We can build up a simple lock tree, at least for row level locks, by  linking the BLOCKING_SESSION and SID columns in V$SESSION. Here is a  simple lock tree generated in this fashion:
+<div>
+<div>Code View:               <a>Scroll</a> /                 Show All</div>
+<pre>SQL&gt; WITH sessions AS
+  2     (SELECT /*+materialize*/
+  3             sid, blocking_session, row_wait_obj#, sql_id
+  4        FROM v$session)
+  5  SELECT LPAD(' ', LEVEL ) || sid sid, object_name,
+  6         substr(sql_text,1,40) sql_text
+  7    FROM sessions s
+  8    LEFT OUTER JOIN dba_objects
+  9         ON (object_id = row_wait_obj#)
+ 10    LEFT OUTER JOIN v$sql
+ 11         USING (sql_id)
+ 12   WHERE sid IN (SELECT blocking_session FROM sessions)
+ 13      OR blocking_session IS NOT NULL
+ 14   CONNECT BY PRIOR sid = blocking_session
+ 15   START WITH blocking_session IS NULL;
+SID      OBJECT_NAME      SQL_TEXT
+-------- ---------------  -------------------------------------------
+ 127     SALES
+  117    SALES             UPDATE sales SET quantity_sold=:v_qs WHE
+  118    SALES             UPDATE sales SET quantity_sold=:v_qs WHE
+   130   CUSTOMERS         UPDATE customers SET country_id = :v_cou
+   137   CUSTOMERS         UPDATE customers SET country_id = :v_cou</pre>
+</div>
+<p>The output shows that  session 127 is at the top of the lock tree. Although sessions 130 and  137 are blocked on session 118, session 118 is in turn blocked on session 127. Persuading session 127 to relinquish its locks—possibly  using ALTER SYSTEM KILL SESSION—will probably resolve the locking issue.
+</p></div>
+</div>
+		<div class="wpcnt">
+			<div class="wpa wpmrec">
+				<span class="wpa-about">Advertisements</span>
+				        <div id="crt-494761654" style="width:300px;height:250px;"></div>
+        <script type="text/javascript">
+        var o = document.getElementById('crt-494761654');
+        if ("undefined"!=typeof Criteo) {
+            var p = o.parentNode;
+            p.style.setProperty('display', 'inline-block', 'important');
+            o.style.setProperty('display', 'block', 'important');
+            Criteo.DisplayAcceptableAdIfAdblocked({zoneid:388248,containerid:"crt-494761654",collapseContainerIfNotAdblocked:true,"callifnotadblocked": function () {var o = document.getElementById('crt-494761654'); o.style.setProperty('display','none','important');o.style.setProperty('visbility','hidden','important'); }
+        });
+        } else {
+            o.style.setProperty('display', 'none', 'important');
+            o.style.setProperty('visibility', 'hidden', 'important');
+        }
+        </script>
+				<div class="u">
+								<script type='text/javascript'>
+				(function(g){if("undefined"!=typeof g.__ATA){g.__ATA.initAd({sectionId:26942, width:300, height:250});}})(window);
+			</script>
+				</div>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sharedaddy-dark sd-like-enabled"><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-12675157-166-58aded7bc581e' data-src='//widgets.wp.com/likes/#blog_id=12675157&amp;post_id=166&amp;origin=oracle2amar.wordpress.com&amp;obj_id=12675157-166-58aded7bc581e' data-name='like-post-frame-12675157-166-58aded7bc581e'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height: 55px;'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div>
+<div id='jp-relatedposts' class='jp-relatedposts' >
+	<h3 class="jp-relatedposts-headline"><em>Related</em></h3>
+</div></div>
+																</div> <!-- .entry-content -->
+
+		</div> <!-- #post-ID -->
+
+	
+	 <!-- added for wp-recent-links plugin -->
+
+	<!-- added for wp-recent-links plugin -->
+		<!-- end add -->
+
+	
+
+				</div> <!-- #primarycontent .hfeed -->
+
+			
+		</div> <!-- #primary -->
+	</div>
+
+	<hr />
+
+<div id="comment-block">
+
+
+	<div class="comments">
+
+		<h4><span id="comments">0</span> Responses to &#8220;Script to find the blocking SQLs during the deadlock&nbsp;situations&#8221;</h4>
+
+		<div class="metalinks">
+			<span class="commentsrsslink"><a href="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/feed/">Feed for this Entry</a></span>
+			<span class="trackbacklink"><a href="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/trackback/" title="Copy this URI to trackback this entry.">Trackback Address</a></span>		</div>
+	<hr />
+
+	<ol id="commentlist">
+		</ol> <!-- END #commentlist -->
+
+	<div class="navigation">
+		<div class="alignleft"></div>
+		<div class="alignright"></div>
+	</div>
+	<br />
+
+	<ol id="pinglist">
+		</ol> <!-- END #pinglist -->
+
+				<ol id="commentlist">
+			<li id="leavecomment">
+				Leave a Comment			</li>
+		</ol>
+		
+		
+	</div> <!-- END .comments 1 -->
+
+	
+					<div id="respond" class="comment-respond">
+			<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/#respond" style="display:none;">Cancel reply</a></small></h3>				<form action="https://oracle2amar.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+					<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="d54100e995" /><input type="hidden" name="_wp_http_referer" value="/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=https%3A%2F%2Foracle2amar.wordpress.com" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="url" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="https://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of new comments via email.</label></p></div>
+
+
+
+
+<p class="form-submit"><input name="submit" type="submit" id="comment-submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='166' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="e4d9a5f509" /></p>
+<input type="hidden" name="genseq" value="1487793531" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="96"/></p>				</form>
+					</div><!-- #respond -->
+		<div style="clear: both"></div>
+	<div class="comments">
+		
+	<hr />
+
+	
+	<div class="navigation">
+		<div class="left"><span>&laquo;</span> <a href="https://oracle2amar.wordpress.com/2010/11/23/script-to-rebuild-indexes-in-oracle/">Script to rebuild indexes in&nbsp;oracle</a></div>		<div class="right"><a href="https://oracle2amar.wordpress.com/2010/12/02/10-2-0-5-patch-application-and-database-upgrade-from-10-2-0-4/">10.2.0.5 patch application and database upgrade from 10.2.0.4-Windows server</a> <span>&raquo;</span></div>		<div class="clear"></div>
+	</div>
+
+	
+	<hr />
+	</div>
+
+</div>
+
+	<div id="rightcolumn">
+		<hr />
+
+<div class="secondary">
+
+	<div id="current-content">
+
+<div id="gravatar-3" class="module widget_gravatar"><h2 class="widgettitle">Its Mee :) </h2>
+<p><a href="http://gravatar.com/amarr02"><img alt='' src='https://2.gravatar.com/avatar/86a2a52cbc0dd9d54be5b5bc479f288b?s=128&#038;d=identicon&#038;r=G' class='avatar avatar-128 grav-widget-center' height='128' width='128'  style="display: block; margin: 0 auto;" /></a><br />Welcome to My Blog:<br />
+In this Blog you will find the Oracle stuff which i came across and experienced as DBA. So would like to share with you all so that everyone gets benefited.</p>
+</div><div id="calendar-2" class="module widget_calendar"><div id="calendar_wrap" class="calendar_wrap"><table id="wp-calendar">
+	<caption>November 2010</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Monday">M</th>
+		<th scope="col" title="Tuesday">T</th>
+		<th scope="col" title="Wednesday">W</th>
+		<th scope="col" title="Thursday">T</th>
+		<th scope="col" title="Friday">F</th>
+		<th scope="col" title="Saturday">S</th>
+		<th scope="col" title="Sunday">S</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="https://oracle2amar.wordpress.com/2010/10/">&laquo; Oct</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next"><a href="https://oracle2amar.wordpress.com/2010/12/">Dec &raquo;</a></td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>
+	</tr>
+	<tr>
+		<td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td>
+	</tr>
+	<tr>
+		<td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td>
+	</tr>
+	<tr>
+		<td>22</td><td><a href="https://oracle2amar.wordpress.com/2010/11/23/" aria-label="Posts published on November 23, 2010">23</a></td><td>24</td><td>25</td><td>26</td><td>27</td><td>28</td>
+	</tr>
+	<tr>
+		<td><a href="https://oracle2amar.wordpress.com/2010/11/29/" aria-label="Posts published on November 29, 2010">29</a></td><td>30</td>
+		<td class="pad" colspan="5">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></div><div id="categories-2" class="module widget_categories"><h2 class="widgettitle">Categories</h2>
+		<ul>
+	<li class="cat-item cat-item-14827"><a href="https://oracle2amar.wordpress.com/category/muzic/" >Muzic</a> (1)
+</li>
+	<li class="cat-item cat-item-6755276"><a href="https://oracle2amar.wordpress.com/category/oracle-concepts/" >Oracle Concepts</a> (2)
+</li>
+	<li class="cat-item cat-item-229114"><a href="https://oracle2amar.wordpress.com/category/oracle-scripts/" >Oracle-Scripts</a> (15)
+</li>
+	<li class="cat-item cat-item-2023183"><a href="https://oracle2amar.wordpress.com/category/oracle-tuning/" >Oracle-Tuning</a> (10)
+</li>
+	<li class="cat-item cat-item-38757613"><a href="https://oracle2amar.wordpress.com/category/oracle-works/" >Oracle-Works</a> (20)
+</li>
+	<li class="cat-item cat-item-6407"><a href="https://oracle2amar.wordpress.com/category/sql-server/" >SQL Server</a> (1)
+</li>
+	<li class="cat-item cat-item-1"><a href="https://oracle2amar.wordpress.com/category/uncategorized/" >Uncategorized</a> (2)
+</li>
+		</ul>
+</div><div id="archives-2" class="module widget_archive"><h2 class="widgettitle">Archives</h2>
+		<ul>
+			<li><a href='https://oracle2amar.wordpress.com/2011/12/'>December 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/11/'>November 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/09/'>September 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/08/'>August 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/07/'>July 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/06/'>June 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/05/'>May 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/04/'>April 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/03/'>March 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/02/'>February 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2011/01/'>January 2011</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/12/'>December 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/11/'>November 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/10/'>October 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/09/'>September 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/08/'>August 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/07/'>July 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/06/'>June 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/05/'>May 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/04/'>April 2010</a></li>
+	<li><a href='https://oracle2amar.wordpress.com/2010/03/'>March 2010</a></li>
+		</ul>
+		</div>		<div id="recent-posts-3" class="module widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>
+		<ul>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/12/30/estimate-the-size-of-the-index-before-its-creation/">Estimate the size of the index before its&nbsp;creation</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/11/15/a-simple-introduction-to-working-with-lvm/">A simple introduction to working with&nbsp;LVM</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/09/29/wait-events-cursor-pin-s-wait-on-x-cursor/">Wait Events &#8211; cursor: pin S wait on X&nbsp;cursor:</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/08/15/exporting-and-importing-sql-plan-baselines-in-oracle-11g/">Exporting And Importing SQL Plan Baselines In Oracle&nbsp;11g</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/07/20/important-linux-kernel-parameters-for-oracle/">Important Linux Kernel Parameters for&nbsp;Oracle</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/06/29/script-to-find-sizes-of-sga/">Script to find sizes of&nbsp;SGA</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/05/27/manually-create-orainventory-in-case-its-corrupted/">Manually create Orainventory in case its&nbsp;corrupted</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/04/29/reasons-and-tips/">Reasons and Tips</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/03/21/how-to-restoring-stats-in-oracle-10g/">How to Restoring Stats in Oracle&nbsp;10g</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/02/02/how-to-improve-import-export-performance/">How to improve Import/ Export&nbsp;performance?</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2011/01/07/good-explanation-on-highwatermark-in-oracle/">Good Explanation on HighWaterMark in&nbsp;Oracle</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/12/10/finding-sqls-and-segments-associated-with-latch-waits/">Finding SQLs and Segments Associated with Latch&nbsp;Waits</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/12/08/sqls-information-in-database/">SQLs&#8217; Information in&nbsp;Database</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/12/02/10-2-0-5-patch-application-and-database-upgrade-from-10-2-0-4-hp-ux/">10.2.0.5 patch application and database upgrade from&nbsp;10.2.0.4-HP-UX</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/12/02/10-2-0-5-patch-application-and-database-upgrade-from-10-2-0-4/">10.2.0.5 patch application and database upgrade from 10.2.0.4-Windows server</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/11/29/script-to-find-the-blocking-sqls-during-the-deadlock-situations/">Script to find the blocking SQLs during the deadlock&nbsp;situations</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/11/23/script-to-rebuild-indexes-in-oracle/">Script to rebuild indexes in&nbsp;oracle</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/10/21/tuning-of-sql-statements-using-dbms_sqltune/">Tuning of SQL Statements using&nbsp;DBMS_SQLTUNE</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/10/20/151/">Library cache latches and pins- Overview of&nbsp;LC</a>
+						</li>
+					<li>
+				<a href="https://oracle2amar.wordpress.com/2010/10/15/crontab-syntax-and-example/">Crontab Syntax and&nbsp;Example</a>
+						</li>
+				</ul>
+		</div>		<div id="blog-stats-2" class="module widget_blog-stats"><h2 class="widgettitle">Blog Stats</h2>
+		<ul>
+			<li>58,655 hits</li>
+		</ul>
+		</div><div id="search-3" class="module widget_search"><form method="get" id="searchform" action="https://oracle2amar.wordpress.com/">
+	<div>
+		<input type="text" value="search" onfocus="if (this.value == 'search' ) { this.value = ''; }" onblur="if (this.value == '') { this.value = 'search';}" name="s" id="s" size="15" />
+		<input type="submit" id="searchsubmit" value="Go" />
+	</div>
+</form></div><div id="linkcat-1356" class="module widget_links"><h2 class="widgettitle">Blogroll</h2>
+
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.oracle.com/technetwork/database/index.html">Oracle Tech Network</a></li>
+
+	</ul>
+</div>
+<div id="linkcat-34445188" class="module widget_links"><h2 class="widgettitle">Good Oracle Sites</h2>
+
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.toadworld.com/KNOWLEDGE/KnowledgeXpertforOracle/tabid/648/TopicID/WE124/Default.aspx">Complete Oracle Info</a></li>
+<li><a href="http://dbataj.blogspot.com/">DBATaj</a></li>
+<li><a href="http://www.codinghorror.com/blog/2007/10/a-visual-explanation-of-sql-joins.html">Good explination about SQL Joins</a></li>
+<li><a href="http://www.idevelopment.info/">Idevelopment.info</a></li>
+<li><a href="http://tahiti.oracle.com/">Oracle Manuals</a></li>
+<li><a href="http://sites.google.com/site/embtdbo/wait-event-documentation" title="Wait events in Oracle and explanation">Wait events in Oracle and explanation</a></li>
+
+	</ul>
+</div>
+<div id="image-3" class="module widget_image">
+</div>
+
+	</div><!-- .current-content -->
+
+</div>
+	</div>
+	<div class="clear"></div>
+
+</div> <!-- .content -->
+
+	<div class="clear"></div>
+</div> <!-- Close Page -->
+
+<hr />
+
+<div id="footer"><!-- UNSLEEPABLE FOOTER -->
+	<div id="footer_content">
+		<div id="footer_middle">
+		 		<div id="footer_images">
+
+		 		</div>
+
+		<!-- spacer -->
+		<div id="copyright"><p>&nbsp;</p></div>
+
+			<small>
+				<a href="https://wordpress.com/?ref=footer_blog">Blog at WordPress.com.</a>	 			</small>
+
+		</div>
+	</div>
+</div><!-- END UNSLEEPABLE FOOTER -->
+
+<!--  -->
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201708y'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781h'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+
+			if (typeof Gravatar === "undefined"){
+				return;
+			}
+
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	<div class="grofile-hash-map-86a2a52cbc0dd9d54be5b5bc479f288b">
+	</div>
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"https:\/\/oracle2amar.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"https:\/\/oracle2amar.wordpress.com\/wp-login.php?action=logout&_wpnonce=e159a697de","homeURL":"https:\/\/oracle2amar.wordpress.com\/","postID":"166","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0","text_direction":"ltr"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s2.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1479964158j'></script>
+<script type='text/javascript' src='https://s1.wp.com/wp-content/mu-plugins/akismet-3.0/_inc/form.js?m=1404442431h'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var actionbardata = {"siteID":"12675157","siteName":"Its All About Oracle","siteURL":"http:\/\/oracle2amar.wordpress.com","icon":"<img alt='' src='https:\/\/s1.wp.com\/i\/logo\/wpcom-gray-white.png' class='avatar avatar-50' height='50' width='50' \/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/redoable-lite","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/oracle2amar.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Foracle2amar.wordpress.com%2F2010%2F11%2F29%2Fscript-to-find-the-blocking-sqls-during-the-deadlock-situations%2F","themeURL":"","xhrURL":"https:\/\/oracle2amar.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"a8a50a2503","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"d370405326\" \/>","referer":"https:\/\/oracle2amar.wordpress.com\/2010\/11\/29\/script-to-find-the-blocking-sqls-during-the-deadlock-situations\/","canFollow":"1","statusMessage":"","customizeLink":"https:\/\/oracle2amar.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Foracle2amar.wordpress.com%2F2010%2F11%2F29%2Fscript-to-find-the-blocking-sqls-during-the-deadlock-situations%2F","postID":"166","shortlink":"http:\/\/wp.me\/pRbo1-2G","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/oracle2amar.wordpress.com\/166","statsLink":"https:\/\/wordpress.com\/stats\/post\/166\/oracle2amar.wordpress.com","i18n":{"view":"View site","follow":"Follow","following":"Following","edit":"Edit","login":"Log in","signup":"Sign up","customize":"Customize","report":"Report this content","themeInfo":"Get theme: Redoable Lite","shortlink":"Copy shortlink","copied":"Copied","followedText":"New posts from this site will now appear in your <a href=\"https:\/\/wordpress.com\/\">Reader<\/a>","foldBar":"Collapse this bar","unfoldBar":"Expand this bar","editSubs":"Manage subscriptions","viewReader":"View site in the Reader","subscribe":"Sign me up","enterEmail":"Enter your email address","followers":"","alreadyUser":"Already have a WordPress.com account? <a href=\"https:\/\/oracle2amar.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Foracle2amar.wordpress.com%2F2010%2F11%2F29%2Fscript-to-find-the-blocking-sqls-during-the-deadlock-situations%2F\">Log in now.<\/a>","stats":"Stats"}};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://s1.wp.com/_static/??-eJx9jEEOAiEQBD8kOzGC8WJ8C8JEB2HAAVb9vezBjae9dbq6C15FucwNuUGo4HEmh+U9hbqDP5S6KrHfiCtEemCFZ8eOd8s+ovzGxC52P+AQuZzSOCrBEj9TIt4wWj+4ulqBZGtDGUnlGUVoka3dlsE1yrwY1jTWl3Te65MxWh8PJnwBheBW3Q=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "oracle2amar.wordpress.com";
+	</script>
+	<script type="text/javascript" defer src="https://s.skimresources.com/js/725X1342.skimlinks.js"></script>		<iframe src='https://widgets.wp.com/likes/master.html?ver=20170206#ver=20170206' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script>
+			var _comscore = _comscore || [];
+			_comscore.push({
+				c1: "2",
+				c2: "7518284"
+			});
+			(function() {
+				var s = document.createElement("script"),
+					el = document.getElementsByTagName("script")[0];
+				s.defer = true;
+				s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+				el.parentNode.insertBefore(s, el);
+			})();
+		</script>
+		<noscript>
+			<p class="robots-nocontent"><img src="https://sb.scorecardresearch.com/p?c1=2&c2=7518284&c3=&c4=&c5=&c6=&c15=&cv=2.0&cj=1" alt="" style="display:none;" width="1" height="1" /></p>
+		</noscript><script src="//stats.wp.com/w.js?56" type="text/javascript" async defer></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', {'blog_id':'12675157','blog_tz':'5','user_lang':'en','blog_lang':'en','user_id':'0'}]);
+_stq.push(['view', {'blog':'12675157','v':'wpcom','tz':'5','user_id':'0','post':'166','subd':'oracle2amar'}]);
+_stq.push(['extra', {'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWFnNncxc1tjZG9XVXhRUFYrYjIuSnFPfDlMeXVoWmt4MXdhPW0mUUtLU0RVM2Q9anhLU2JuTWJmNlhNTEVacDhwWnQvelk3fHotUWtsRklKP1hFdm1mdUVNbk9aem1iR1c9X180Ky8wM2x0Jm1WJmdTUXxdcDk/VktzP1FVZFtVZU1rMjFlaD1RQkFubT9ZdTNZTTBzYltldFRvdGJbSDZZcF1JLCtlT3VuTUhwMWhRbmZmOC02LE9BeVNod1ZRQkRVeHV0aiY/Q2NSPVhSMVgseXBEcFs1ZnBCX2U2MlhKTSZjZmJfTENoW2tVem9sfnNjJlYzbE1DfGl0SlNCXw=='}]);
+_stq.push([ 'clickTrackerInit', '12675157', '166' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script>
+</body>
+</html>
+<!--
+	generated in 0.113 seconds
+	59887 bytes batcached for 300 seconds
+-->

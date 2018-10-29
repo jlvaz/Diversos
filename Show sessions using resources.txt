@@ -1,0 +1,120 @@
+Session - Show sessions using resources
+
+-- Sessionresources.sql
+-- Sesssion - Show sessions using resources
+
+
+-- Session stats -------------------------------------------------------------------------------------------------------
+-- v$sess_io: select session io stats
+select osuser,username,b.*,a.program
+from v$session a, v$sess_io b 
+where a.sid = b.sid;
+
+-- show worse phys reads sessions
+select osuser,substr(username,1,15),b.*,a.program
+from v$session a, v$sess_io b 
+where a.sid = b.sid 
+and b.physical_reads > 1000
+order by physical_reads desc;
+
+-- show worse phys reads sessions
+select osuser,substr(username,1,15),b.*,a.program
+from v$session a, v$sess_io b 
+where a.sid = b.sid 
+and b.physical_reads > 1000
+order by physical_reads desc;
+
+
+-- SQL statements that consumed the most resources in terms of CPU and/or memory
+select substr(osuser,1,20) as osuser,
+       rpad(substr(username,1,12),12,' ') as username, 
+       substr(terminal,1,25) as terminal,
+       substr(s.machine,1,30) as machine,
+       substr(name,1,22),
+       value
+from v$statname n,
+v$session s,
+v$sesstat t
+where s.sid=t.sid
+ and n.statistic# = t.statistic#
+ and s.type = 'USER'
+-- and s.osuser = 'user123'
+-- and n.name = 'session pga memory'
+ and t.value > &try_more_than_50000
+order by value DESC
+/
+
+--
+Select a.username,  b.Executions,  
+  ((b.Disk_Reads + b.Buffer_Gets) /  Decode(b.Executions, 0, 1, b.Executions)) Avg_Buffers,	
+  b.Disk_Reads, b.Buffer_Gets, b.first_load_time  Load_Time,  b.SQL_Text 
+From dba_users a, V$SQLArea b 
+Where a.user_id = b.parsing_user_id  
+And((Disk_Reads + Buffer_Gets) / Decode(Executions, 0, 1, Executions)) > 10000  
+Or (Executions > 2000
+    And ((Disk_Reads + Buffer_Gets) / Decode(Executions, 0, 1, Executions)) > 500) 
+Order By ((Disk_Reads + Buffer_Gets) / Decode(Executions, 0, 1, Executions)) Desc
+;
+
+-- Display session stats for a specific sid
+select substr(osuser,1,20) as osuser,
+       rpad(substr(username,1,12),12,' ') as username, 
+       substr(terminal,1,25) as terminal,
+       substr(s.machine,1,30) as machine,
+       substr(name,1,40),
+       value
+from v$statname n,
+v$session s,
+v$sesstat t
+where s.sid=t.sid
+ and n.statistic# = t.statistic#
+ and s.sid = 9
+ and s.type = 'USER'
+-- and s.osuser = 'user123'
+-- and n.name = 'session pga memory'
+ -- and t.value > &try_more_than_50000
+ and n.name like '%cursor%'
+order by value DESC
+/
+
+
+
+
+You can also pick out the user that has the most disk I/Os and trace what statements they are running using the command:
+
+SELECT ses.sid, ses.serial#, ses.osuser, ses.process
+   FROM v$session ses, v$sess_io sio
+  WHERE ses.sid  = sio.sid
+    AND nvl(ses.username,'SYS') not in ('SYS', 'SYSTEM')
+    AND sio.physical_reads = (SELECT MAX(physical_reads)
+                                FROM v$session ses2, v$sess_io sio2
+                               WHERE ses2.sid = sio2.sid
+                                 AND ses2.username 
+                                  NOT IN ('SYSTEM', 'SYS'));
+
+SID                     SERIAL#             OSUSER     PROCESS 
+----------------------------------------------------------------
+41                        46               corriganp      12818
+
+
+List all users and disk i/o:
+
+set lines 200
+SELECT ses.sid, ses.serial#, ses.osuser,substr(ses.username,1,15) as username, 
+	sio.physical_reads, sio.block_gets, ses.process
+   FROM v$session ses, v$sess_io sio
+  	WHERE ses.sid  = sio.sid
+    AND nvl(ses.username,'SYS') not in ('SYS', 'SYSTEM','DBSNMP')
+	ORDER BY sio.physical_reads desc
+;
+
+      SID   SERIAL# OSUSER          USERNAME        PHYSICAL_READS BLOCK_GETS PROCESS
+--------- --------- --------------- --------------- -------------- ---------- ---------
+       10        21 bergeroner      ADMIN                  10185      13799 429453625
+       14       121 willhaukdo      ADMIN                     86       1394 429411523
+        9        47 alamama         ADMIN                     10         44 429486258
+       16        46 bergeroner      ADMIN                      6         35 429460271
+       18        44 taillefede      ADMIN                      6         69 429080223
+       19        63 novickmi        ADMIN                      0         42 429453523
+
+
