@@ -1,0 +1,2 @@
+select  sid ,sql_text, count(*) as "OPEN CURSORS", USER_NAME from v$open_cursor
+group by user_name, sid, sql_text

@@ -1,0 +1,753 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR"><head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Fragmentação no banco de dados Oracle : mitos e meias-verdades  | ORA-600</title>
+
+<link rel="stylesheet" href="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/style.css" type="text/css" media="screen">
+
+<link rel="pingback" href="https://ora600.wordpress.com/xmlrpc.php">
+
+	<link rel="archives" title="março 2009" href="https://ora600.wordpress.com/2009/03/">
+<link rel="dns-prefetch" href="https://s2.wp.com/">
+<link rel="dns-prefetch" href="https://s0.wp.com/">
+<link rel="dns-prefetch" href="https://s1.wp.com/">
+<link rel="alternate" type="application/rss+xml" title="Feed para ORA-600 »" href="https://ora600.wordpress.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Feed de comentários para ORA-600 »" href="https://ora600.wordpress.com/comments/feed/">
+	<script defer="defer" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/beacon.js"></script><script src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/AdCallAggregator.htm" async=""></script><script type="text/javascript" async="" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/bid"></script><script type="text/javascript">
+		/* <![CDATA[ */
+		function addLoadEvent(func) {
+			var oldonload = window.onload;
+			if (typeof window.onload != 'function') {
+				window.onload = func;
+			} else {
+				window.onload = function () {
+					oldonload();
+					func();
+				}
+			}
+		}
+		/* ]]> */
+	</script>
+			<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/72x72\/","ext":".png","svgUrl":"https:\/\/s0.wp.com\/wp-content\/mu-plugins\/wpcom-smileys\/twemoji\/2\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/s1.wp.com\/wp-includes\/js\/wp-emoji-release.min.js?m=1488818651h&ver=4.7.5"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="all-css-0-1" href="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/a.css" type="text/css" media="all">
+<script type="text/javascript" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/a.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://ora600.wordpress.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://s1.wp.com/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="Oracle ?" href="https://ora600.wordpress.com/2009/03/28/oracle/">
+<link rel="next" title="Qual a melhor ferramenta client Oracle open source&nbsp;?" href="https://ora600.wordpress.com/2009/03/28/qual-a-melhor-ferramenta-client-oracle-open-source/">
+<meta name="generator" content="WordPress.com">
+<link rel="canonical" href="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/a_002.htm">
+<link rel="shortlink" href="http://wp.me/ptXid-6">
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=https%3A%2F%2Fora600.wordpress.com%2F2009%2F03%2F28%2Ffragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades%2F&amp;for=wpcom-auto-discovery"><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=https%3A%2F%2Fora600.wordpress.com%2F2009%2F03%2F28%2Ffragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades%2F&amp;for=wpcom-auto-discovery">
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Fragmentação no banco de dados Oracle : mitos e meias-verdades">
+<meta property="og:url" content="https://ora600.wordpress.com/2009/03/28/fragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades/">
+<meta property="og:description" content="Uma das falácias mais comuns e permanentes, sendo algo arraigado ao imaginário de muitos técnicos na área de databases, é a FRAGMENTAÇÃO, assunto sobre o qual muito se diz e pouco se explica, e que…">
+<meta property="article:published_time" content="2009-03-28T12:23:09+00:00">
+<meta property="article:modified_time" content="2009-03-28T12:24:58+00:00">
+<meta property="og:site_name" content="ORA-600">
+<meta property="og:image" content="https://s0.wp.com/i/blank.jpg">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:site" content="@wordpressdotcom">
+<meta name="twitter:card" content="summary">
+<meta property="fb:app_id" content="249643311490">
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom">
+<link rel="shortcut icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="icon" type="image/x-icon" href="https://s2.wp.com/i/favicon.ico" sizes="16x16 24x24 32x32 48x48">
+<link rel="apple-touch-icon-precomposed" href="https://s0.wp.com/i/webclip.png">
+<link rel="openid.server" href="https://ora600.wordpress.com/?openidserver=1">
+<link rel="openid.delegate" href="https://ora600.wordpress.com/">
+<link rel="search" type="application/opensearchdescription+xml" href="https://ora600.wordpress.com/osd.xml" title="ORA-600">
+<link rel="search" type="application/opensearchdescription+xml" href="https://s1.wp.com/opensearch.xml" title="WordPress.com">
+		<style id="wpcom-hotfix-masterbar-style">
+			@media screen and (min-width: 783px) {
+				#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
+					margin-top: 5px;
+				}
+			}
+		</style>
+		<meta name="application-name" content="ORA-600"><meta name="msapplication-window" content="width=device-width;height=device-height"><meta name="msapplication-tooltip" content="O lugar que não precisa aplicar patch!"><meta name="msapplication-task" content="name=Assinar;action-uri=https://ora600.wordpress.com/feed/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=Registre um blog gratuito;action-uri=http://wordpress.com/signup/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=Suporte do WordPress.com;action-uri=http://support.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="msapplication-task" content="name=WordPress.com Fóruns;action-uri=http://forums.wordpress.com/;icon-uri=https://s2.wp.com/i/favicon.ico"><meta name="title" content="Fragmentação no banco de dados Oracle : mitos e&nbsp;meias-verdades | ORA-600 em WordPress.com">
+<meta name="description" content="Uma das falácias mais comuns e permanentes, sendo algo arraigado ao imaginário de muitos técnicos na área de databases, é a FRAGMENTAÇÃO, assunto sobre o qual muito se diz e pouco se explica, e que acaba servindo de justificativa para os mais diversos problemas de performance, e gerando os mais diversos MITOS e FOLCLORE :…">
+ 		<script type="text/javascript">
+		var _ipw_custom = {
+				wordAds: '0',
+				adSafe: '0',
+				domain: 'ora600.wordpress.com',
+				pageURL: 'https://ora600.wordpress.com/2009/03/28/fragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades/'
+			};
+		</script>
+ 		<script type="text/javascript" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/head.js"></script>
+		<script type="text/javascript" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/publishertag.js"></script><link rel="amphtml" href="https://ora600.wordpress.com/2009/03/28/fragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades/amp/"><style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script><script type="text/javascript" async="" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/ga.js"></script>
+
+<script type="text/javascript" async="" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/a"></script><script type="text/javascript" async="" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/a_002"></script><iframe src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/showad.htm" style="height: 0px; width: 0px; border: 0px none;" marginwidth="0" marginheight="0" scrolling="no" width="0" height="0" frameborder="0"></iframe></head>
+
+<body class="post-template-default single single-post postid-6 single-format-standard mp6 customizer-styles-applied highlander-enabled highlander-light">
+
+<div id="wrapper">
+
+	<div id="header">
+		<div id="title">
+			<h1><a href="https://ora600.wordpress.com/">ORA-600</a></h1>
+		</div>
+	</div>
+
+	<div id="content">
+
+	
+		
+			<div class="post-6 post type-post status-publish format-standard hentry category-dba" id="post-6">
+				<h2 class="posttitle"><a href="https://ora600.wordpress.com/2009/03/28/fragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades/">Fragmentação no banco de dados Oracle : mitos e&nbsp;meias-verdades</a></h2>
+				<p class="commentmeta">
+					28/03/2009 at 12:23 pm					(<a href="https://ora600.wordpress.com/category/dba/" rel="category tag">DBA</a>)
+														</p>
+				<p>Uma das falácias mais comuns e permanentes, sendo algo arraigado 
+ao imaginário de muitos técnicos na área de databases, é a FRAGMENTAÇÃO,
+ assunto sobre o qual muito se diz e pouco se explica, e que acaba 
+servindo de justificativa para os mais diversos problemas de 
+performance, e gerando os mais diversos MITOS e FOLCLORE : vamos começar
+ este artigo definindo EXATAMENTE o assunto – de acordo com os 
+dicionários (<a href="http://www2.uol.com.br/michaelis/" rel="nofollow">http://www2.uol.com.br/michaelis/</a>
+ ) FRAGMENTAR deriva-se do substantivo FRAGMENTO, que significa pedaço, 
+fração, assim FRAGMENTAÇÃO é o ato de FRAGMENTAR, reduzir a fragmentos, 
+partir em pedaços; fracionar. Em TI, quando nos referimos à 
+armazenamento em disco, tal ocorrência é uma consequência natural do 
+fato dos Sistema Operacionais, para maior eficiência, não controlam o 
+espaço em disco bit-a-bit, mas sim em grânulos (ie, clusters, blocos, 
+páginas, enfim unidades de armazenamento) de maior tamanho – conforme 
+são gravados arquivos que não sejam do tamanho exato do grânulo em uso, 
+algum arredondamento e algum ajuste fatalmente será necessário. O que 
+ocorre porém é que podem haver alguns efeitos negativos (para arquivos 
+lidos sequencialmente do início ao fim) do fato de termos diversos 
+fragmentos do arquivo, a saber :</p>
+<ol>
+<li> se os diferentes espaços em disco solicitados pelos diferentes 
+arquivos forem não-múltiplos entre si, podemos vir a ter um arquivo A 
+composto de fragmentos de x bytes e um arquivo B composto de fragmentos 
+de y bytes alocados, com x e y diferentes e não-múltiplos entre si, 
+quando um dos fragmentos de x bytes for liberado (após a remoção do dado
+ nele contido, por exemplo) , ele não poderá ser usado pelo arquivo B, 
+por causa dos tamanhos diferentes</li>
+<li>a quantidade de fragmentos a ler no total para acessar um dado 
+arquivo, se for grande, implica em estruturas de controle maiscomplexas,
+ uma lista maior será alocada, o que pode interferir negativamente. Na 
+prática do dia-a-dia, por questão de simplificação, quando nos referimos
+ à qualquer destes efeitos negativos da fragmentação, é dito que o 
+“arquivo está fragmentado”, ou que “tal disco apresenta um alto índice 
+de fragmentação nos seus arquivos” – como dito acima, isso não é 
+essencialmente correto, mas tal simplificação (ie, os resultados sendo 
+referidos pela causa) hoje é praxe. Muito bem, e o que esta teoria tem a
+ ver com o banco de dados Oracle ? Este é o ponto que será demonstrado 
+neste artigo , quase NADA é a resposta : devido à estrutura interna do 
+bd Oracle (como demonstraremos) os efeitos acima observados da 
+fragmentação de disco OU são FACILMENTE evitados usando-se tablespaces 
+LMT (Local Managed Tablespaces, gerenciadas por bitmap) nas quais o 
+tamanho mínimo alocado é SEMPRE regular), sendo que as tablespaces LMT 
+por terem maior eficiência também IMPEDEM a ocorrência de problemas por 
+quantidade de espaços alocados (extents) muito altos, a não ser em 
+situações absolutamente limítrofes , como centenas de milhares de 
+extents para um segmento, o que é FACILMENTE evitado com um planejamento
+ adequado, tal como demonstrado em <a href="http://www.oracle.com/technology/deploy/availability/pdf/defrag.pdf" rel="nofollow">http://www.oracle.com/technology/deploy/availability/pdf/defrag.pdf</a>
+ .Vamos às demonstrações e explicações (aqui falaremos apenas sobre 
+TABELAS, índices possuem características próprias e serão abordados em 
+artigos futuros) .</li>
+</ol>
+<p><span>Demonstração 1</span> – indiferença de quantidade de extents : 
+primeiro criaremos (sempre LMTs) uma tablespace com um único extent e 
+depois uma com centenas de extents, veremos que <strong>NÃO</strong> há diferença significativa . Segue :<br>
+<code> </code></p>
+<pre>SYSTEM@10g:SQL&gt; create TABLESPACE TS_1_EXTENT datafile 'C:\TS_1_EXTENT.DBF' SIZE
+  209780736 extent management local uniform SIZE 200M nologging;
+
+Tablespace criado.
+
+SYSTEM@10g:SQL&gt;create TABLESPACE TS_N_EXTENTS datafile 'C:\<span class="skimlinks-unlinked">TS_N_EXTENTS.DBF</span>' SIZE
+  209780736 extent management local uniform SIZE 1m nologging;
+
+Tablespace criado.
+
+SYSTEM@10g:SQL&gt;alter USER SCOTT quota unlimited ON TS_1_EXTENT;
+
+Usuário alterado.
+
+SYSTEM@10g:SQL&gt;alter USER SCOTT quota unlimited ON TS_N_EXTENTS;
+
+Usuário alterado.
+
+SCOTT@10g:SQL&gt;create TABLE T1 (c1 NUMBER, c2 VARCHAR2(4000))
+  TABLESPACE TS_1_EXTENT nologging PCTFREE 1 pctused 99;
+
+Tabela criada.
+
+SCOTT@10g:SQL&gt;create TABLE T2 (c1 NUMBER, c2 VARCHAR2(4000))
+  TABLESPACE TS_N_EXTENTS nologging PCTFREE 1 pctused 99;
+
+Tabela criada.
+
+SCOTT@10g:SQL&gt;insert /*+ APPEND */ INTO T1
+  (SELECT object_id, LPAD(object_name, 4000, '$')
+     FROM all_objects WHERE ROWNUM &lt;= 25000
+   );
+
+25000 linhas criadas.
+
+SCOTT@10g:SQL&gt;commit;
+
+Commit concluído
+
+SCOTT@10g:SQL&gt;insert /*+ APPEND */ INTO T2
+ (SELECT object_id, LPAD(object_name, 4000, '$')
+    FROM all_objects WHERE ROWNUM &lt;= 25000
+  );
+
+25000 linhas criadas.
+
+SCOTT@10g:SQL&gt;commit;
+
+Commit concluído
+
+SCOTT@10g:SQL&gt;set autotrace on
+
+SCOTT@10g:SQL&gt;set TIMING on
+
+SCOTT@10g:SQL&gt;select COUNT(*) FROM T1;
+
+COUNT(*)
+
+------------------
+
+25000
+
+Decorrido: 00:00:04.78
+
+Plano de Execução
+
+----------------------------------------------------------
+
+Plan hash VALUE: 3724264953
+
+-------------------------------------------------------------------
+| Id  | Operation          | Name | ROWS  | COST (%CPU)| TIME     |
+-------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |      |     1 |  5515   (1)| 00:00:43 |
+|   1 |  SORT AGGREGATE    |      |     1 |            |          |
+|   2 |   TABLE ACCESS FULL| T1   | 27493 |  5515   (1)| 00:00:43 |
+-------------------------------------------------------------------
+
+Note
+
+-----
+
+- dynamic sampling used FOR this statement
+
+Estatística
+
+----------------------------------------------------------
+
+28  recursive calls
+0  db block gets
+25077  consistent gets
+25000  physical reads
+116  redo size
+420  bytes sent via SQL*Net TO client
+396  bytes received via SQL*Net FROM client
+2  SQL*Net roundtrips TO/FROM client
+0  sorts (memory)
+0  sorts (disk)
+1  ROWS processed
+
+SCOTT@10g:SQL&gt;select COUNT(*) FROM T2;
+
+COUNT(*)
+------------------
+25000
+
+Decorrido: 00:00:05.46
+
+Plano de Execução
+
+-------------------------------------------------------------------
+
+Plan hash VALUE: 3321871023
+
+-------------------------------------------------------------------
+| Id  | Operation          | Name | ROWS  | COST (%CPU)| TIME     |
+-------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |      |     1 |  5535   (1)| 00:00:43 |
+|   1 |  SORT AGGREGATE    |      |     1 |            |          |
+|   2 |   TABLE ACCESS FULL| T2   | 20396 |  5535   (1)| 00:00:43 |
+-------------------------------------------------------------------
+
+Note
+
+-----
+
+- dynamic sampling used FOR this statement
+
+Estatística
+----------------------------------------------------------
+   28  recursive calls
+    1  db block gets
+25101  consistent gets
+25029  physical reads
+  168  redo size
+  420  bytes sent via SQL*Net TO client
+  396  bytes received via SQL*Net FROM client
+    2  SQL*Net roundtrips TO/FROM client
+    0  sorts (memory)
+    0  sorts (disk)
+    1  ROWS processed</pre>
+<p>ou seja, a diferença de tempo entre a leitura dos dados numa 
+tablespace com um só extent e os mesmos dados em centenas de extents foi
+ de FRAÇÃO de segundo, basicamente RUÍDO …. mesmo o I/O é basicamente 
+igual, foi de 25077 + 25000 = 50077 blocos para 1 extent e 
+25101+25029+1=50131 blocos para N extents, diferença irrisória, o 
+próprio fato das tabelas internas do banco irem pra cache já explica 
+diferença tçao pequena…</p>
+<p><span>Demonstração 2</span> – indiferença da localização dos extents :
+ o conceito básico que será demonstrado é que , ao contrário de uma 
+aplicação mais simples e “burrinha” (como um Editor de textos, por 
+exemplo), que TEM que ler os dados sequencialmente do início ao fim, no 
+banco Oracle a informação é fisicamente guardada em arquivos 
+(datafiles), mas tais arquivos *** NUNCA *** são lidos sequencialmente 
+do início ao fim, E os datafiles SEMPRE são divididos internamente em 
+EXTENTs (pedaços mínimos), sendo que os extents são compostos de BLOCOS 
+de um tamanho físico, sempre regulares que por serem e tamanho conhecido
+ podem ser acessados via FSEEK, o banco NÃO precisa nunca varrer os N 
+extents anteriores para chegar até um dado extent X.</p>
+<p>Exemplo : vamos criar numa tablespace um objeto cujs extents NÃO 
+estão fisicamente contíguos entre si (haverá extents de outros objetos, 
+TANTO vazios quanto “cheios” de dados entre eles), depois vamos recriar o
+ objeto com extents contíguos, veremos que não haverá diferença 
+palpável:</p>
+<pre>SYSTEM@10g:SQL&gt;create tablespace TS_TESTE datafile 'C:\TS_TESTE_01.DBF' size 10M autoextend on
+extent management local uniform size 1M nologging;
+
+Tablespace criado.
+
+SYSTEM@10g:SQL&gt;select segment_name, extent_id, block_id, bytes from dba_extents where owner='SYSTEM' and tablespace_name='TS_TESTE' order by block_id;
+
+SEGMENT_NAME                        EXTENT_ID BLOCK_ID   BYTES
+----------------------------------- --------- -------- -------
+T1                                          0        9 1048576
+T2                                          0      137 1048576
+
+2 linhas selecionadas.
+
+SYSTEM@10g:SQL&gt;BEGIN
+   for x in 1..15 loop
+      insert /*+ APPEND */ into T1 select object_id, lpad(object_name, 4000, '$') from all_objects where rownum &lt;= 512;
+      commit;
+      for y in 1..10 loop
+         insert /*+ APPEND */ into T2 select object_id, lpad(object_name, 4000, '$') from all_objects where rownum &lt;= 512;
+         commit;
+      end loop;
+   end loop;
+END;
+/
+
+Procedimento PL/SQL concluído com sucesso.
+
+SYSTEM@10g:SQL&gt;select segment_name, extent_id, block_id, bytes from dba_extents where owner='SYSTEM' and tablespace_name='TS_TESTE' order by block_id;
+
+SEGMENT_NAME                        EXTENT_ID BLOCK_ID    BYTES
+----------------------------------- --------- -------- --------
+T1                                          0        9  1048576
+T2                                          0      137  1048576
+T1                                          1      265  1048576
+T1                                          2      393  1048576
+T1                                          3      521  1048576
+T1                                          4      649  1048576
+T2                                          1      777  1048576
+T2                                          2      905  1048576
+T2                                          3     1033  1048576
+T2                                          4     1161  1048576
+T2                                          5     1289  1048576
+T2                                          6     1417  1048576
+T2                                          7     1545  1048576
+T2                                          8     1673  1048576
+T2                                          9     1801  1048576
+T2                                         10     1929  1048576
+T2                                         11     2057  1048576
+T2                                         12     2185  1048576
+T2                                         13     2313  1048576
+T2                                         14     2441  1048576
+T2                                         15     2569  1048576
+T2                                         16     2697  1048576
+T2                                         17     2825  1048576
+T2                                         18     2953  1048576
+T2                                         19     3081  1048576
+T2                                         20     3209  1048576
+T2                                         21     3337  1048576
+T2                                         22     3465  1048576
+T2                                         23     3593  1048576
+
+.....
+
+==&gt; OU seja, entre cada extent de T1 há dezenas de extents do T2, vamos fazer uma consulta :
+
+SYSTEM@10g:SQL&gt;set timing on
+SYSTEM@10g:SQL&gt;set autotrace on
+SYSTEM@10g:SQL&gt;select count(*) from T1;
+
+COUNT(*)
+------------------
+7680
+
+1 linha selecionada.
+
+Decorrido: 00:00:02.39
+
+Plano de Execução
+
+----------------------------------------------------------
+
+Plan hash value: 3724264953
+
+-------------------------------------------------------------------
+| Id  | Operation          | Name | Rows  | Cost (%CPU)| Time     |
+-------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |      |     1 |  1716   (1)| 00:00:14 |
+|   1 |  SORT AGGREGATE    |      |     1 |            |          |
+|   2 |   TABLE ACCESS FULL| T1   |  6937 |  1716   (1)| 00:00:14 |
+-------------------------------------------------------------------
+
+Note
+
+-----
+
+- dynamic sampling used for this statement
+
+Estatística
+
+----------------------------------------------------------
+5  recursive calls
+1  db block gets
+7787  consistent gets
+7680  physical reads
+2256  redo size
+420  bytes sent via SQL*Net to client
+396  bytes received via SQL*Net from client
+2  SQL*Net roundtrips to/from client
+0  sorts (memory)
+0  sorts (disk)
+1  rows processed
+
+SYSTEM@10g:SQL&gt;set autotrace off
+
+==&gt; agora vamos ter T1 com extents contíguos :
+
+SYSTEM@10g:SQL&gt;create table T1 (c1 number, c2 varchar2(4000)) nologging pctfree 1 pctused 99 tablespace TS_TESTE;
+
+Tabela criada.
+
+Decorrido: 00:00:00.03
+
+SYSTEM@10g:SQL&gt;BEGIN
+
+2     for x in 1..15 loop
+3        insert /*+ APPEND */ into T1 select object_id, lpad(object_name, 4000, '$') from all_objects where rownum &lt;= 512;
+4        commit;
+5     end loop;
+6  END;
+7  /
+
+Procedimento PL/SQL concluído com sucesso.
+
+Decorrido: 00:00:02.32
+
+SYSTEM@10g:SQL&gt;set autotrace on
+
+SYSTEM@10g:SQL&gt;select count(*) from T1;
+
+COUNT(*)
+
+------------------
+
+7680
+
+1 linha selecionada.
+
+Decorrido: 00:00:02.42
+
+Plano de Execução
+
+----------------------------------------------------------
+
+Plan hash value: 3724264953
+
+-------------------------------------------------------------------
+| Id  | Operation          | Name | Rows  | Cost (%CPU)| Time     |
+-------------------------------------------------------------------
+|   0 | SELECT STATEMENT   |      |     1 |  1716   (1)| 00:00:14 |
+|   1 |  SORT AGGREGATE    |      |     1 |            |          |
+|   2 |   TABLE ACCESS FULL| T1   |  6937 |  1716   (1)| 00:00:14 |
+-------------------------------------------------------------------
+
+Note
+
+-----
+
+- dynamic sampling used for this statement
+
+Estatística
+
+----------------------------------------------------------
+28  recursive calls
+1  db block gets
+7789  consistent gets
+7680  physical reads
+2256  redo size
+420  bytes sent via SQL*Net to client
+396  bytes received via SQL*Net from client
+2  SQL*Net roundtrips to/from client
+0  sorts (memory)
+0  sorts (disk)
+
+1  rows processed</pre>
+<p>PRATICAMENTE idêntico, comprova o estabelecido de que o banco Oracle 
+lê os extents INDEPENDENTEMENTE, o fato de estarem numa ou noutra 
+posição do disco, contíguos ou não, é basicamente indiferente, o que 
+mostra como INVERDADE a falácia corrente de que é necesário 
+“desfragmentar” um segmento para que os extents fiquem contíguos….</p>
+<p><span>OBSERVAÇÃO IMPORTANTE : </span>isso absolutamente NÃO QUER 
+DIZER que nunca há queda de performance por eventual ineficiência de 
+estruturas físicas no banco Oracle, correto ? O ponto que deve ser 
+frisado é que elas existem mas ***** NÃO TEM A VER COM FRAGMENTAÇÃO DE 
+DISCO ***** propriamente dita …. Vamos conhecer as principais e 
+chamá-las pelos nomes mais apropriados, chamar tudo genericamente de 
+“fragmentação” só serve para ESCONDER a realidade, só dificulta a 
+administração, é IMPORTANTÍSSIMO as conhecer pelos nomes próprios e 
+saber quando ocorrem e como as enfrentar, é o que veremos no meu próximo
+ texto, até lá…</p>
+			<style type="text/css">
+			div.wpmrec2x{max-width:610px;}
+			div.wpmrec2x div.u > div{float:left;margin-right:10px;}
+			div.wpmrec2x div.u > div:nth-child(3n){margin-right:0px;}
+			</style>		<div class="wpcnt">
+			<div class="wpa wpmrec wpmrec2x" style="display: inline-block !important;">
+				<span class="wpa-about">Anúncios</span>
+				<div class="u">
+								<script type="text/javascript" id="s26942">
+				(function(g,$){if("undefined"!=typeof g.__ATA){
+					g.__ATA.initAd({sectionId:26942, width:300, height:250});
+					g.__ATA.initAd({sectionId:114160, width:300, height:250});
+				}})(window,jQuery);
+			</script><div id="fif_slot_automattic-id-3001" style="width:300px;height:250px;"><iframe id="fif_slot_automattic-id-_fif_slot_automattic-id-3001" name="fif_slot_automattic-id-_fif_slot_automattic-id-3001" scrolling="no" style="border:none;width:300px;height:250px;" width="300" height="250" frameborder="0"></iframe></div><div id="fif_slot_automattic-id-7385" style="width:300px;height:250px;"><iframe id="fif_slot_automattic-id-_fif_slot_automattic-id-7385" name="fif_slot_automattic-id-_fif_slot_automattic-id-7385" scrolling="no" style="border:none;width:300px;height:250px;" width="300" height="250" frameborder="0"></iframe></div>
+				</div>
+				        <div id="crt-1014279461" style="width: 300px; height: 250px; display: none !important;"></div>
+        <script type="text/javascript">
+        var o = document.getElementById('crt-1014279461');
+        if ("undefined"!=typeof Criteo) {
+            var p = o.parentNode;
+            p.style.setProperty('display', 'inline-block', 'important');
+            o.style.setProperty('display', 'block', 'important');
+            Criteo.DisplayAcceptableAdIfAdblocked({zoneid:388248,containerid:"crt-1014279461",collapseContainerIfNotAdblocked:true,"callifnotadblocked": function () {var o = document.getElementById('crt-1014279461'); o.style.setProperty('display','none','important');o.style.setProperty('visbility','hidden','important'); }
+        });
+        } else {
+            o.style.setProperty('display', 'none', 'important');
+            o.style.setProperty('visibility', 'hidden', 'important');
+        }
+        </script>
+			</div>
+		</div><div id="jp-post-flair" class="sharedaddy sd-like-enabled"><div class="sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-loaded" id="like-post-wrapper-7139437-6-5928177be1e93" data-src="//widgets.wp.com/likes/#blog_id=7139437&amp;post_id=6&amp;origin=ora600.wordpress.com&amp;obj_id=7139437-6-5928177be1e93" data-name="like-post-frame-7139437-6-5928177be1e93"><h3 class="sd-title">Curtir isso:</h3><div class="likes-widget-placeholder post-likes-widget-placeholder" style="height: 55px; display: none;"><span class="button"><span>Curtir</span></span> <span class="loading">Carregando...</span></div><iframe class="post-likes-widget jetpack-likes-widget" name="like-post-frame-7139437-6-5928177be1e93" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/a_003.htm" width="100%" height="55px" frameborder="0"></iframe><span class="sd-text-color"></span><a class="sd-link-color"></a></div></div>							</div>
+
+			
+
+
+		
+	
+	</div>
+
+<div id="sidebar">
+<ul>
+	<li class="pagenav"><h2>Pages</h2><ul><li class="page_item page-item-2"><a href="https://ora600.wordpress.com/about/">About</a></li>
+</ul></li>	<li><h2>Arquivos</h2>
+		<ul>
+			<li><a href="https://ora600.wordpress.com/2009/03/">março 2009</a></li>
+		</ul>
+	</li>
+	<li><h2>Categorias</h2>
+		<ul>
+			<li class="cat-item cat-item-26203"><a href="https://ora600.wordpress.com/category/dba/">DBA</a>
+</li>
+	<li class="cat-item cat-item-14911"><a href="https://ora600.wordpress.com/category/developer/">Developer</a>
+</li>
+	<li class="cat-item cat-item-111485"><a href="https://ora600.wordpress.com/category/novidade/">Novidade</a>
+</li>
+		</ul>
+	</li>
+		<li>
+		<h2>Pesquisar</h2>
+		<form method="get" action="https://ora600.wordpress.com/">
+			<p>
+			<input name="s" type="text">
+			<input value="Ir" type="submit">
+			</p>
+		</form>
+	</li>
+		<li><h2>Meta</h2>
+		<ul>
+		<li><a href="https://wordpress.com/start/pt-br?ref=wplogin">Cadastre-se</a></li>		<li><a href="https://ora600.wordpress.com/wp-login.php">Fazer login</a></li>
+		<li><a href="https://ora600.wordpress.com/feed/" title="Syndicate this site using RSS"><abbr title="Really Simple Syndication">RSS</abbr> Feed</a></li>
+				</ul>
+	</li>
+</ul>
+</div>
+
+
+	<div id="footer">
+		<p><a href="https://wordpress.com/?ref=footer_website">Crie um website ou blog gratuito no WordPress.com.</a> </p>
+	</div>
+
+</div>
+
+<!--  -->
+	<div style="display:none">
+	</div>
+<script type="text/javascript">
+/* <![CDATA[ */
+var actionbardata = 
+{"siteID":"7139437","siteName":"ORA-600","siteURL":"http:\/\/ora600.wordpress.com","icon":"<img
+ alt='' src='https:\/\/s1.wp.com\/i\/logo\/wpcom-gray-white.png' 
+class='avatar avatar-50' height='50' width='50' 
+\/>","canManageOptions":"","canCustomizeSite":"","isFollowing":"","themeSlug":"pub\/dusk","signupURL":"https:\/\/wordpress.com\/start\/","loginURL":"https:\/\/ora600.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fora600.wordpress.com%2F2009%2F03%2F28%2Ffragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades%2F","themeURL":"","xhrURL":"https:\/\/ora600.wordpress.com\/wp-admin\/admin-ajax.php","nonce":"48d613ff16","isSingular":"1","isFolded":"","isLoggedIn":"","isMobile":"","subscribeNonce":"<input
+ type=\"hidden\" id=\"_wpnonce\" name=\"_wpnonce\" value=\"8b6b6b15ca\" 
+\/>","referer":"https:\/\/ora600.wordpress.com\/2009\/03\/28\/fragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades\/","canFollow":"1","statusMessage":"","customizeLink":"https:\/\/ora600.wordpress.com\/wp-admin\/customize.php?url=https%3A%2F%2Fora600.wordpress.com%2F2009%2F03%2F28%2Ffragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades%2F","postID":"6","shortlink":"http:\/\/wp.me\/ptXid-6","canEditPost":"","editLink":"https:\/\/wordpress.com\/post\/ora600.wordpress.com\/6","statsLink":"https:\/\/wordpress.com\/stats\/post\/6\/ora600.wordpress.com","i18n":{"view":"Exibir
+ 
+site","follow":"Seguir","following":"Seguindo","edit":"Editar","login":"Fazer
+ 
+login","signup":"Registre-se","customize":"Personalizar","report":"Denunciar
+ este conte\u00fado","themeInfo":"Obtenha o tema: 
+Dusk","shortlink":"Copiar link 
+curto","copied":"Copiado","followedText":"Novos posts deste site 
+ser\u00e3o exibidos agora em seu <a 
+href=\"https:\/\/wordpress.com\/\">Leitor<\/a>","foldBar":"Esconder esta
+ barra","unfoldBar":"Mostrar esta barra","editSubs":"Gerenciar 
+assinaturas","viewReader":"Visualizar site no 
+Leitor","subscribe":"Cadastre-me","enterEmail":"Insira seu endere\u00e7o
+ de email","followers":"","alreadyUser":"J\u00e1 tem uma conta do 
+WordPress.com? <a 
+href=\"https:\/\/ora600.wordpress.com\/wp-login.php?redirect_to=https%3A%2F%2Fora600.wordpress.com%2F2009%2F03%2F28%2Ffragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades%2F\">Fa\u00e7a
+ login agora.<\/a>","stats":"Estat\u00edsticas"}};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/a_002.js"></script><div id="actionbar" class="actnbr-pub-dusk actnbr-has-follow"><ul><li class="actnbr-btn actnbr-hidden"> 			    	<a class="actnbr-action actnbr-actn-follow" href=""><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Seguir</span></a> 			    	<div class="actnbr-popover tip tip-top-left actnbr-notice"> 			    		<div class="tip-arrow"></div> 			    		<div class="tip-inner actnbr-follow-bubble"></div> 			    	</div> 			    </li><li class="actnbr-ellipsis actnbr-hidden"> 			  <svg class="gridicon gridicon__ellipsis" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><circle cx="5" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle></g></svg> 			  <div class="actnbr-popover tip tip-top-left actnbr-more"> 			  	<div class="tip-arrow"></div> 			  	<div class="tip-inner"> 				  <ul> 				    <li class="actnbr-sitename actnbr-hidden"><a href="http://ora600.wordpress.com/"><img alt="" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/wpcom-gray-white.png" class="avatar avatar-50" width="50" height="50"> ORA-600</a></li> 				   	<li class="actnbr-folded-customize actnbr-hidden"><a href="https://ora600.wordpress.com/wp-admin/customize.php?url=https%3A%2F%2Fora600.wordpress.com%2F2009%2F03%2F28%2Ffragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades%2F"><svg class="gridicon gridicon__customize" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M2 6c0-1.505.78-3.08 2-4 0 .845.69 2 2 2 1.657 0 3 1.343 3 3 0 .386-.08.752-.212 1.09.74.594 1.476 1.19 2.19 1.81L8.9 11.98c-.62-.716-1.214-1.454-1.807-2.192C6.753 9.92 6.387 10 6 10c-2.21 0-4-1.79-4-4zm12.152 6.848l1.34-1.34c.607.304 1.283.492 2.008.492 2.485 0 4.5-2.015 4.5-4.5 0-.725-.188-1.4-.493-2.007L18 9l-2-2 3.507-3.507C18.9 3.188 18.225 3 17.5 3 15.015 3 13 5.015 13 7.5c0 .725.188 1.4.493 2.007L3 20l2 2 6.848-6.848c1.885 1.928 3.874 3.753 5.977 5.45l1.425 1.148 1.5-1.5-1.15-1.425c-1.695-2.103-3.52-4.092-5.448-5.977z" data-reactid=".2.1.1:0.1b.0"></path></g></svg><span>Personalizar<span></span></span></a></li> 				    <li class="actnbr-folded-follow actnbr-hidden"><a class="actnbr-action actnbr-actn-follow" href=""><svg class="gridicon gridicon__follow" height="24px" width="24px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M23 16v2h-3v3h-2v-3h-3v-2h3v-3h2v3h3zM20 2v9h-4v3h-3v4H4c-1.1 0-2-.9-2-2V2h18zM8 13v-1H4v1h4zm3-3H4v1h7v-1zm0-2H4v1h7V8zm7-4H4v2h14V4z"></path></g></svg><span>Seguir</span></a></li> 					<li class="actnbr-signup actnbr-hidden"><a href="https://wordpress.com/start/">Registre-se</a></li> 				    <li class="actnbr-login actnbr-hidden"><a href="https://ora600.wordpress.com/wp-login.php?redirect_to=https%3A%2F%2Fora600.wordpress.com%2F2009%2F03%2F28%2Ffragmentacao-no-banco-de-dados-oracle-mitos-e-meias-verdades%2F">Fazer login</a></li> 				     				    <li class="actnbr-shortlink actnbr-hidden"><a href="http://wp.me/ptXid-6">Copiar link curto</a></li> 				    <li class="flb-report actnbr-hidden"><a href="http://en.wordpress.com/abuse/">Denunciar este conteúdo</a></li> 				     				     				    <li class="actnbr-subs actnbr-hidden"><a href="https://subscribe.wordpress.com/">Gerenciar assinaturas</a></li> 				    <li class="actnbr-fold actnbr-hidden"><a href="">Esconder esta barra</a></li> 			      </ul> 			    </div> 		      </div> 		    </li> 	      </ul></div>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script>	<script type="text/javascript">
+	var skimlinks_pub_id = "725X584219"
+	var skimlinks_sitename = "ora600.wordpress.com";
+	</script>
+	<script type="text/javascript" defer="defer" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/725X1342.js"></script>		<iframe src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/master.htm" scrolling="no" id="likes-master" name="likes-master" style="display:none;"></iframe>
+		<div id="likes-other-gravatars"><div class="likes-text"><span>%d</span> blogueiros gostam disto:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script>
+			var _comscore = _comscore || [];
+			_comscore.push({
+				c1: "2",
+				c2: "7518284"
+			});
+			(function() {
+				var s = document.createElement("script"),
+					el = document.getElementsByTagName("script")[0];
+				s.defer = true;
+				s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+				el.parentNode.insertBefore(s, el);
+			})();
+		</script>
+		<noscript>
+			<p class="robots-nocontent"><img 
+src="https://sb.scorecardresearch.com/p?c1=2&c2=7518284&c3=&c4=&c5=&c6=&c15=&cv=2.0&cj=1"
+ alt="" style="display:none;" width="1" height="1" /></p>
+		</noscript><script src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/w.js" type="text/javascript" async="" defer="defer"></script>
+<script type="text/javascript">
+_tkq = window._tkq || [];
+_stq = window._stq || [];
+_tkq.push(['storeContext', 
+{'blog_id':'7139437','blog_tz':'0','user_lang':'pt-br','blog_lang':'pt-br','user_id':'0'}]);
+_stq.push(['view',
+ 
+{'blog':'7139437','v':'wpcom','tz':'0','user_id':'0','post':'6','subd':'ora600'}]);
+_stq.push(['extra',
+ 
+{'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdWFnNncxc1tjZG9XVXhRUFYrYjIuSnFPfDlWRVFPMVBBd3BGeG9UNXY4dz9+Q2Z4ZTFQdGY5d3BYZTgvaHpqNXAlMixueVFEXWo/JWtCL0xHYmNBfHRIUzRrZEJVb0U1VDFjNkMtaXlaRWpLWWl0bjA1NyZocVh3L3xFMjcwc256L2lqYlouZSZHNDksWXBLWHxsb1BKckdEVFVvbEZ1Ri9fOXl5OEtsUH5bWlVoVUJFeEpuLWd3K2ZCTFosY3dzMmQ4d2s9bC9pMExlOVhQbWt+VFZy'}]);
+_stq.push([
+ 'clickTrackerInit', '7139437', '6' ]);
+	</script>
+<noscript><img src="https://pixel.wp.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + 
+wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + 
+wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + 
+'//pixel.wp.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba='
+ + Math.random();
+	}
+	
+}
+</script>
+
+<img src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/g.gif" alt=":)" id="wpstats"><iframe style="position: absolute; left: -1000px; top: -1000px; border: 0px solid; width: 0px; height: 0px;" name="automattic-passback-receiver" src="Fragmenta%C3%A7%C3%A3o%20no%20banco%20de%20dados%20Oracle%20%20%20mitos%20e%20meias-verdades%20_%20ORA-600_arquivos/passback.htm" width="0" height="0"></iframe></body></html>

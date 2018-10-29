@@ -1,0 +1,3 @@
+tar -tvf backup_20161221.tar.gz  Verificar conteúdo do backup
+
+tar -tvf backup_20161221.tar.gz 20161221_exp_universus.dmp extrair conteúdo do backup

@@ -1,0 +1,16 @@
+Find command – examples using mtime
+
+
+Fractional 24-hour periods are truncated! That means that “find -mtime +1” says to match files modified two or more days ago.
+
+find . -mtime +0 # find files modified greater than 24 hours ago
+find . -mtime 0 # find files modified between now and 1 day ago
+# (i.e., in the past 24 hours only)
+find . -mtime -1 # find files modified less than 1 day ago (SAME AS -mtime 0)
+find . -mtime 1 # find files modified between 24 and 48 hours ago
+find . -mtime +1 # find files modified more than 48 hours ago
+
+The following may only work on GNU?
+find . -mmin +5 -mmin -10 # find files modified between
+# 6 and 9 minutes ago
+find / -mmin -10 # modified less than 10 minutes ago

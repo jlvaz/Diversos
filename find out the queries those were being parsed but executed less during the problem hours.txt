@@ -1,0 +1,16 @@
+I have to find out the queries those were being parsed but executed less during the problem hours -
+
+set linesize 200;
+set pagesize 1000;
+col sql_text format a40;
+
+SELECT sq.sql_text, st.executions_total, st.parse_calls_total
+, round( 100*(1-( st.parse_calls_total / st.executions_total )),2) execute_to_parse
+, st.executions_delta, st.parse_calls_delta
+, round( 100*(1-( st.parse_calls_delta / st.executions_delta )),2) delta_ratio
+FROM DBA_HIST_SQLSTAT st
+, DBA_HIST_SQLTEXT sq
+, DBA_HIST_SNAPSHOT s
+WHERE s.snap_id = st.snap_id
+AND s.begin_interval_time >= to_date('2009-08-04 11:30 am','YYYY-MM-DD HH:MI am')
+AND s.end_interval_time <= to_date('2009-08-04 12:01 pm','YYYY-MM-DD HH:MI pm') AND st.sql_id = sq.sql_id AND st.parsing_schema_name='PROD' AND st.executions_total !=0 AND st.executions_delta !=0 ORDER BY delta_ratio; 

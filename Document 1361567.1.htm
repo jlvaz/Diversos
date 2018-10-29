@@ -1,0 +1,676 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html class="p_AFMaximized" dir="ltr" lang="en-GB"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><link rel="stylesheet" charset="UTF-8" type="text/css" href="Document%201361567.1_arquivos/ep-mos-68w7k4-en-ltr-gecko-cmp-s.css"><script type="text/javascript" src="Document%201361567.1_arquivos/Locale1_2_12_3_3.js"></script><script type="text/javascript">var AdfAssert = new Object();AdfAssert.DEBUG = false;</script><script type="text/javascript" src="Document%201361567.1_arquivos/boot-11.js"></script><script type="text/javascript">AdfLogger.DEFAULT_LEVEL=AdfLogger.OFF;(AdfLogger.LOGGER=new AdfLogger('global', new AdfBufferedLogWriter())).register();var checkAgentSupport = false;AdfAgent.AGENT = AdfAgent.getAgent(window);var lookAndFeel = new AdfDhtmlLookAndFeel(window);AdfAgent._LOG_WRITERS = "NativeLogWriter";AdfPage.PAGE = lookAndFeel.createPage();var page = AdfPage.PAGE;page.setBaseResourceUrl("/epmos");page.setStreamingDisabled(true);page.setAccessibilityMode("default");page.setAnimationEnabled(false);page.__setSessionIdentifier('7itzgezgx');page.__setOutputMode('printable');</script><script type="text/javascript" src="Document%201361567.1_arquivos/core-11.js"></script><title>Document  1361567.1</title><link rel="stylesheet" type="text/css" afrres="true" href="Document%201361567.1_arquivos/kmstyles-16.css"><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/jquery-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/commonKM-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/clickStreamLogger-16.js"></script><script type="text/javascript" language="javascript">var pageState = "";
+  var backDecrementUnit = '3';
+  var executeBackJavascript = 'true';
+  $( document ).ready(function() {
+    pageState = getQueryVariable("_adf.ctrl-state");
+    });
+    
+   function getQueryVariable(variable)
+    {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+    }
+    
+    window.onbeforeunload = function () {
+        var pageURL = document.URL;
+        if(executeBackJavascript == 'true' && 
+            (pageURL.indexOf("epmos/faces/DocumentDisplay") > 0 || pageURL.indexOf("epmos/faces/SearchDoc") > 0) ){
+            try{
+                var numberState = pageState.split("_")[1] - backDecrementUnit;
+                window.name = pageState.split("_")[0] + "_" + numberState;
+            }catch(err){}
+        }
+    } 
+    
+    function handleSugClick (event) {
+        var link = event.getSource();
+        AdfCustomEvent.queue(link, "logSugClickStream", {}, false);
+    }
+        
+    function openAskCommunity(event){
+        window.open('https://community.oracle.com/discussion/create.jspa?showCommSelectHelpText=true','_blank');
+    }</script><script type="text/javascript" language="javascript">function onCommentsKeyUp(event) {
+        var source = event.getSource();
+        var feedbackButtonComponent = source.findComponent("cb1");
+        var domElement = AdfRichUIPeer.getDomElementForComponent(feedbackButtonComponent);
+        var submittedComments = source.getSubmittedValue();
+        if (submittedComments == null || submittedComments == '') {
+            feedbackButtonComponent.setProperty('disabled', true);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = true;
+            AdfDomUtils.addOrRemoveCSSClassName(true, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+        }
+        else {
+            feedbackButtonComponent.setProperty('disabled', false);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = false;
+            AdfDomUtils.addOrRemoveCSSClassName(false, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+        }
+    }</script><script type="text/javascript" language="javascript">referenceRedirect = function (event) {
+          var referenceId = event.getSource().getProperty('referenceId');
+          AdfCustomEvent.queue(event.getSource(), "referenceRedirectEvent", 
+          {
+              referenceId : referenceId
+          },
+true);
+      }</script><script type="text/javascript" language="javascript">showRecentDocContextMenu = function (event) {
+          var id = event.getSource().getProperty('bid');
+          var docUrl = event.getSource().getProperty('docUrl');
+          var bugUrl = event.getSource().getProperty('bugUrl');
+          var type = event.getSource().getProperty('type');
+          var component = document.getElementById(event.getSource().getClientId());
+          if (type == 'BUG') {
+              component.href = bugUrl + id + "&parent=WIDGET_RECENT_DB";
+          }
+          else {
+              component.href = docUrl + id + "&parent=WIDGET_RECENT_DB";
+          }
+      }
+      recentLinkWidgetRedirect = function (event) {
+          var documentId = event.getSource().getProperty('documentId');
+          AdfCustomEvent.queue(event.getSource(), "recentLinkWidgetRedirectEvent", 
+          {
+              documentId : documentId
+          },true);
+      }</script><script type="text/javascript" language="javascript">function onCommentsKeyUp(event) {
+    //event.cancel();
+    var source = event.getSource();
+    var feedbackButtonComponent = source.findComponent("cb1");
+    var domElement = AdfRichUIPeer.getDomElementForComponent(feedbackButtonComponent);
+    var submittedComments = source.getSubmittedValue();
+    
+    if (submittedComments == null || submittedComments == '') {
+        var rateComponent = source.findComponent("sor1");
+        var helpComponent = source.findComponent("sor2");
+        var findComponent = source.findComponent("sor3");
+        if (rateComponent.getSubmittedValue() == "1" || 
+            helpComponent.getSubmittedValue() == "1" ||
+            findComponent.getSubmittedValue() == "1") {
+            feedbackButtonComponent.setProperty('disabled', true);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = true;
+            AdfDomUtils.addOrRemoveCSSClassName(true, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+        }
+    } else {
+        feedbackButtonComponent.setProperty('disabled', false);
+        document.getElementById(feedbackButtonComponent.getClientId()).disabled = false;
+        AdfDomUtils.addOrRemoveCSSClassName(false, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+    }
+}
+
+function onCommentsFocus(event) {
+    var source = event.getSource();
+    var submittedComments = source.getSubmittedValue();
+    var requiredText = source.getProperty("requiredText");
+    if (submittedComments == requiredText)
+        source.setValue("");
+}
+
+function onQuestionValueChange(event) {
+    var source = event.getSource();
+    var submittedValue = source.getSubmittedValue();
+    var commentsComponent = source.findComponent("it1");
+    var requiredText = commentsComponent.getProperty("requiredText");
+    var feedbackButtonComponent = source.findComponent("cb1");
+    var domElement = AdfRichUIPeer.getDomElementForComponent(feedbackButtonComponent);
+    var commentsValue = commentsComponent.getSubmittedValue();
+    
+    if (submittedValue == "1") {
+        if (commentsValue == null || commentsValue == '') {
+            feedbackButtonComponent.setProperty('disabled', true);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = true;
+            AdfDomUtils.addOrRemoveCSSClassName(true, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+            commentsComponent.setValue(requiredText);
+        }
+    } else {
+        var rateComponent = source.findComponent("sor1");
+        var helpComponent = source.findComponent("sor2");
+        var findComponent = source.findComponent("sor3");
+        if (rateComponent.getSubmittedValue() != "1" &&
+            helpComponent.getSubmittedValue() != "1" &&
+            findComponent.getSubmittedValue() != "1") { 
+            feedbackButtonComponent.setProperty('disabled', false);
+            document.getElementById(feedbackButtonComponent.getClientId()).disabled = false;
+            AdfDomUtils.addOrRemoveCSSClassName(false, domElement, AdfRichUIPeer.DISABLED_STYLECLASS);
+            if (commentsValue == requiredText)
+                commentsComponent.setValue("");
+        }
+    }
+}</script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/messageArea-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/s_code_devh-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/clickstream-16.js"></script><script type="text/javascript" language="javascript">function clickMessageCenter(event) {
+        var link = event.getSource();
+        var tabName = link.getProperty('tabName');
+        AdfCustomEvent.queue(link, "logClickstream", {}, true);
+    }
+    function disableSignout(event){
+        var firingPrompt=event.getSource();
+        firingPrompt.setStyleClass('goMenuItemDisabled');
+        firingPrompt.setDestination(null);
+              }</script><style type="text/css" afrres="true">input::-webkit-input-placeholder {
+                    color: #737373;
+                    font-style: italic;
+                    opacity: 1;
+            }
+            input::-moz-placeholder {
+                    color: #737373;
+                    font-style: italic;
+                    opacity: 1;
+            }
+            input:-moz-placeholder {   /* Older versions of Firefox */
+                    color: #737373;
+                    font-style: italic;
+                    opacity: 1;
+            }
+            input:-ms-input-placeholder {
+                    color: #737373;
+                    font-style: italic;
+                    opacity: 1;
+            }</style><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/customComponent-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/promptedText-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/fwkComponent-16.js"></script><script type="text/javascript" language="javascript">function showPVAddEditPopup(event) {
+            event.cancel();
+            var source = event.getSource();
+            var popupId = ('pvAddEdit');
+            
+            var popup = AdfPage.PAGE.findComponentByAbsoluteId(popupId);
+            var halignid = 'pvOnOffLink';
+            if (popup == null){ 
+                popup = AdfPage.PAGE.findComponentByAbsoluteId('pt1:svHd:'+attrId+':'+popupId); 
+                halignid = 'pt1:svHd:pv1:pvOnOffLink';
+            }
+            if (!popup.isPopupVisible()) {
+                var hints = {
+                };
+                hints[AdfRichPopup.HINT_LAUNCH_ID] = source.getClientId();
+                hints[AdfRichPopup.HINT_ALIGN_ID] = halignid;
+                hints[AdfRichPopup.HINT_ALIGN] = AdfRichPopup.ALIGN_AFTER_END;
+                popup.show(hints);
+            }
+        }
+
+        
+        function hidePVAddPopup(event) {
+            event.cancel();
+            var source = event.getSource();
+            var attrId = source.getProperty('attrId');
+            var popupId = source.getProperty('popupId');
+            var isCanceled = source.getProperty('isCanceled');
+            var popup = AdfPage.PAGE.findComponentByAbsoluteId(attrId+':pvAdd');
+            if (popup.isPopupVisible()) {
+                if (isCanceled)
+                    popup.cancel();
+                else 
+                    popup.hide();
+            }
+        }
+        
+        handlePVTextfieldKeyUpAdd = function (event) { 
+            var inputTextComponent = event.getSource();
+            var sourceId = event.getSource().getClientId();
+            var okButtonId = sourceId.replace(inputTextComponent.getId(), 'pvAddOK');
+            sourceId = sourceId + '::content';
+            //var input = $('input[id*=' + sourceId + ']');
+            var inp = document.getElementById(sourceId);
+            var okButton = document.getElementById(okButtonId);
+            //alert(inp.value+' : '+okButton.className.indexOf('Disabled'));
+            if (okButton.className.indexOf('Disabled')  > 0  && inp.value != null){
+                AdfCustomEvent.queue(event.getSource(), "textFieldKeyUpEventAdd", {fvalue : inp.value}, false);
+            } else if (okButton.className.indexOf('Disabled')  == -1  && (inp.value == '' || inp.value == null)){
+                AdfCustomEvent.queue(event.getSource(), "textFieldKeyUpEventAdd", {fvalue : inp.value}, false);
+            }
+            
+        }
+        handlePVTextfieldKeyUp = function (event) { 
+            var inputTextComponent = event.getSource();
+            var sourceId = event.getSource().getClientId();
+            var okButtonId = sourceId.replace(inputTextComponent.getId(), 'pvEditOK');
+            sourceId = sourceId + '::content';
+            //var input = $('input[id*=' + sourceId + ']');
+            var inp = document.getElementById(sourceId);
+            var okButton = document.getElementById(okButtonId);
+            //alert(inp.value+' : '+okButton.className.indexOf('Disabled'));
+            if (okButton.className.indexOf('Disabled')  > 0  && inp.value != null){
+                AdfCustomEvent.queue(event.getSource(), "textFieldKeyUpEvent", {fvalue : inp.value}, false);
+            } else if (okButton.className.indexOf('Disabled')  == -1  && (inp.value == '' || inp.value == null)){
+                AdfCustomEvent.queue(event.getSource(), "textFieldKeyUpEvent", {fvalue : inp.value}, false);
+            }
+            
+        }</script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/jgrowl-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/notifications-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/cookies-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/presence-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/invitation-16.js"></script><link rel="stylesheet" type="text/css" afrres="true" href="Document%201361567.1_arquivos/jgrowl-16.css"><link rel="stylesheet" type="text/css" afrres="true" href="Document%201361567.1_arquivos/notification-16.css"><script type="text/javascript" language="javascript">//
+    var legalStatement = 'If you accept the chat invitation, a transcript of your chat with the engineer will be attached to the service request while it is open. For details, review the <a href="{0}" target="_blank">Oracle Global Customer Support Security Practices</a>.'.replace('{0}', 'http://www.oracle.com/us/support/library/customer-support-security-practices-069170.pdf');
+    var notificationHtmlElement = '<div id="notification" > ' +
+      '  <p>{0} has requested to chat about  ' +
+      '  <a target="_blank" href="/epmos/faces/SrDetail?needSrDetailRefresh=true&srNumber={1}">SR {1}: {2}</a></p>' +
+      '  <span id="expireTime">Chat request will close in <span class="chatInvitationCountDown">10</span> minutes </span>' +
+      '  <div id="commandButtonBar"> ' +
+      '    <button id="declineInvitation" title="When you click \'No, I\'m Busy\' a text box will appear, allowing you to provide feedback to the customer on your availability.">No, I\'m Busy</button> ' +
+      '    <button id="acceptInvitation">Accept Invitation</button> ' +
+      '  </div>' +
+      '  <div id="invitationLegalStatement"> ' + legalStatement + ' </div>' +
+      '</div>';
+      
+    var recoverNotificationElement = '<div id="recoverNotification" > ' +
+        '  <p>You have active conversations in progress. Do you want to recover them?</p>' +
+        '  <div id="commandButtonBarRecover"> ' +
+        '    <button id="declineRecoverNotification">No, don\'t recover</button> ' +
+        '    <button id="acceptRecoverNotification">Yes, recover</button> ' +
+        '  </div>' +
+        '</div>';
+      
+    var notificationHtmlElementHeader = '<div class="oracleLogo"><img src="/epmos/faces/common/images/invitations/oracle.png" /></div>' +
+      '<div class="chatLogo">' +
+      '  <img src="/epmos/faces/common/images/chat_icon.png" class="chatIcon"/>' +
+      '  <span class="chatWithOracle">Chat with <span class="chatWithOracle_MOS">My Oracle Support</span></span> ' +
+      '</div>' +
+      '<div style="clear:both" />';
+    INVITATION.config.ROOT_CONTEXT = '/epmos/';
+    INVITATION.config.isScreenReaderMode = false;
+    INVITATION.config.tabbedChatLoader = '/epmos/faces/common/images/spinning-wheel.gif';
+    INVITATION.config.messageForAnInvitationActionAlreadyProcessed = 'This invitation is no longer valid.';
+    INVITATION.config.genericError = 'An unexpected error occured, please try again later.';
+    INVITATION.config.messageForPopupBlockerEnabled = 'Please disable the popup blocker and then click Accept again.';
+    INVITATION.config.invitationAsPlainText = '{0} has requested to chat about  SR {1}: {2}';
+    INVITATION.config.invitationAsHtmlElement = notificationHtmlElement;
+    INVITATION.config.recoverNotificationAsPlainText = 'You have active conversations in progress. Do you want to recover them?';
+    INVITATION.config.recoverNotificationAsHtmlElement = recoverNotificationElement;    
+    INVITATION.config.invitationHeaderForHtmlElement = notificationHtmlElementHeader;
+    INVITATION.config.unreadMessage = 'message';
+    INVITATION.config.unreadMessages = 'messages';
+    INVITATION.config.declineMessage = 'Provide feedback to the customer on your availability';
+    INVITATION.config.declineMessageSubmit = 'Send';
+
+    var enableDesktopNotificationsElement = '<div id="enableDesktopNotifications" > ' +
+        '  <p>Oracle Support might want to chat with you about your open service requests. While you are signed into My Oracle Support, we can pop-up a message to let you know your engineer wants to chat. To allow these pop-up notifications, do two things: <br></p><ol><li>Click Enable Notifications below</li><li>When the browser offers a second prompt for you to allow/show notifications, click that button too.</li></ol>Once this is done, you will see a notification whenever Oracle Support attempts to contact you by chat while you are logged into My Oracle Support.</p> ' +
+        '  <div id="commandButtonBarDesktopNotifications"> ' +
+        '    <button id="rejectDesktopNotifications">Don\'t Enable</button> ' +
+
+        '    <button id="learnMoreDesktopNotifications" onclick="window.open(\'http://www.oracle.com/pls/topic/lookup?ctx=mos_en&id=MOSHP1498\', \'_blank\'); return false;">Learn More</button> ' +
+        '    <button id="acceptDesktopNotifications">Enable Notifications</button> ' +
+        '  </div>' +
+        '</div>';
+    var enableDesktopNotificationsElementHeader = 'Enable Notifications from Oracle Support';
+
+    INVITATION.config.notificationIcon                = "./common/images/new_chat_invite.png";
+    INVITATION.config.notificationAutoCloseInterval   = 20000;
+    INVITATION.config.notificationTitleForInvitations = 'New Chat Invitation[s] from:';
+    INVITATION.config.notificationTextAboutSR         = 'about SR';
+    INVITATION.config.NOTIFICATIONS_COOKIE_NAME       = "mos.notifications";
+    INVITATION.config.NOTIFICATIONS_COOKIE_EXPIRE     = 365 * 5;
+   
+    var USE_JET = 'false' === 'true';    
+    if (USE_JET) {
+      INVITATION.switchToJet();
+    }
+   
+    function enableDesktopNotifications() {
+      if (COOKIES.getCookieValue(INVITATION.config.NOTIFICATIONS_COOKIE_NAME)) {
+        return;
+      }
+      if ((typeof notify !== 'undefined') && notify.isSupported) {
+        if (notify.permissionLevel() === notify.PERMISSION_DEFAULT) {
+          var rejected = true,
+              elementToGetFocus = false ? '.jGrowl-header > h3' : '#acceptDesktopNotifications';
+          $.jGrowl.defaults.closeTemplate = "";
+          $.jGrowl(enableDesktopNotificationsElement, {
+            theme: 'desktop-notifications',
+            // make JAWS happy with an h3 element
+            header : '<h3>' + enableDesktopNotificationsElementHeader + '</h3>', 
+            closeDuration: 100,
+            sticky: true,
+            beforeOpen : function (notificationWindow, m, o) {
+              $(notificationWindow).width("500px");
+            },
+            afterOpen: function (notificationWindow, m, o) { 
+
+              $(notificationWindow).find("#acceptDesktopNotifications").click(function () {
+                rejected = false;              
+                $(notificationWindow).children("div.jGrowl-close").click();              
+                notify.requestPermission();
+              });
+              $(notificationWindow).find("#rejectDesktopNotifications").click(function () {
+                $(notificationWindow).children("div.jGrowl-close").click();              
+              });
+              // hide close button
+              $(notificationWindow).find('.jGrowl-close').hide();
+              // focus on header if screen reader, otherwise on enable notifications button
+              $(notificationWindow).find(elementToGetFocus).attr('tabindex', 0);
+              $(notificationWindow).find(elementToGetFocus).focus();
+            },
+            close: function() {
+              if (rejected) {
+                COOKIES.setCookieValue(INVITATION.config.NOTIFICATIONS_COOKIE_NAME, false, INVITATION.config.NOTIFICATIONS_COOKIE_EXPIRE);
+              }
+            }
+          });
+        }
+      }
+    }
+
+    if (window.addEventListener) {
+      window.addEventListener('load', function () {
+        enableDesktopNotifications();      
+      }, false);      
+    }
+
+    function displayLoadingIndicator(browserWindow) {
+      if(!browserWindow.document.title) {
+        var tabbedChatLoader = '/epmos/faces/common/images/spinning-wheel.gif';
+        browserWindow.document.write('<img src="' + tabbedChatLoader + '" style="position: absolute; left: 50%; top: 50%; width: 32px; height: 32px; margin: -16px 0 0 -16px;" />');
+      }
+    }
+    
+    function openChatWindowForCustomer(event) {
+      var button = event.getSource();
+      var chatSrNumber = button.getProperty('srNumber');
+
+      var isJet = INVITATION.isJet();
+      if (isJet) {
+        // Switch to ADF temporary, because JET doesn't support CIC yet
+        INVITATION.switchToAdf();
+      }
+
+      var chatWindow = INVITATION.openChatWindow();
+      
+      var onError = function() {
+        if (chatWindow && !chatWindow.document.title) { // about:blank
+          chatWindow.close();
+        }
+        if (arguments.length >= 1) {
+          var error = arguments[0].error;
+          var errorMessage = arguments[0].errorMessage;
+          if ('ERROR_CONTACT_AVAILABILITY_CHANGED' === error) {
+            alert('Support engineer availability has changed. Please refresh SR and try again.');
+          } else if ('ERROR_CREATE_CHAT_CONVERSATION' === error)  {
+            alert('Chat cannot be initiated. Please refresh the SR page and try again.' + '\n\n' + errorMessage);
+          } else if ('ERROR_INVITE_ON_SR_PENDING' === error) {  
+            alert('Chat cannot be initiated because your assigned Support Engineer has already sent a chat request on this SR that is awaiting your response. Please check all My Oracle Support windows for pending chat invitations. '); 
+          } else {
+            alert('An unexpected error occured, please try again later.');
+          }
+        } else {
+          alert('An unexpected error occured, please try again later.');                
+        }
+      }
+      
+      var appName = true ? 'MOSCP' : 'MOSEP';
+      jQuery.ajax( {
+        type: 'POST',
+        dataType: 'json',
+        url : '/epmos/rest/mos/chat/1.0/invite-support-engineer.jsp', 
+        data: {srNumber: chatSrNumber, applicationName: appName},
+        complete: function() {
+          if (isJet) {
+            // Switch back to JET for EIC
+            INVITATION.switchToJet();
+          }
+        },
+        error: function() {
+          onError();  
+        },
+        success : function (result) {            
+          if (result) {
+            if (result.success) {
+              if (!chatWindow.document.title) { // about:blank
+                chatWindow.location = INVITATION.getChatWindowUrl();
+              } else {
+                chatWindow.ignorePageUnload = true;
+                chatWindow.location.reload();
+              }
+              chatWindow.focus();                
+            } else {
+              onError(result);
+            }
+          } else {
+            onError();  
+          }
+       } 
+      });
+      
+    }
+  //</script><script type="text/javascript" language="javascript">//
+    var includeSocial = true;
+    
+    // default poll interval when active in ms.
+    PRESENCE.DEFAULT_ACTIVE_POLL_INTERVAL = 30000;
+    PRESENCE.MAX_POLLING_TIME = 900000;
+    PRESENCE.userAvailable = true;
+
+    if(includeSocial && PRESENCE.userAvailable) {
+        try {
+            PRESENCE.initPresence();
+            if(document.startPoll) {
+                document.startPoll();
+            }
+        } catch (err) {
+            if(typeof(console) != 'undefined')
+              console.log('Error: ' + err);
+        }
+    }
+    //</script><script type="text/javascript" language="javascript">var popupShown = false;
+
+        function readCookie(name)
+        {
+          var nameEQ = name + "=";
+          var cookies = document.cookie.split(';');
+          for(var i=0;i < cookies.length;i++)
+          {
+            var c = cookies[i];
+            while (c.charAt(0)==' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+            {
+              return unescape(c.substring(nameEQ.length, c.length));
+            }
+          }
+          return null;
+        }
+        
+        function readExpCookie() {
+            var timeoutCookie = readCookie('ORASSO_AUTH_HINT');
+            var expTimestamp = 0;
+            if (timeoutCookie && timeoutCookie.length > 5) {
+                var utcTimeout = timeoutCookie.substring(5);
+                
+                if (utcTimeout.length == 14) {
+                    var year	= utcTimeout.substring(0, 4);
+                    var month	= utcTimeout.substring(4, 6);
+                    var day	= utcTimeout.substring(6, 8);
+                    var hour	= utcTimeout.substring(8, 10);
+                    var min	= utcTimeout.substring(10, 12);
+                    var sec	= utcTimeout.substring(12, 14);
+                    
+                    var timeoutDate = new Date(year, month - 1, day, hour, min, sec, 0);
+                    expTimestamp = timeoutDate.getTime();
+                }
+            }
+                
+            if (expTimestamp < 1)
+                expTimestamp = -1;
+            
+            return expTimestamp;
+        }
+        
+        function showPopup(timeout, target) {
+            if (target) {
+                var serverLink = AdfPage.PAGE.findComponent(target);
+                if (serverLink != null) {
+                    AdfCustomEvent.queue(serverLink, 'showPopup', {toLevel:timeout}, true);
+                    popupShown = true;
+                } else {
+                    setTimeout(function(){checkForTimeout(target);}, 1*60*1000);
+                }
+            } else {
+                var timeoutMessage = 'Your SSO login will expire in ' + timeout + ' minutes.  Save the work in all your open applications.  Failure to do this may result in loss of data. \n\nLogout and login back into one application to force an SSO re-login.  This may also require you to re-login to other open applications.\n\nSSO logins expire after 8 hours.'
+                alert(timeoutMessage);
+            }
+        }
+        
+        function hideSsoToPopup(target) {
+            if (target) {
+                var serverLink = AdfPage.PAGE.findComponent(target);
+                if (serverLink != null) {
+                    AdfCustomEvent.queue(serverLink, 'hidePopup', {source:'update'}, true);
+                    popupShown = false;
+                }
+            }
+        }
+        
+        function checkForTimeout(target) {
+            var expTimestamp = readExpCookie();
+                
+            if (expTimestamp != -1) {
+                var d = new Date();
+                var nowUTC = d.getTime() + d.getTimezoneOffset()*60*1000;
+                
+                var timeDiff = expTimestamp - nowUTC;
+                if (timeDiff <= 1800000) { // 30 mins
+                    if (timeDiff <= 1200000) { // 20 mins
+                        if (timeDiff <= 600000) { // 10 mins
+                            if (timeDiff <= 300000) {// 5 mins - show expired dialog
+                                if (timeDiff > 5000) { // do not make call to server if session is expiring
+                                    showPopup(0, target);
+                                }
+                            } else {
+                                showPopup(10, target);
+                            }
+                        } else {
+                            showPopup(20, target);
+                        }
+                    } else {
+                        showPopup(30, target);
+                    }
+                } else if (popupShown) {
+                    hideSsoToPopup(target);
+                }
+            }
+        }
+        
+        function initializeTimeout(target) {
+            window.onfocus = function(){checkForTimeout(target);};
+        
+            checkForTimeoutDriver(target);
+        }
+        
+        function checkForTimeoutDriver(target) {
+            checkForTimeout(target);
+            setTimeout(function(){checkForTimeoutDriver(target);}, 5*60*1000);
+        }
+        
+        function clientHidePopup(event) {
+            popupShown = false;
+            var source = event.getSource();
+            AdfCustomEvent.queue(source, 'hidePopup', {source:'remind'}, true);
+        }</script><link rel="stylesheet" type="text/css" afrres="true" href="Document%201361567.1_arquivos/oracleSuggest-16.css"><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/oracleSuggest-16.js"></script><script type="text/javascript" language="javascript" src="Document%201361567.1_arquivos/globalSearchBarUtil-16.js"></script><script type="text/javascript" language="javascript">function unsavedDataHandlerHook(event) {
+        try {
+          if(unsavedDataHandler) {
+            if(unsavedDataHandler(event))
+              return;
+          }
+        } catch(ex) {
+          ;
+        }
+    }
+
+    function menuTabClicked(event) {
+        var inputText = event.getSource();
+        var value = inputText.getProperty('tabName');
+
+        //need to call javascript clickstream.js in a separate call for logOmnitureTrackClickEvent
+        // log clickstream data into Omniture server
+        //logOmnitureTrackClickEvent(value, 'NAV', 'CLICK');
+
+        //notify server to log clickstream data into portalDB
+        //used to send the curently selected source
+       var sourceShortName = $('input[id*="selectedSourceShortName"]').val();
+       AdfCustomEvent.queue(inputText, "notifyServer",
+         {
+            element : value ,
+            shortName : sourceShortName
+         }, true);
+
+    }</script><script type="text/javascript" language="javascript">function externalLinkClicked(event) {
+        var inputText = event.getSource();
+        var value = inputText.getProperty('linkName');
+        AdfCustomEvent.queue(inputText, "logClickExternalLink",
+         {
+            element : value
+         }, true);
+    }
+
+    function kmAdvSearchClicked(event) {
+        var commandLink = event.getSource();
+        AdfCustomEvent.queue(commandLink, "advSearchClicked", {}, true);
+    }</script><script type="text/javascript" language="javascript">function refreshFavMenu(event) {
+        var button = event.getSource();
+        AdfCustomEvent.queue(button, "refreshList", {}, true);
+    }
+    
+    function refreshFavManager(event) {
+        var button = event.getSource();
+        AdfCustomEvent.queue(button, "refreshData", {}, true);
+    }</script><script type="text/javascript" language="javascript">validateSearchTerm = function(event){
+                        event.cancel();
+                    }</script><script type="text/javascript" language="javascript">function handleFBClick (event) {
+            var link = event.getSource();
+            var surveyId = link.getProperty('surveyId');
+            AdfCustomEvent.queue(link, "logFBClickStream", {surveyId:surveyId}, true);
+        }
+
+        function getTopOffset(h) {
+            return (window.screen.height / 2)-(h/2);
+        }
+
+        function getLeftOffset(w) {
+            return (window.screen.width / 2)-(w/2);
+        }</script><script type="text/javascript" language="javascript">function hidePopup(event)
+      {
+          event.cancel();
+          var source = event.getSource();
+          var popup = source.getParent();
+          var elemFound = false;
+          while (!elemFound)
+          {
+              try 
+              {
+                  elemFound = popup.isPopupVisible();
+              }
+              catch (err)
+              {
+                  popup = popup.getParent();
+              }
+          }
+          popup.hide();
+          return false;
+      }</script></head><body class="x14t p_AFPrintable p_AFMaximized"><div style="left: -4px; top: 0px; width: 29px; display: none;" id="searchBar__searchSuggestions" class="searchBar__searchSuggestionsStyle"></div><noscript>This page uses JavaScript and requires a JavaScript enabled browser.Your browser is not JavaScript enabled.</noscript><iframe name="afr::PushIframe" id="afr::PushIframe" style="display:none" src="Document%201361567.1_arquivos/blank.htm"></iframe><input id="oracle.adf.view.faces.RICH_UPDATE" type="hidden"><script type="text/javascript">AdfDhtmlPage.__frameBusting("differentOrigin");</script><div id="d1"><a id="d1::skip" href="#" class="x14v">Skip to content</a><div id="kmPgTpl:pslMain" class="xpj"><div></div><div></div><div id="kmPgTpl:pt_pgl1" class="x1a"><div><table summary="" id="kmPgTpl:psl1" style="background-color:White;" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td rowspan="1"></td><td rowspan="1" valign="top"><img id="kmPgTpl:s1" src="Document%201361567.1_arquivos/t.gif" alt="" height="0px" width="10"></td><td valign="top" width="100%"><div id="kmPgTpl:r1" class="xpg"><div id="kmPgTpl:r1:0:docMainPanel" class="x1a"><div><span style="display:none">9876</span></div><div><div id="kmPgTpl:r1:0:psl1" class="xpj kmDocBorderExternal"><div id="kmPgTpl:r1:0:pgl14" class="x1a"><div><img id="kmPgTpl:r1:0:s111" src="Document%201361567.1_arquivos/t.gif" alt="" height="5" width="10"></div><div><table summary="" id="kmPgTpl:r1:0:Headpgl" class="x1a" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><div id="kmPgTpl:r1:0:ph22" class="x6v" style="display:none"><table class="xtx" summary="" border="0" cellpadding="0" cellspacing="0" width="0"><tbody><tr><td class="xue">&nbsp;</td><td class="xve"><table summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td class="x22o"></td><td id="kmPgTpl:r1:0:ph22::_afrTtxt"><div title="Doc ID " class="xu2"><h1 class="xdl ">Doc ID </h1></div></td><td id="kmPgTpl:r1:0:ph22::_afrEps"><div class="xdl  xw8" style="display: none" title="Doc ID ">…</div></td><td id="kmPgTpl:r1:0:ph22::_afrStr" style="width: 100%"></td></tr></tbody></table></td><td class="xuw">&nbsp;</td></tr></tbody></table><div class="xwb"><div></div></div></div></td></tr></tbody></table></div><div><table id="kmPgTpl:r1:0:tl5" summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr id="kmPgTpl:r1:0:rl12"><td id="kmPgTpl:r1:0:cf40" width="10"><img id="kmPgTpl:r1:0:s13" src="Document%201361567.1_arquivos/t.gif" alt="" height="10" width="10"></td><td id="kmPgTpl:r1:0:cf49" align="left"><img id="kmPgTpl:r1:0:i31" title="Customer Recommended" alt="Customer Recommended" class="xjd" src="Document%201361567.1_arquivos/CustomerRecommended.gif"><span id="kmPgTpl:r1:0:ol22" class="xq" style="font-weight:bold;color:Black;font-size:130%"><label>Minact-Scn Master-Status: Grec-Scn Messages In Trace File (Doc ID 1361567.1)</label></span></td><td id="kmPgTpl:r1:0:cf50"><img id="kmPgTpl:r1:0:s6" src="Document%201361567.1_arquivos/t.gif" alt="" height="10" width="20"></td></tr></tbody></table></div><div><hr id="kmPgTpl:r1:0:s4" class="x1j"></div></div><div></div><div></div><div id="kmPgTpl:r1:0:kmDocPanel" class="xpj x1a" style="width:100%;height:100%;"><div><img id="kmPgTpl:r1:0:s23" src="Document%201361567.1_arquivos/t.gif" alt="" height="5" width="10"></div><div><table id="kmPgTpl:r1:0:tl7" style="table-layout:fixed; overflow:hidden;" summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr id="kmPgTpl:r1:0:rl14"><td id="kmPgTpl:r1:0:cf54" style="overflow:hidden; vertical-align:top;"><div id="kmPgTpl:r1:0:pgl25" class="x1a" style="overflow:auto;"><div><span id="kmPgTpl:r1:ot71" class="kmContent" style="font-size:small; color:Black;"><!-- class=km before in this document marker --><p><b>In this Document</b><br>
+</p><table><tbody><tr><td width="0"></td><td><a href="#SYMPTOM">Symptoms</a></td></tr></tbody></table>
+<table><tbody><tr><td width="0"></td><td><a href="#CHANGE">Changes</a></td></tr></tbody></table>
+<table><tbody><tr><td width="0"></td><td><a href="#CAUSE">Cause</a></td></tr></tbody></table>
+<table><tbody><tr><td width="0"></td><td><a href="#FIX">Solution</a></td></tr></tbody></table>
+<table><tbody><tr><td width="0"></td><td><a href="#REF">References</a></td></tr></tbody></table><hr size="1"><p>
+<br>
+<!-- class=km before applies to --></p><h2 class="km">Applies to:  </h2>
+Oracle Database - Enterprise Edition - Version 11.2.0.2 and later<br>Information in this document applies to any platform.<br>
+PLEASE DO NOT USE THIS SOLUTION ON AN EXADATA MACHINE because it impacts specific mechanisms.<br>
+
+<h2 class="km"><a name="SYMPTOM"></a>Symptoms</h2>
+<p><br>Oracle 11g Enterprise Edition Release 11.2.0.2.0<br>MMON dumping 
+.trc files continuously "minact-scn master-status: 
+grec-scn:0x0000.00000000 gmin-scn:0x0000.00000000 
+gcalc-scn:0x0000.00000000"<br><br><span id="form1:panelPage1">trace file snip:<br><br></span></p>
+<div class="kmcodeblock" style="width: 95%;"><span id="form1:panelPage1">*** 2011-05-17 02:13:33.645<br>minact-scn master-status: grec-scn:0x0016.5c8729e2 gmin-scn:0x0016.5c8729e2 gcalc-scn:0x0016.5c8729e2<br><br>*** 2011-05-17 02:18:35.478<br>minact-scn master-status: grec-scn:0x0016.5c872a3a gmin-scn:0x0016.5c872a3a gcalc-scn:0x0016.5c872a3a<br>minact-scn master-status: grec-scn:0x0016.5c872b2b gmin-scn:0x0016.5c872b2b gcalc-scn:0x0016.5c872b2b<br><br>*** 2011-05-17 02:28:40.258<br>minact-scn master-status: grec-scn:0x0016.5c872be8 gmin-scn:0x0016.5c872be8 gcalc-scn:0x0016.5c872be8<br><br>*** 2011-05-17 02:33:40.682<br>minact-scn master-status: grec-scn:0x0016.5c872d4d gmin-scn:0x0016.5c872d4d gcalc-scn:0x0016.5c872d4d<br>minact-scn master-status: grec-scn:0x0016.5c872e13 gmin-scn:0x0016.5c872e13 gcalc-scn:0x0016.5c872e13 </span></div>
+<h2 class="km"><a name="CHANGE"></a>Changes</h2>
+<pre>Upgrade to 11G</pre>
+<h2 class="km"><a name="CAUSE"></a>Cause</h2>
+<p>Bug 11891463<br><br>The issue is similar with BUG 11891463 - MINACT-SCN MASTER-STATUS MESSAGES WRITTEN TO MMON TRACE FILE</p>
+<h2 class="km"><a name="FIX"></a>Solution</h2>
+<p><strong>PLEASE DO NOT USE THIS SOLUTION ON AN EXADATA MACHINE because it impacts specific mechanisms.</strong></p>
+<p>First&nbsp; Solution Is - <br><br>&nbsp;follow the below mentioned instructions to set the parameter _enable_minscn_cr correctly.<br><br>1) &gt;</p>
+<div class="kmcodeblock" style="width: 95%;">show parameter pfile&nbsp;&nbsp;</div>
+<p>&nbsp; <br>check whether your database using the spfile<br><br>2) Use the following command to set the "_enable_minscn_cr" parameter.<br><br>&nbsp;</p>
+<div class="kmcodeblock" style="width: 95%;">alter system set "_enable_minscn_cr"=false scope=spfile;</div>
+<p><span id="form1:panelPage1"><br></span>enable/disable minscn optimization for CR<br><br>3) Restart the database.<br><br>4) Check the issue is resolved or not-<br><br>&nbsp;In some cases it gets resolved and in some cases you have to apply the second solution . <br><br>Second Solution -&nbsp; <br>&nbsp;you can set&nbsp; in init.ora</p>
+<div class="kmcodeblock" style="width: 95%;">"_smu_debug_mode=134217728"</div>
+<p><span id="form1:panelPage1"><br></span><span id="form1:panelPage1">After setting above parameter&nbsp; the message will not be generated but </span><span id="form1:panelPage1">This will&nbsp; disable min active SCN optimization feature.</span><br><br>"min
+ active scn" introduced in 11g which is supposed to enhance delayed 
+block cleanout operations. Note : - Disabling min active scn <span id="form1:panelPage1">optimization feature will not have any impact on database</span>.<br><br></p>
+<h2 class="km"><a name="REF"></a>References</h2><br><a href="https://support.oracle.com/epmos/faces/DocumentDisplay?parent=DOCUMENT&amp;sourceId=1361567.1&amp;id=1297450.1">NOTE:1297450.1</a> -  'minact-scn: useg scan erroring out with error e:1555'<br><a href="https://support.oracle.com/epmos/faces/DocumentDisplay?parent=DOCUMENT&amp;sourceId=1361567.1&amp;id=159377.1">NOTE:159377.1</a> - How to Purge a Distributed Transaction from a Database<br> <a href="https://support.oracle.com/epmos/faces/BugDisplay?parent=DOCUMENT&amp;sourceId=1361567.1&amp;id=11891463" target="_blank">BUG:11891463</a> - MINACT-SCN MASTER-STATUS MESSAGES WRITTEN TO MMON TRACE FILE<br>
+</span></div></div></td></tr></tbody></table></div><div><img id="kmPgTpl:r1:0:s51" src="Document%201361567.1_arquivos/t.gif" alt="" height="10" width="10"><span id="kmPgTpl:r1:0:pgl29" class="x1a"><img id="kmPgTpl:r1:0:s52" src="Document%201361567.1_arquivos/t.gif" alt="" height="10" width="10">Didn't find what you are looking for?<img id="kmPgTpl:r1:0:s53" src="Document%201361567.1_arquivos/t.gif" alt="" height="10" width="10"></span></div><div><img id="kmPgTpl:r1:0:s5" src="Document%201361567.1_arquivos/t.gif" alt="" height="20" width="10"></div></div><div></div><div></div></div></div></div><div style="display:none"><a id="kmPgTpl:r1:0:_afrCommandDelegate" class="xfe"></a></div></div></td></tr></tbody></table></div><div><div id="kmPgTpl:pt_psl2" class="xpj x23q" style="height:25px;"><div></div><div></div><div></div><div></div><table summary="" id="kmPgTpl:pt_pgl3" class="x1a" align="center" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td><table summary="" id="kmPgTpl:svFt2:pgFooter" class="xq1 x1a" align="center" border="0" cellpadding="0" cellspacing="0"><tbody><tr></tr></tbody></table></td></tr></tbody></table></div></div></div><div></div><div></div></div><span id="d1::iconC" style="display:none"><span id="af_messages::info-icon"><img src="Document%201361567.1_arquivos/info.png" title="Information" alt="Information" height="16" border="0" width="16"></span><span id="af_message::warning-icon"><img src="Document%201361567.1_arquivos/warning.png" title="Warning" alt="Warning" height="16" border="0" width="16"></span><span id="af_messages::fatal-icon"><img src="Document%201361567.1_arquivos/error.png" title="Critical Error" alt="Critical Error" height="16" border="0" width="16"></span><span id="af_message::info-icon"><img src="Document%201361567.1_arquivos/info.png" title="Information" alt="Information" height="16" border="0" width="16"></span><span id="af_message::fatal-icon"><img src="Document%201361567.1_arquivos/error.png" title="Critical Error" alt="Critical Error" height="16" border="0" width="16"></span><span id="af_messages::warning-icon"><img src="Document%201361567.1_arquivos/warning.png" title="Warning" alt="Warning" height="16" border="0" width="16"></span><span id="af_message::confirmation-icon"><img src="Document%201361567.1_arquivos/confirmation.png" title="Confirmation" alt="Confirmation" height="16" border="0" width="16"></span><span id="af_message::error-icon"><img src="Document%201361567.1_arquivos/error.png" title="Error" alt="Error" height="16" border="0" width="16"></span><span id="af_messages::error-icon"><img src="Document%201361567.1_arquivos/error.png" title="Error" alt="Error" height="16" border="0" width="16"></span><span id="af_messages::confirmation-icon"><img src="Document%201361567.1_arquivos/confirmation.png" title="Confirmation" alt="Confirmation" height="16" border="0" width="16"></span></span><div id="afr::DlgSrvPopupCtnr"><div id="afr::DlgSrvPopupCtnr::content" style="display:none"></div></div><div id="afr::UtilPopupCtnr" _pid="j_id9" _did="j_id10" _dmw="250" style="display:none"><div id="j_id9" style="display:none"><div style="top:auto;right:auto;left:auto;bottom:auto;width:auto;height:auto;position:relative;" id="j_id9::content"><div id="j_id10" class="x17j"><div class="x18r" _afrpanelwindowbackground="1"></div><div class="x18r" _afrpanelwindowbackground="1"></div><div class="x18r" _afrpanelwindowbackground="1"></div><div class="x18r" _afrpanelwindowbackground="1"></div><table summary="" class="x17q" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="x17s" id="j_id10::_hse">&nbsp;</td><td class="x17u" id="j_id10::_hce"><table summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td><div id="j_id10::_ticn" class="x18l" style="display:none"></div></td><td class="x17y" id="j_id10::tb"><div id="j_id10::_ttxt" class="x18j"></div></td></tr></tbody></table></td><td class="x17w" id="j_id10::_hee">&nbsp;</td></tr><tr><td class="x183" id="j_id10::_cse">&nbsp;</td><td class="x1o" id="j_id10::contentContainer"></td><td class="x185" id="j_id10::_cee">&nbsp;</td></tr><tr><td class="x187" id="j_id10::_fse"><div></div></td><td class="x189" id="j_id10::_fce"><table summary="" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td class="x18c" id="j_id10::_fcc"><button type="button" id="j_id10::ok" class="xf6 p_AFTextOnly">OK</button><button type="button" id="j_id10::cancel" class="xf6 p_AFTextOnly">Cancel</button></td><td align="left" valign="bottom"><div class="x18i"><a tabindex="-1" class="x18g" id="j_id10::_ree" title="Resize"></a></div></td></tr></tbody></table></td><td class="x18b" id="j_id10::_fee"><div></div></td></tr></tbody></table></div></div></div></div></div><script type="text/javascript" src="Document%201361567.1_arquivos/dnd-11.js"></script><script type="text/javascript" src="Document%201361567.1_arquivos/iedit-11.js"></script><script type="text/javascript" src="Document%201361567.1_arquivos/uncommon-11.js"></script><script type="text/javascript" src="Document%201361567.1_arquivos/stretch-11.js"></script><script type="text/javascript" src="Document%201361567.1_arquivos/detail-11.js"></script><script type="text/javascript" src="Document%201361567.1_arquivos/box-11.js"></script><script type="text/javascript" src="Document%201361567.1_arquivos/region-11.js"></script><script type="text/javascript" src="Document%201361567.1_arquivos/header-11.js"></script><script type="text/javascript" src="Document%201361567.1_arquivos/eum-11.js"></script><script type="text/javascript">AdfBootstrap._onLoad=function (){if (AdfPage.PAGE.__checkRichResponseDirty()) return;var exScripts=AdfBootstrap._extendedScripts;for (var i=0;i<exScripts.length;i++){exScripts[i]()};AdfBootstrap._extendedScripts=null;AdfPage.PAGE.__onLoad();};window.onload=AdfBootstrap._onLoad;</script><script type="text/javascript">AdfBootstrap._extendedScripts=[function(){loadDocumentScripts(false,'');},function(){window.print();}];</script></body><!--Created by Oracle ADF (Version information hidden), accessibility (mode:default, contrast:standard, size:medium), skin:ep.mos (mos)--></html>

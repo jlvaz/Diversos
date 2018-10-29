@@ -1,0 +1,172 @@
+Detectando fragmentação com DBMS_ADVISOR
+Posted by ricardo@nervinformatica.com.br
+
+Vamos utilizar o DBMS_ADVISOR para detectar fragmentação causada por diversos tipos de operações com UPDATEs e DELETEs.
+
+Vamos criar 4 tabelas para o teste, com cerca de 1.000.000 de linhas cada, e com um índice.
+
+SQL> CREATE TABLE T1 AS SELECT * FROM ALL_OBJECTS;
+
+Tabela criada.
+
+SQL> INSERT INTO T1 SELECT * FROM T1;
+
+64786 linhas criadas.
+
+SQL> INSERT INTO T1 SELECT * FROM T1;
+
+129572 linhas criadas.
+
+SQL> INSERT INTO T1 SELECT * FROM T1;
+
+259144 linhas criadas.
+
+SQL> INSERT INTO T1 SELECT * FROM T1;
+
+518288 linhas criadas.
+
+SQL> COMMIT;
+
+Commit concluido.
+
+SQL> CREATE TABLE T2 AS SELECT * FROM T1;
+
+Tabela criada.
+
+SQL> CREATE TABLE T3 AS SELECT * FROM T1;
+
+Tabela criada.
+
+SQL> CREATE TABLE T4 AS SELECT * FROM T1;
+
+Tabela criada.
+
+SQL> CREATE INDEX T1_IDX ON T1(OBJECT_NAME);
+
+Indice criado.
+
+SQL> CREATE INDEX T2_IDX ON T2(OBJECT_NAME);
+
+Indice criado.
+
+SQL> CREATE INDEX T3_IDX ON T3(OBJECT_NAME);
+
+Indice criado.
+
+SQL> CREATE INDEX T4_IDX ON T4(OBJECT_NAME);
+
+Indice criado.
+
+SQL>
+
+Na tabela T2, vamos executar um DELETE massivo.
+
+SQL> DELETE FROM T2 WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas excluidas.
+
+SQL> COMMIT;
+
+Commit concluido.
+
+SQL>
+
+Na tabela T3, vamos executar um UPDATE para “menos” – um valor menor do que estava antes.
+
+SQL> UPDATE T3 SET OBJECT_NAME = 'A' WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas atualizadas.
+
+SQL> UPDATE T3 SET OWNER = 'A' WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas atualizadas.
+
+SQL> UPDATE T3 SET OBJECT_TYPE = 'A' WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas atualizadas.
+
+SQL> COMMIT;
+
+Commit concluido.
+
+SQL>
+
+Na tabela T4, vamos executar um UPDATE para “mais” – um valor maior do que estava antes.
+
+SQL> UPDATE T4 SET OBJECT_NAME = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas atualizadas.
+
+SQL> UPDATE T4 SET SUBOBJECT_NAME = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas atualizadas.
+
+SQL> UPDATE T4 SET OWNER = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas atualizadas.
+
+SQL> UPDATE T4 SET EDITION_NAME = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas atualizadas.
+
+SQL> UPDATE T4 SET DEFAULT_COLLATION = 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA' WHERE OBJECT_TYPE = 'SYNONYM';
+
+199600 linhas atualizadas.
+
+SQL> COMMIT;
+
+E agora executar o DBMS_ADVISOR na TABLESPACE USERS toda – muito mais simples do que verificar tabela a tabela.
+
+SQL> DECLARE
+  2          vNAME VARCHAR2(100);
+  3          vDESCR VARCHAR2(500);
+  4          vOBJ_ID NUMBER;
+  5  BEGIN
+  6          vNAME:='Portilho Segment Advisor Task';
+  7          vDESCR:='Portilho Segment Advisor Task';
+  8          DBMS_ADVISOR.CREATE_TASK(ADVISOR_NAME=>'Segment Advisor',TASK_NAME=>'Portilho Segment Advisor Task',TASK_DESC=>'Portilho Segment Advisor Task');
+  9          DBMS_ADVISOR.CREATE_OBJECT(TASK_NAME=>'Portilho Segment Advisor Task', OBJECT_TYPE=>'TABLESPACE', ATTR1=>'USERS', ATTR2=>'NULL', ATTR3=>NULL, ATTR4=>NULL, ATTR5=>NULL, OBJECT_ID=>vOBJ_ID);
+ 10          DBMS_ADVISOR.SET_TASK_PARAMETER(TASK_NAME=>vNAME, PARAMETER=>'RECOMMEND_ALL', VALUE=>'TRUE');
+ 11          DBMS_ADVISOR.EXECUTE_TASK(vNAME);
+ 12  END;
+ 13  /
+
+Procedimento PL/SQL concluido com sucesso.
+
+SQL>
+
+E agora vamos verificar as sugestões a respeito.
+
+SQL> SELECT FINDING_ID, MESSAGE FROM DBA_ADVISOR_FINDINGS WHERE TASK_NAME='Portilho Segment Advisor Task' ORDER BY FINDING_ID;
+
+FINDING_ID MESSAGE
+---------- ------------------------------------------------------------------------------------------------------------------------
+         1 Ative a movimentac?o de linha da tabela RICARDO.T2 e faca uma compactac?o; a economia estimada e de 35380874 bytes.
+         2 Ative a movimentac?o de linha da tabela RICARDO.T3 e faca uma compactac?o; a economia estimada e de 15135773 bytes.
+         3 O espaco livre nos objetos e menor que 10MB.
+         4 O objeto possui linhas encadeadas que podem ser removidas pela reorganizac?o.
+         5 O espaco livre nos objetos e menor que 10MB.
+         6 O espaco livre nos objetos e menor que 10MB.
+         7 O espaco livre nos objetos e menor que 10MB.
+         8 Faca uma compactac?o; a economia estimada e de 11301815 bytes.
+         9 Faca uma compactac?o; a economia estimada e de 24995460 bytes.
+
+9 linhas selecionadas.
+
+SQL>
+
+E podemos verificar também os detalhes a respeito do espaço que pode ser recuperado, incluindo informações a respeito de linhas encadeadas.
+
+SQL> SELECT FINDING_ID, MORE_INFO FROM DBA_ADVISOR_FINDINGS WHERE TASK_NAME='Portilho Segment Advisor Task' ORDER BY FINDING_ID;
+
+FINDING_ID MORE_INFO
+---------- ----------------------------------------------------------------------------------------------------
+         1 Espaco Alocado:176160768: Espaco Utilizado:140779894: Espaco Reutilizavel :35380874:
+         2 Espaco Alocado:176160768: Espaco Utilizado:161024995: Espaco Reutilizavel :15135773:
+         3 Espaco Alocado:175112192: Espaco Utilizado:166620473: Espaco Reutilizavel :8491719:
+         4 pode-se remover 15 por cento de linhas encadeadas por reorganizac?o.
+         5 Espaco Alocado:293601280: Espaco Utilizado:284406440: Espaco Reutilizavel :9194840:
+         6 Espaco Alocado:57671680: Espaco Utilizado:56666708: Espaco Reutilizavel :1004972:
+         7 Espaco Alocado:57671680: Espaco Utilizado:49238466: Espaco Reutilizavel :8433214:
+         8 Espaco Alocado:63963136: Espaco Utilizado:52661321: Espaco Reutilizavel :11301815:
+         9 Espaco Alocado:109051904: Espaco Utilizado:84056444: Espaco Reutilizavel :24995460:

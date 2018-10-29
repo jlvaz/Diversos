@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="http://nervinformatica.com.br/blog/xmlrpc.php">
+
+<title>DBSAT – Oracle Database Security Assessment Tool – Blog Nerv Informática</title>
+<link rel="dns-prefetch" href="http://s0.wp.com/">
+<link rel="dns-prefetch" href="http://s.gravatar.com/">
+<link rel="dns-prefetch" href="http://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="http://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="Feed para Blog Nerv Informática »" href="http://nervinformatica.com.br/blog/index.php/feed/">
+<link rel="alternate" type="application/rss+xml" title="Feed de comentários para Blog Nerv Informática »" href="http://nervinformatica.com.br/blog/index.php/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="Feed de comentários para Blog Nerv Informática » DBSAT – Oracle Database Security Assessment Tool" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/feed/">
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"http:\/\/nervinformatica.com.br\/blog\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.5"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/wp-emoji-release.js" type="text/javascript" defer="defer"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="maxwell-stylesheet-css" href="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/style.css" type="text/css" media="all">
+<style id="maxwell-stylesheet-inline-css" type="text/css">
+.site-description { position: absolute; clip: rect(1px, 1px, 1px, 1px); width: 1px; height: 1px; overflow: hidden; }
+</style>
+<link rel="stylesheet" id="genericons-css" href="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/genericons.css" type="text/css" media="all">
+<link rel="stylesheet" id="maxwell-default-fonts-css" href="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/css.css" type="text/css" media="all">
+<link rel="stylesheet" id="themezee-related-posts-css" href="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/themezee-related-posts.css" type="text/css" media="all">
+<link rel="stylesheet" id="social-logos-css" href="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/social-logos.css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack_css-css" href="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/jetpack.css" type="text/css" media="all">
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/jquery.js"></script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/jquery-migrate.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var related_posts_js_options = {"post_heading":"h4"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/related-posts.js"></script>
+<!--[if lt IE 9]>
+<script type='text/javascript' src='http://nervinformatica.com.br/blog/wp-content/themes/maxwell/js/html5shiv.min.js?ver=3.7.3'></script>
+<![endif]-->
+<script type="text/javascript">
+/* <![CDATA[ */
+var maxwell_menu_title = "Navigation";
+/* ]]> */
+</script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/navigation.js"></script>
+<link rel="https://api.w.org/" href="http://nervinformatica.com.br/blog/index.php/wp-json/">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://nervinformatica.com.br/blog/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://nervinformatica.com.br/blog/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="MySQL InnoDB: Tamanho de Página" href="http://nervinformatica.com.br/blog/index.php/2016/05/31/mysql-innodb-tamanho-de-pagina/">
+<link rel="next" title="Palestras que quero assistir no GUOB Tech Day 2016" href="http://nervinformatica.com.br/blog/index.php/2016/06/10/palestras-que-quero-assisir-no-guob-tech-day-2016/">
+<meta name="generator" content="WordPress 4.7.5">
+<link rel="canonical" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/">
+<link rel="shortlink" href="http://nervinformatica.com.br/blog/?p=5738">
+<link rel="alternate" type="application/json+oembed" href="http://nervinformatica.com.br/blog/index.php/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fnervinformatica.com.br%2Fblog%2Findex.php%2F2016%2F06%2F01%2Fdbsat-oracle-database-security-assessment-tool%2F">
+<link rel="alternate" type="text/xml+oembed" href="http://nervinformatica.com.br/blog/index.php/wp-json/oembed/1.0/embed?url=http%3A%2F%2Fnervinformatica.com.br%2Fblog%2Findex.php%2F2016%2F06%2F01%2Fdbsat-oracle-database-security-assessment-tool%2F&amp;format=xml">
+
+<link rel="dns-prefetch" href="http://i0.wp.com/">
+<link rel="dns-prefetch" href="http://i1.wp.com/">
+<link rel="dns-prefetch" href="http://i2.wp.com/">
+<style type="text/css">img#wpstats{display:none}</style><style type="text/css">.broken_link, a.broken_link {
+	text-decoration: line-through;
+}</style><style type="text/css" id="custom-background-css">
+body.custom-background { background-color: #2586ed; }
+</style>
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="DBSAT – Oracle Database Security Assessment Tool">
+<meta property="og:url" content="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/">
+<meta property="og:description" content="O DBSAT é uma ferramenta da própria Oracle para detectar vulnerabilidades e riscos de segurança no Oracle Database, e está disponível pelo MOS, Doc ID 2138254.1. Seu uso é muito simples. Basta baix…">
+<meta property="article:published_time" content="2016-06-01T14:22:20+00:00">
+<meta property="article:modified_time" content="2016-06-01T14:26:53+00:00">
+<meta property="og:site_name" content="Blog Nerv Informática">
+<meta property="og:image" content="http://nervinformatica.com.br/blog/wp-content/uploads/2016/06/00.png">
+<meta property="og:image:width" content="839">
+<meta property="og:image:height" content="343">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="https://i1.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/12/cropped-Logotipia-Nerv-PlanoDeFundo-2.png?fit=32%2C32" sizes="32x32">
+<link rel="icon" href="https://i1.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/12/cropped-Logotipia-Nerv-PlanoDeFundo-2.png?fit=192%2C192" sizes="192x192">
+<link rel="apple-touch-icon-precomposed" href="https://i1.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/12/cropped-Logotipia-Nerv-PlanoDeFundo-2.png?fit=180%2C180">
+<meta name="msapplication-TileImage" content="https://i1.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/12/cropped-Logotipia-Nerv-PlanoDeFundo-2.png?fit=270%2C270">
+<link rel="stylesheet" type="text/css" id="gravatar-card-css" href="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/hovercard.css"><link rel="stylesheet" type="text/css" id="gravatar-card-services-css" href="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/services.css"></head>
+
+<body class="post-template-default single single-post postid-5738 single-format-standard custom-background wp-custom-logo post-layout-one-column">
+
+	
+	<div id="page" class="hfeed site">
+
+		<a class="skip-link screen-reader-text" href="#content">Skip to content</a>
+
+		<header id="masthead" class="site-header clearfix" role="banner">
+
+			<div class="header-main container clearfix">
+
+				<div id="logo" class="site-branding clearfix">
+
+					<a href="http://nervinformatica.com.br/blog/" class="custom-logo-link" rel="home" itemprop="url"><img src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/cropped-Logotipia-Nerv-Cortado-02-50PorCento-1.png" class="custom-logo" alt="" itemprop="logo" width="255" height="206"></a>					
+			<p class="site-title"><a href="http://nervinformatica.com.br/blog/" rel="home">Blog Nerv Informática</a></p>
+
+							
+				</div><!-- .site-branding -->
+
+				<div class="header-widgets clearfix">
+
+					
+				</div><!-- .header-widgets -->
+
+			</div><!-- .header-main -->
+
+			<div id="main-navigation-wrap" class="primary-navigation-wrap">
+
+				<button id="main-navigation-toggle" class="main-navigation-toggle">Navigation</button><nav id="main-navigation" class="primary-navigation navigation container clearfix" role="navigation">
+					<ul id="menu-main-navigation" class="main-navigation-menu menu"><li class="page_item page-item-6017"><a href="http://nervinformatica.com.br/blog/index.php/home/">Home</a></li>
+</ul>				</nav><!-- #main-navigation -->
+
+			</div>
+
+		</header><!-- #masthead -->
+
+		
+		<div id="content" class="site-content container clearfix">
+
+			
+	<section id="primary" class="content-single content-area">
+		<main id="main" class="site-main" role="main">
+				
+		
+<article id="post-5738" class="post-5738 post type-post status-publish format-standard hentry category-oracle-database">
+
+	
+	<header class="entry-header">
+
+		<div class="entry-meta"><span class="meta-date"><a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/" title="14:22" rel="bookmark"><time class="entry-date published updated" datetime="2016-06-01T14:22:20+00:00">01/06/2016</time></a></span><span class="meta-category"> <a href="http://nervinformatica.com.br/blog/index.php/category/oracle-database/" rel="category tag">Oracle Database</a></span></div>
+		<h1 class="entry-title">DBSAT – Oracle Database Security Assessment Tool</h1>
+		<div class="posted-by"> <img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/fe84b4aceb43ddc6ddd473a4a5991f44.jfif" srcset="http://0.gravatar.com/avatar/fe84b4aceb43ddc6ddd473a4a5991f44?s=64&amp;d=mm&amp;r=g 2x" class="avatar avatar-32 photo grav-hashed grav-hijack" id="grav-fe84b4aceb43ddc6ddd473a4a5991f44-0" width="32" height="32">Posted by <span class="meta-author"> <span class="author vcard"><a class="url fn n" href="http://nervinformatica.com.br/blog/index.php/author/ricardonervinformatica-com-br/" title="View all posts by ricardo@nervinformatica.com.br" rel="author">ricardo@nervinformatica.com.br</a></span></span></div>
+	</header><!-- .entry-header -->
+
+	<div class="entry-content clearfix">
+
+		<p>O DBSAT é uma ferramenta da própria Oracle para detectar 
+vulnerabilidades e riscos de segurança no Oracle Database, e está 
+disponível pelo MOS, Doc ID 2138254.1.</p>
+<p>Seu uso é muito simples. Basta baixar, descompactar, e executar um 
+script duas vezes. A primeira execução é para coleta de dados, e a 
+segunda execução é para criar um relatório HTML baseado na coleta 
+executada, mostrando quais são as vulnerabilidades encontradas.</p>
+<pre>[oracle@nerv10 dbsat]$ <span style="color: #0000ff;"><strong>ls -lh</strong></span>
+total 192K
+-rw-r--r--. 1 oracle oinstall 191K Jun  1 10:39 <strong><span style="color: #008000;">dbsat.zip</span></strong>
+[oracle@nerv10 dbsat]$ <span style="color: #0000ff;"><strong>unzip -q dbsat.zip</strong></span>
+[oracle@nerv10 dbsat]$ <strong><span style="color: #0000ff;">ls</span></strong>
+dbsat  dbsat.bat  dbsat.zip  sat_analysis.py  sat_collector.sql  sat_reporter.py  xlsxwriter
+[oracle@nerv10 dbsat]$ <span style="color: #0000ff;"><strong>echo $ORACLE_SID</strong></span>
+CATALOGO
+[oracle@nerv10 dbsat]$ <span style="color: #0000ff;"><strong>./dbsat collect -n "/ as sysdba" /tmp/collect_result</strong></span>
+
+This tool is intended to assist in you in identifying potential
+vulnerabilities in your system, but you are solely responsible for
+your system and the effect and results of the execution of this tool
+(including, without limitation, any damage or data loss). Further,
+the output generated by this tool may include potentially sensitive
+system configuration data and information that could be used by a
+skilled attacker to penetrate your system. You are solely responsible
+for ensuring that the output of this tool, including any generated
+reports, is handled in accordance with your company's policies.
+
+Connecting to the target Oracle database...
+
+
+SQL*Plus: Release 12.1.0.2.0 Production on Wed Jun 1 10:47:32 2016
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, Automatic Storage Management, OLAP, Advanced Analytics
+and Real Application Testing options
+
+Setup complete.
+SQL queries complete.
+OS commands complete.
+Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.2.0 - 64bit Production
+With the Partitioning, Automatic Storage Management, OLAP, Advanced Analytics
+and Real Application Testing options
+DBSAT Collector completed successfully.
+
+[oracle@nerv10 dbsat]$ <span style="color: #0000ff;"><strong>./dbsat report -n /tmp/collect_result</strong></span>
+
+This tool is intended to assist in you in identifying potential
+vulnerabilities in your system, but you are solely responsible for
+your system and the effect and results of the execution of this tool
+(including, without limitation, any damage or data loss). Further,
+the output generated by this tool may include potentially sensitive
+system configuration data and information that could be used by a
+skilled attacker to penetrate your system. You are solely responsible
+for ensuring that the output of this tool, including any generated
+reports, is handled in accordance with your company's policies.
+
+DBSAT Reporter ran successfully.
+
+[oracle@nerv10 dbsat]$ <span style="color: #0000ff;"><strong>ls -lh /tmp/collect_result.*</strong></span>
+-rw-------. 1 oracle oinstall 117K Jun  1 10:49 <span style="color: #008000;"><strong>/tmp/collect_result.html</strong></span>
+-rw-------. 1 oracle oinstall 131K Jun  1 10:48 /tmp/collect_result.json
+-rw-------. 1 oracle oinstall  77K Jun  1 10:49 /tmp/collect_result.txt
+-rw-------. 1 oracle oinstall  19K Jun  1 10:49 /tmp/collect_result.xlsx
+[oracle@nerv10 dbsat]$
+
+<img class="alignnone wp-image-5740 size-full" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/01.png" alt="01" srcset="https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/01.png?w=903 903w, https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/01.png?resize=300%2C123 300w, https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/01.png?resize=768%2C315 768w" sizes="(max-width: 810px) 100vw, 810px" width="760" height="311">
+
+<img class="alignnone wp-image-5739 size-full" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/00.png" alt="00" srcset="https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/00.png?w=839 839w, https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/00.png?resize=300%2C123 300w, https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/00.png?resize=768%2C314 768w" sizes="(max-width: 810px) 100vw, 810px" width="760" height="310">
+
+<img src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/02.png" alt="02" class="alignnone size-full wp-image-5744" srcset="https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/02.png?w=842 842w, https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/02.png?resize=300%2C108 300w, https://i0.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/02.png?resize=768%2C277 768w" sizes="(max-width: 810px) 100vw, 810px" width="760" height="274">
+<img class="alignnone wp-image-5741 size-full" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/03.png" alt="03" srcset="https://i1.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/03.png?w=834 834w, https://i1.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/03.png?resize=300%2C122 300w, https://i1.wp.com/nervinformatica.com.br/blog/wp-content/uploads/2016/06/03.png?resize=768%2C312 768w" sizes="(max-width: 810px) 100vw, 810px" width="760" height="308">
+</pre>
+<div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Compartilhe isso:</h3><div class="sd-content"><ul><li class="share-linkedin"><a rel="nofollow" data-shared="sharing-linkedin-5738" class="share-linkedin sd-button share-icon" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?share=linkedin&amp;nb=1" target="_blank" title="Clique para compartilhar no LinkedIn"><span>LinkedIn</span></a></li><li class="share-twitter"><a rel="nofollow" data-shared="sharing-twitter-5738" class="share-twitter sd-button share-icon" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?share=twitter&amp;nb=1" target="_blank" title="Clique para compartilhar no Twitter"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" data-shared="sharing-facebook-5738" class="share-facebook sd-button share-icon" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?share=facebook&amp;nb=1" target="_blank" title="Clique para compartilhar no Facebook"><span>Facebook</span></a></li><li class="share-end"></li></ul></div></div></div>
+<div id="jp-relatedposts" class="jp-relatedposts" style="display: block;">
+	<h3 class="jp-relatedposts-headline"><em>Relacionado</em></h3>
+<div class="jp-relatedposts-items jp-relatedposts-items-minimal jp-relatedposts-grid "><p class="jp-relatedposts-post jp-relatedposts-post0" data-post-id="1124" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="http://nervinformatica.com.br/blog/index.php/2010/09/28/oracle-rac-11gr2-adicionar-node/" title="Oracle RAC 11gR2: Adicionar Node
+
+Está uma moleza adicionar um Node no Oracle RAC na versão 11gR2. São apenas dois comandos principais (um para o Grid Infrastructure, outro para o RDBMS), que depois informam os scripts que devem ser executados com o root, e depois o DBCA para adicionar a Instance. Veja abaixo eu adicionando…" rel="nofollow" data-origin="5738" data-position="0">Oracle RAC 11gR2: Adicionar Node</a></span><span class="jp-relatedposts-post-date">28/09/2010</span><span class="jp-relatedposts-post-context">Em "Oracle Database"</span></p><p class="jp-relatedposts-post jp-relatedposts-post1" data-post-id="2527" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="http://nervinformatica.com.br/blog/index.php/2012/04/01/instalando-o-patch-13343438-11-2-0-3-1-patch-set-update/" title="Instalando o Patch 13343438 - 11.2.0.3.1 Patch Set Update
+
+Os Patches conhecidos como PSU (PatchSet Update) - são atualizações acumuladas de um PatchSet, e são altamenre recomendadas. Por exemplo, o que iremos aplicar irá atualizar nossa instalação de 11.2.0.3.0 para 11.2.0.3.1, e inclui o CPU (Ctrical Patch Update) de Janeiro/2012. Descompacte o Patch. Ele é pequeno, apenas alguns MB.…" rel="nofollow" data-origin="5738" data-position="1">Instalando o Patch 13343438 - 11.2.0.3.1 Patch Set Update</a></span><span class="jp-relatedposts-post-date">01/04/2012</span><span class="jp-relatedposts-post-context">Em "Oracle Database"</span></p><p class="jp-relatedposts-post jp-relatedposts-post2" data-post-id="1199" data-post-format="false"><span class="jp-relatedposts-post-title"><a class="jp-relatedposts-post-a" href="http://nervinformatica.com.br/blog/index.php/2010/10/21/oracle-de-install-utility/" title="Oracle De-install Utility
+
+O Oracle Database agora tem um utilitário para desistalação completa do produto - que pode ser baixado a parte e sem custo, na mesma página onde são baixados os outros arquivos que fazem parte do Oracle Database: por exemplo, esta é a página de download para Linux x86-64: http://www.oracle.com/technetwork/database/enterprise-edition/downloads/112010-linx8664soft-100572.html É…" rel="nofollow" data-origin="5738" data-position="2">Oracle De-install Utility</a></span><span class="jp-relatedposts-post-date">21/10/2010</span><span class="jp-relatedposts-post-context">Em "Oracle Database"</span></p></div></div>
+		
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+
+				
+	<nav class="navigation post-navigation" role="navigation">
+		<h2 class="screen-reader-text">Navegação de Post</h2>
+		<div class="nav-links"><div class="nav-previous"><a href="http://nervinformatica.com.br/blog/index.php/2016/05/31/mysql-innodb-tamanho-de-pagina/" rel="prev"><span class="screen-reader-text">Previous Post:</span>MySQL InnoDB: Tamanho de Página</a></div><div class="nav-next"><a href="http://nervinformatica.com.br/blog/index.php/2016/06/10/palestras-que-quero-assisir-no-guob-tech-day-2016/" rel="next"><span class="screen-reader-text">Next Post:</span>Palestras que quero assistir no GUOB Tech Day 2016</a></div></div>
+	</nav>
+	</footer><!-- .entry-footer -->
+
+</article>
+
+<div id="comments" class="comments-area">
+
+	
+	
+		<header class="comments-header">
+
+			<h2 class="comments-title">
+				12 comments			</h2>
+
+		</header><!-- .comment-header -->
+
+		
+		<ol class="comment-list">
+					<li id="comment-2743" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-2743" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/bbec6858ae99ec59aa531831607717cf.jfif" srcset="http://2.gravatar.com/avatar/bbec6858ae99ec59aa531831607717cf?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-bbec6858ae99ec59aa531831607717cf-0" width="56" height="56">						<b class="fn">Paulo Barbosa</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2743">
+							<time datetime="2016-06-01T14:51:02+00:00">
+								01/06/2016 às 14:51							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Muito bom Portilho!<br>
+Seu blog tem ótimos posts, continue nessa caminhada.<br>
+Abraços.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2743#respond" onclick='return addComment.moveForm( "div-comment-2743", "2743", "respond", "5738" )' aria-label="Responder para Paulo Barbosa">Responder</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-2791" class="comment byuser comment-author-ricardonervinformatica-com-br bypostauthor odd alt depth-2">
+			<article id="div-comment-2791" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/fe84b4aceb43ddc6ddd473a4a5991f44_002.jfif" srcset="http://0.gravatar.com/avatar/fe84b4aceb43ddc6ddd473a4a5991f44?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-fe84b4aceb43ddc6ddd473a4a5991f44-1" width="56" height="56">						<b class="fn">ricardo@nervinformatica.com.br</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2791">
+							<time datetime="2016-06-02T09:56:19+00:00">
+								02/06/2016 às 09:56							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Obrigado pelo incentivo Paulo.<br>
+Escrevo sempre que posso. <img draggable="false" class="emoji" alt="🙂" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/1f642.svg"></p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2791#respond" onclick='return addComment.moveForm( "div-comment-2791", "2791", "respond", "5738" )' aria-label="Responder para ricardo@nervinformatica.com.br">Responder</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-2745" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-2745" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/9a6350442b3343962259e2f78f52bf3d.jfif" srcset="http://0.gravatar.com/avatar/9a6350442b3343962259e2f78f52bf3d?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-9a6350442b3343962259e2f78f52bf3d-0" width="56" height="56">						<b class="fn">Ribas</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2745">
+							<time datetime="2016-06-01T14:59:40+00:00">
+								01/06/2016 às 14:59							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Portilho, mestre, como sempre, só conteúdo muito útil, nao saio daqui viu…. abracos e vamos trabalhar ne…..</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2745#respond" onclick='return addComment.moveForm( "div-comment-2745", "2745", "respond", "5738" )' aria-label="Responder para Ribas">Responder</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-2792" class="comment byuser comment-author-ricardonervinformatica-com-br bypostauthor odd alt depth-2">
+			<article id="div-comment-2792" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/fe84b4aceb43ddc6ddd473a4a5991f44_002.jfif" srcset="http://0.gravatar.com/avatar/fe84b4aceb43ddc6ddd473a4a5991f44?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-fe84b4aceb43ddc6ddd473a4a5991f44-2" width="56" height="56">						<b class="fn">ricardo@nervinformatica.com.br</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2792">
+							<time datetime="2016-06-02T09:59:18+00:00">
+								02/06/2016 às 09:59							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Obrigado pela audiência Ribas!<br>
+E vamos trabalhar, pois a vida não está ganha.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2792#respond" onclick='return addComment.moveForm( "div-comment-2792", "2792", "respond", "5738" )' aria-label="Responder para ricardo@nervinformatica.com.br">Responder</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-2756" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-2756" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/eed68d20ddbb600f82c6623bd20a9f91.jfif" srcset="http://2.gravatar.com/avatar/eed68d20ddbb600f82c6623bd20a9f91?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-eed68d20ddbb600f82c6623bd20a9f91-0" width="56" height="56">						<b class="fn">Fabiano</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2756">
+							<time datetime="2016-06-01T18:45:05+00:00">
+								01/06/2016 às 18:45							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Top demais, sempre nos atualizando de forma pratica.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2756#respond" onclick='return addComment.moveForm( "div-comment-2756", "2756", "respond", "5738" )' aria-label="Responder para Fabiano">Responder</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-2793" class="comment byuser comment-author-ricardonervinformatica-com-br bypostauthor odd alt depth-2">
+			<article id="div-comment-2793" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/fe84b4aceb43ddc6ddd473a4a5991f44_002.jfif" srcset="http://0.gravatar.com/avatar/fe84b4aceb43ddc6ddd473a4a5991f44?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-fe84b4aceb43ddc6ddd473a4a5991f44-3" width="56" height="56">						<b class="fn">ricardo@nervinformatica.com.br</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2793">
+							<time datetime="2016-06-02T09:59:45+00:00">
+								02/06/2016 às 09:59							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Obrigado pelo comentário Fabiano.<br>
+Grande abraço!</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2793#respond" onclick='return addComment.moveForm( "div-comment-2793", "2793", "respond", "5738" )' aria-label="Responder para ricardo@nervinformatica.com.br">Responder</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-2802" class="comment even thread-odd thread-alt depth-1 parent">
+			<article id="div-comment-2802" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/b0a7ab6c5a750eff3bf8d47db46e8250.jfif" srcset="http://2.gravatar.com/avatar/b0a7ab6c5a750eff3bf8d47db46e8250?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-b0a7ab6c5a750eff3bf8d47db46e8250-0" width="56" height="56">						<b class="fn">José Valdézio Junior</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2802">
+							<time datetime="2016-06-02T17:39:19+00:00">
+								02/06/2016 às 17:39							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Só um comentário sobre o DBSAT, eu tentei rodar num Windows 10 
+aqui, com banco 11GR2, e encontrei um probleminha durante o report. O 
+arquivo sat_reporter.py tem um erro num formatação de uma string com um 
+formato não suportado para Windows, então se vc tentar rodar direto, vai
+ dar erro.</p>
+<p>Nas linhas 4097 e 4098 constam o seguinte:</p>
+<p> ————————————————————–<br>
+ 4097<br>
+ min_date = format_date(read_date(data[0][min_idx]), ‘%b %-d %Y’) </p>
+<p> 4098<br>
+ max_date = format_date(read_date(data[0][max_idx]), ‘%b %-d %Y’)<br>
+ —————————————————————- </p>
+<p>Só que o “%-d” não é suportado. Para funcionar, retire o hífen 
+deixando somente “%d”, após essa alteração o report irá funcionar sem 
+problemas no Windows.</p>
+<p>Valeu pelo post Ricardo, voce como sempre mandando muito bem. O DBSAT é muito útil para análise de segurança <img draggable="false" class="emoji" alt="😀" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/1f600.svg"></p>
+<p>Abrassssss</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2802#respond" onclick='return addComment.moveForm( "div-comment-2802", "2802", "respond", "5738" )' aria-label="Responder para José Valdézio Junior">Responder</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-2857" class="comment byuser comment-author-ricardonervinformatica-com-br bypostauthor odd alt depth-2 parent">
+			<article id="div-comment-2857" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/fe84b4aceb43ddc6ddd473a4a5991f44_002.jfif" srcset="http://0.gravatar.com/avatar/fe84b4aceb43ddc6ddd473a4a5991f44?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-fe84b4aceb43ddc6ddd473a4a5991f44-4" width="56" height="56">						<b class="fn">ricardo@nervinformatica.com.br</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2857">
+							<time datetime="2016-06-03T10:32:58+00:00">
+								03/06/2016 às 10:32							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Obrigado pela contribuição José!<br>
+Eu não testei em Windows ainda, vou fazer essa modificação.<br>
+Pela data da note no MOS, essa ferramenta parecia ser nova.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2857#respond" onclick='return addComment.moveForm( "div-comment-2857", "2857", "respond", "5738" )' aria-label="Responder para ricardo@nervinformatica.com.br">Responder</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-3004" class="comment even depth-3 parent">
+			<article id="div-comment-3004" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/b0a7ab6c5a750eff3bf8d47db46e8250.jfif" srcset="http://2.gravatar.com/avatar/b0a7ab6c5a750eff3bf8d47db46e8250?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-b0a7ab6c5a750eff3bf8d47db46e8250-1" width="56" height="56">						<b class="fn">José Valdézio Junior</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-3004">
+							<time datetime="2016-06-06T18:23:05+00:00">
+								06/06/2016 às 18:23							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>peguei um ambiente unix pra rodar o DBSAT e não tinha python, aí
+ achei mais fácil trazer o collect pra minha máquina e rodar localmente 
+no windows mesmo, aí não precisei me preocupar com o python em outros 
+lugares   <img draggable="false" class="emoji" alt="🙂" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/1f642.svg"></p>
+<p>Como voce disse, pela data a ferramenta é nova mesmo, mas duvido que 
+tem uns loko que roda no windows…hehehehe… Outra coisa que vi nos testes
+ também (e isto está na documentação do DBSAT) é que o coletor em 
+Windows não pega informações de SO, pois não é suportado.</p>
+<p>Vlw.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=3004#respond" onclick='return addComment.moveForm( "div-comment-3004", "3004", "respond", "5738" )' aria-label="Responder para José Valdézio Junior">Responder</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-3056" class="comment byuser comment-author-ricardonervinformatica-com-br bypostauthor odd alt depth-4">
+			<article id="div-comment-3056" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/fe84b4aceb43ddc6ddd473a4a5991f44_002.jfif" srcset="http://0.gravatar.com/avatar/fe84b4aceb43ddc6ddd473a4a5991f44?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-fe84b4aceb43ddc6ddd473a4a5991f44-5" width="56" height="56">						<b class="fn">ricardo@nervinformatica.com.br</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-3056">
+							<time datetime="2016-06-08T07:36:02+00:00">
+								08/06/2016 às 07:36							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Obrigado pela contribuição José.<br>
+Isso mostra que realmente a ferramenta é nova, e parece só estar rodando limpo em Linux.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=3056#respond" onclick='return addComment.moveForm( "div-comment-3056", "3056", "respond", "5738" )' aria-label="Responder para ricardo@nervinformatica.com.br">Responder</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		<li id="comment-2863" class="comment even thread-even depth-1 parent">
+			<article id="div-comment-2863" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/8e7723a1c70eaf0f17c25c4edf8bacce.jfif" srcset="http://2.gravatar.com/avatar/8e7723a1c70eaf0f17c25c4edf8bacce?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-8e7723a1c70eaf0f17c25c4edf8bacce-0" width="56" height="56">						<b class="fn">Luis Santos</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2863">
+							<time datetime="2016-06-03T13:30:11+00:00">
+								03/06/2016 às 13:30							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Quando referenciar um documento do MOS por favor o faça com um link para o mesmo.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2863#respond" onclick='return addComment.moveForm( "div-comment-2863", "2863", "respond", "5738" )' aria-label="Responder para Luis Santos">Responder</a></div>			</article><!-- .comment-body -->
+<ol class="children">
+		<li id="comment-2922" class="comment byuser comment-author-ricardonervinformatica-com-br bypostauthor odd alt depth-2">
+			<article id="div-comment-2922" class="comment-body">
+				<footer class="comment-meta">
+					<div class="comment-author vcard">
+						<img alt="" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/fe84b4aceb43ddc6ddd473a4a5991f44_002.jfif" srcset="http://0.gravatar.com/avatar/fe84b4aceb43ddc6ddd473a4a5991f44?s=112&amp;d=mm&amp;r=g 2x" class="avatar avatar-56 photo grav-hashed grav-hijack" id="grav-fe84b4aceb43ddc6ddd473a4a5991f44-6" width="56" height="56">						<b class="fn">ricardo@nervinformatica.com.br</b> <span class="says">disse:</span>					</div><!-- .comment-author -->
+
+					<div class="comment-metadata">
+						<a href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#comment-2922">
+							<time datetime="2016-06-04T13:31:52+00:00">
+								04/06/2016 às 13:31							</time>
+						</a>
+											</div><!-- .comment-metadata -->
+
+									</footer><!-- .comment-meta -->
+
+				<div class="comment-content">
+					<p>Eu evito ao máximo links, pois links mudam.<br>
+O próprio MOS já mudou até de plataforma desde que tenho este Blog.<br>
+Já números de nota, não mudam.</p>
+				</div><!-- .comment-content -->
+
+				<div class="reply"><a rel="nofollow" class="comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/?replytocom=2922#respond" onclick='return addComment.moveForm( "div-comment-2922", "2922", "respond", "5738" )' aria-label="Responder para ricardo@nervinformatica.com.br">Responder</a></div>			</article><!-- .comment-body -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+		</ol><!-- .comment-list -->
+
+		
+	
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title"><span>Leave a Reply</span> <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/#respond" style="display:none;">Cancelar resposta</a></small></h3>			<form action="http://nervinformatica.com.br/blog/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate="">
+				<p class="comment-notes"><span id="email-notes">O seu endereço de e-mail não será publicado.</span> Campos obrigatórios são marcados com <span class="required">*</span></p><p class="comment-form-comment"><label for="comment">Comentário</label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" aria-required="true" required="required"></textarea></p><p class="comment-form-author"><label for="author">Nome <span class="required">*</span></label> <input id="author" name="author" value="Jorge Luiz Vaz" size="30" maxlength="245" aria-required="true" required="required" type="text"></p>
+<p class="comment-form-email"><label for="email">E-mail <span class="required">*</span></label> <input id="email" name="email" value="jota_lvaz@yahoo.com.br" size="30" maxlength="100" aria-describedby="email-notes" aria-required="true" required="required" type="email"></p>
+<p class="comment-form-url"><label for="url">Site</label> <input id="url" name="url" size="30" maxlength="200" type="url"></p>
+<p class="form-submit"><input name="submit" id="submit" class="submit" value="Publicar comentário" type="submit"> <input name="comment_post_ID" value="5738" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+</p><p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="bfdc96fcab" type="hidden"></p><p class="comment-subscription-form"><input name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;" type="checkbox"> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments">Notifique-me sobre novos comentários por e-mail.</label></p><p class="comment-subscription-form"><input name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;" checked="checked" type="checkbox"> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notifique-me sobre novas publicações por e-mail.</label></p><p style="display: none;"></p>			<input id="ak_js" name="ak_js" value="1496345565411" type="hidden"></form>
+			</div><!-- #respond -->
+	
+</div><!-- #comments -->
+		
+		</main><!-- #main -->
+	</section><!-- #primary -->
+	
+	
+	<section id="secondary" class="sidebar widget-area clearfix" role="complementary">
+
+		<aside id="search-2" class="widget widget_search clearfix">
+<form role="search" method="get" class="search-form" action="http://nervinformatica.com.br/blog/">
+	<label>
+		<span class="screen-reader-text">Search for:</span>
+		<input class="search-field" placeholder="Search …" name="s" title="Search for:" type="search">
+	</label>
+	<button type="submit" class="search-submit">
+		<span class="genericon-search"></span>
+		<span class="screen-reader-text">Search</span>
+	</button>
+</form>
+</aside><aside id="blog_subscription-2" class="widget jetpack_subscription_widget clearfix"><div class="widget-header"><h3 class="widget-title">Assinar blog por e-mail</h3></div>
+			<form action="#" method="post" accept-charset="utf-8" id="subscribe-blog-blog_subscription-2">
+				<div id="subscribe-text"></div>					<p id="subscribe-email">
+						<label id="jetpack-subscribe-label" for="subscribe-field-blog_subscription-2" style="clip: rect(1px, 1px, 1px, 1px); position: absolute; height: 1px; width: 1px; overflow: hidden;">
+							Endereço de e-mail:						</label>
+						<input name="email" required="required" class="required" id="subscribe-field-blog_subscription-2" placeholder="" type="email">
+					</p>
+
+					<p id="subscribe-submit">
+						<input name="action" value="subscribe" type="hidden">
+						<input name="source" value="http://nervinformatica.com.br/blog/index.php/2016/06/01/dbsat-oracle-database-security-assessment-tool/" type="hidden">
+						<input name="sub-type" value="widget" type="hidden">
+						<input name="redirect_fragment" value="blog_subscription-2" type="hidden">
+												<input value="Assinar" name="jetpack_subscriptions_widget" type="submit">
+					</p>
+							</form>
+
+			<script>
+			/*
+			Custom functionality for safari and IE
+			 */
+			(function( d ) {
+				// In case the placeholder functionality is available we remove labels
+				if ( ( 'placeholder' in d.createElement( 'input' ) ) ) {
+					var label = d.querySelector( 'label[for=subscribe-field-blog_subscription-2]' );
+						label.style.clip 	 = 'rect(1px, 1px, 1px, 1px)';
+						label.style.position = 'absolute';
+						label.style.height   = '1px';
+						label.style.width    = '1px';
+						label.style.overflow = 'hidden';
+				}
+
+				// Make sure the email value is filled in before allowing submit
+				var form = d.getElementById('subscribe-blog-blog_subscription-2'),
+					input = d.getElementById('subscribe-field-blog_subscription-2'),
+					handler = function( event ) {
+						if ( '' === input.value ) {
+							input.focus();
+
+							if ( event.preventDefault ){
+								event.preventDefault();
+							}
+
+							return false;
+						}
+					};
+
+				if ( window.addEventListener ) {
+					form.addEventListener( 'submit', handler, false );
+				} else {
+					form.attachEvent( 'onsubmit', handler );
+				}
+			})( document );
+			</script>
+				
+</aside><aside id="categories-2" class="widget widget_categories clearfix"><div class="widget-header"><h3 class="widget-title">Categorias</h3></div>		<ul>
+	<li class="cat-item cat-item-2"><a href="http://nervinformatica.com.br/blog/index.php/category/aix/">AIX</a> (9)
+</li>
+	<li class="cat-item cat-item-3"><a href="http://nervinformatica.com.br/blog/index.php/category/apache/">Apache</a> (4)
+</li>
+	<li class="cat-item cat-item-4"><a href="http://nervinformatica.com.br/blog/index.php/category/consultoria/">Consultoria</a> (11)
+</li>
+	<li class="cat-item cat-item-5"><a href="http://nervinformatica.com.br/blog/index.php/category/db2-luw/">DB2 LUW</a> (38)
+</li>
+	<li class="cat-item cat-item-6"><a href="http://nervinformatica.com.br/blog/index.php/category/dtrace/">DTrace</a> (1)
+</li>
+	<li class="cat-item cat-item-32"><a href="http://nervinformatica.com.br/blog/index.php/category/eventos/">Eventos</a> (6)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://nervinformatica.com.br/blog/index.php/category/glassfish/">GlassFish</a> (1)
+</li>
+	<li class="cat-item cat-item-8"><a href="http://nervinformatica.com.br/blog/index.php/category/iis/">IIS</a> (1)
+</li>
+	<li class="cat-item cat-item-9"><a href="http://nervinformatica.com.br/blog/index.php/category/java/">Java</a> (1)
+</li>
+	<li class="cat-item cat-item-10"><a href="http://nervinformatica.com.br/blog/index.php/category/jdeveloper/">JDeveloper</a> (1)
+</li>
+	<li class="cat-item cat-item-11"><a href="http://nervinformatica.com.br/blog/index.php/category/linux/">Linux</a> (31)
+</li>
+	<li class="cat-item cat-item-12"><a href="http://nervinformatica.com.br/blog/index.php/category/maxdb/">MaxDB</a> (6)
+</li>
+	<li class="cat-item cat-item-13"><a href="http://nervinformatica.com.br/blog/index.php/category/mercado-de-trabalho/">Mercado de Trabalho</a> (45)
+</li>
+	<li class="cat-item cat-item-14"><a href="http://nervinformatica.com.br/blog/index.php/category/mysql/">MySQL</a> (48)
+</li>
+	<li class="cat-item cat-item-15"><a href="http://nervinformatica.com.br/blog/index.php/category/openindiana/">OpenIndiana</a> (2)
+</li>
+	<li class="cat-item cat-item-16"><a href="http://nervinformatica.com.br/blog/index.php/category/oracle-database/">Oracle Database</a> (414)
+</li>
+	<li class="cat-item cat-item-17"><a href="http://nervinformatica.com.br/blog/index.php/category/oracle-vm/">Oracle VM</a> (1)
+</li>
+	<li class="cat-item cat-item-18"><a href="http://nervinformatica.com.br/blog/index.php/category/perl/">Perl</a> (3)
+</li>
+	<li class="cat-item cat-item-19"><a href="http://nervinformatica.com.br/blog/index.php/category/postgresql/">PostgreSQL</a> (11)
+</li>
+	<li class="cat-item cat-item-1"><a href="http://nervinformatica.com.br/blog/index.php/category/sem-categoria/">Sem categoria</a> (98)
+</li>
+	<li class="cat-item cat-item-20"><a href="http://nervinformatica.com.br/blog/index.php/category/solaris/">Solaris</a> (32)
+</li>
+	<li class="cat-item cat-item-21"><a href="http://nervinformatica.com.br/blog/index.php/category/sql-server/">SQL Server</a> (15)
+</li>
+	<li class="cat-item cat-item-22"><a href="http://nervinformatica.com.br/blog/index.php/category/sybase/">Sybase</a> (26)
+</li>
+	<li class="cat-item cat-item-23"><a href="http://nervinformatica.com.br/blog/index.php/category/sybase-iq/">Sybase IQ</a> (7)
+</li>
+	<li class="cat-item cat-item-24"><a href="http://nervinformatica.com.br/blog/index.php/category/treinamentos/">Treinamentos</a> (21)
+</li>
+	<li class="cat-item cat-item-25"><a href="http://nervinformatica.com.br/blog/index.php/category/unix/">Unix</a> (3)
+</li>
+	<li class="cat-item cat-item-26"><a href="http://nervinformatica.com.br/blog/index.php/category/videos/">Vídeos</a> (1)
+</li>
+	<li class="cat-item cat-item-27"><a href="http://nervinformatica.com.br/blog/index.php/category/virtualbox/">VirtualBox</a> (3)
+</li>
+	<li class="cat-item cat-item-28"><a href="http://nervinformatica.com.br/blog/index.php/category/weblogic/">WebLogic</a> (2)
+</li>
+	<li class="cat-item cat-item-29"><a href="http://nervinformatica.com.br/blog/index.php/category/websphere/">WebSphere</a> (8)
+</li>
+	<li class="cat-item cat-item-30"><a href="http://nervinformatica.com.br/blog/index.php/category/windows-server/">Windows Server</a> (8)
+</li>
+	<li class="cat-item cat-item-31"><a href="http://nervinformatica.com.br/blog/index.php/category/zabbix/">Zabbix</a> (15)
+</li>
+		</ul>
+</aside><aside id="archives-2" class="widget widget_archive clearfix"><div class="widget-header"><h3 class="widget-title">Arquivos</h3></div>		<ul>
+			<li><a href="http://nervinformatica.com.br/blog/index.php/2017/06/">junho 2017</a>&nbsp;(1)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2017/05/">maio 2017</a>&nbsp;(7)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2017/04/">abril 2017</a>&nbsp;(5)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2017/03/">março 2017</a>&nbsp;(6)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2017/02/">fevereiro 2017</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2017/01/">janeiro 2017</a>&nbsp;(16)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/12/">dezembro 2016</a>&nbsp;(7)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/11/">novembro 2016</a>&nbsp;(2)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/10/">outubro 2016</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/09/">setembro 2016</a>&nbsp;(2)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/08/">agosto 2016</a>&nbsp;(8)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/07/">julho 2016</a>&nbsp;(5)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/06/">junho 2016</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/05/">maio 2016</a>&nbsp;(10)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2016/01/">janeiro 2016</a>&nbsp;(1)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/11/">novembro 2015</a>&nbsp;(1)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/10/">outubro 2015</a>&nbsp;(2)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/09/">setembro 2015</a>&nbsp;(2)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/08/">agosto 2015</a>&nbsp;(2)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/07/">julho 2015</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/06/">junho 2015</a>&nbsp;(13)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/05/">maio 2015</a>&nbsp;(7)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/04/">abril 2015</a>&nbsp;(16)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/03/">março 2015</a>&nbsp;(11)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/02/">fevereiro 2015</a>&nbsp;(7)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2015/01/">janeiro 2015</a>&nbsp;(14)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/12/">dezembro 2014</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/11/">novembro 2014</a>&nbsp;(11)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/10/">outubro 2014</a>&nbsp;(25)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/09/">setembro 2014</a>&nbsp;(14)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/08/">agosto 2014</a>&nbsp;(6)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/07/">julho 2014</a>&nbsp;(14)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/06/">junho 2014</a>&nbsp;(21)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/05/">maio 2014</a>&nbsp;(7)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/04/">abril 2014</a>&nbsp;(16)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/03/">março 2014</a>&nbsp;(26)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/02/">fevereiro 2014</a>&nbsp;(8)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2014/01/">janeiro 2014</a>&nbsp;(5)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/12/">dezembro 2013</a>&nbsp;(8)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/11/">novembro 2013</a>&nbsp;(14)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/10/">outubro 2013</a>&nbsp;(14)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/09/">setembro 2013</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/08/">agosto 2013</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/07/">julho 2013</a>&nbsp;(17)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/06/">junho 2013</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/05/">maio 2013</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/04/">abril 2013</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/02/">fevereiro 2013</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2013/01/">janeiro 2013</a>&nbsp;(2)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/12/">dezembro 2012</a>&nbsp;(5)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/11/">novembro 2012</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/10/">outubro 2012</a>&nbsp;(2)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/09/">setembro 2012</a>&nbsp;(6)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/08/">agosto 2012</a>&nbsp;(6)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/07/">julho 2012</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/06/">junho 2012</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/05/">maio 2012</a>&nbsp;(26)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/04/">abril 2012</a>&nbsp;(8)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/03/">março 2012</a>&nbsp;(1)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/02/">fevereiro 2012</a>&nbsp;(5)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2012/01/">janeiro 2012</a>&nbsp;(23)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/12/">dezembro 2011</a>&nbsp;(1)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/11/">novembro 2011</a>&nbsp;(5)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/10/">outubro 2011</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/09/">setembro 2011</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/08/">agosto 2011</a>&nbsp;(2)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/07/">julho 2011</a>&nbsp;(4)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/06/">junho 2011</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/05/">maio 2011</a>&nbsp;(6)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/04/">abril 2011</a>&nbsp;(15)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/03/">março 2011</a>&nbsp;(21)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/02/">fevereiro 2011</a>&nbsp;(6)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2011/01/">janeiro 2011</a>&nbsp;(5)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/12/">dezembro 2010</a>&nbsp;(6)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/11/">novembro 2010</a>&nbsp;(8)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/10/">outubro 2010</a>&nbsp;(20)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/09/">setembro 2010</a>&nbsp;(14)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/08/">agosto 2010</a>&nbsp;(11)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/07/">julho 2010</a>&nbsp;(8)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/06/">junho 2010</a>&nbsp;(34)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/04/">abril 2010</a>&nbsp;(3)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/03/">março 2010</a>&nbsp;(6)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/02/">fevereiro 2010</a>&nbsp;(85)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2010/01/">janeiro 2010</a>&nbsp;(8)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2009/12/">dezembro 2009</a>&nbsp;(13)</li>
+	<li><a href="http://nervinformatica.com.br/blog/index.php/2009/11/">novembro 2009</a>&nbsp;(7)</li>
+		</ul>
+		</aside><aside id="meta-2" class="widget widget_meta clearfix"><div class="widget-header"><h3 class="widget-title">Meta</h3></div>			<ul>
+						<li><a href="http://nervinformatica.com.br/blog/wp-login.php">Fazer login</a></li>
+			<li><a href="http://nervinformatica.com.br/blog/index.php/feed/">Posts <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://nervinformatica.com.br/blog/index.php/comments/feed/"><abbr title="em inglês: Really Simple Syndication">RSS</abbr> dos comentários</a></li>
+			<li><a href="https://br.wordpress.org/" title="Powered by WordPress, uma plataforma semântica de vanguarda para publicação pessoal.">WordPress.org</a></li>			</ul>
+			</aside>
+	</section><!-- #secondary -->
+
+	
+
+	</div><!-- #content -->
+
+	
+	<div id="footer" class="footer-wrap">
+
+		<footer id="colophon" class="site-footer container clearfix" role="contentinfo">
+
+			
+			<div id="footer-text" class="site-info">
+				
+	<span class="credit-link">
+		Powered by <a href="http://wordpress.org/" title="WordPress">WordPress</a> and <a href="https://themezee.com/themes/maxwell/" title="Maxwell WordPress Theme">Maxwell</a>.	</span>
+
+				</div><!-- .site-info -->
+
+		</footer><!-- #colophon -->
+
+	</div>
+
+</div><!-- #page -->
+
+	<div style="display:none">
+	<div class="grofile-hash-map-fe84b4aceb43ddc6ddd473a4a5991f44">
+	</div>
+	<div class="grofile-hash-map-bbec6858ae99ec59aa531831607717cf">
+	</div>
+	<div class="grofile-hash-map-9a6350442b3343962259e2f78f52bf3d">
+	</div>
+	<div class="grofile-hash-map-eed68d20ddbb600f82c6623bd20a9f91">
+	</div>
+	<div class="grofile-hash-map-b0a7ab6c5a750eff3bf8d47db46e8250">
+	</div>
+	<div class="grofile-hash-map-8e7723a1c70eaf0f17c25c4edf8bacce">
+	</div>
+	</div>
+
+	<script type="text/javascript">
+		window.WPCOM_sharing_counts = 
+{"http:\/\/nervinformatica.com.br\/blog\/index.php\/2016\/06\/01\/dbsat-oracle-database-security-assessment-tool\/":5738};
+
+	</script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/form.js"></script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/photon.js"></script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/devicepx-jetpack.js"></script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/gprofiles.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":"0431f002194ca5924bbc43c90bb300b2"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/wpgroho.js"></script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/comment-reply.js"></script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/wp-embed.js"></script>
+<script type="text/javascript">
+/* <![CDATA[ */
+var sharing_js_options = {"lang":"en","counts":"1"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/sharing.js"></script>
+<script type="text/javascript">
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-linkedin', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomlinkedin', 'menubar=1,resizable=1,width=580,height=450' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-twitter', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+var windowOpen;
+			jQuery( document.body ).on( 'click', 'a.share-facebook', function() {
+				// If there's another sharing window open, close it.
+				if ( 'undefined' !== typeof windowOpen ) {
+					windowOpen.close();
+				}
+				windowOpen = window.open( jQuery( this ).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+</script>
+<script type="text/javascript" src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/e-201722.js" async="" defer="defer"></script>
+<script type="text/javascript">
+	_stq = window._stq || [];
+	_stq.push([ 'view', {v:'ext',j:'1:4.9',blog:'90214352',post:'5738',tz:'0',srv:'nervinformatica.com.br'} ]);
+	_stq.push([ 'clickTrackerInit', '90214352', '5738' ]);
+</script>
+
+
+
+<img src="DBSAT%20%E2%80%93%20Oracle%20Database%20Security%20Assessment%20Tool%20%E2%80%93%20Blog%20Nerv%20Inform%C3%A1tica_arquivos/g.gif" alt=":)" id="wpstats" width="6" height="5"></body></html>
